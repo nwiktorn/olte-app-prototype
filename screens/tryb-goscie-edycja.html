@@ -1,0 +1,645 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Edytuj tryb Goście</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="edycja-trybu">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="06-centralny.html" aria-label="Zamknij bez zapisywania">
+      <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-title">Edytuj tryb</h1>
+      <span class="ab-sub">Goście · tryb własny</span>
+    </div>
+    <button class="iconbtn" type="button" id="btn-usun" aria-label="Usuń tryb Goście">
+      <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── nazwa ─────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-nazwa">
+      <label for="in-nazwa">Nazwa trybu</label>
+      <input class="input" id="in-nazwa" type="text" value="Goście" maxlength="20"
+             autocomplete="off" aria-describedby="hint-nazwa">
+      <p class="f-hint" id="hint-nazwa">Widoczna na karcie w Centralnym i w plakietce bieżącego trybu.</p>
+    </section>
+
+    <!-- ── ikona ─────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-ikona">
+      <label id="lab-ikona">Ikona</label>
+      <div class="iconpick" role="group" aria-labelledby="lab-ikona" id="wybor-ikony"
+           style="grid-template-columns:repeat(7,1fr)">
+        <button type="button" aria-pressed="true"  aria-label="Goście"><svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Praca zdalna"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Przyjęcie"><svg viewBox="0 0 24 24"><use href="#i-utensils"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Trening"><svg viewBox="0 0 24 24"><use href="#i-dumbbell"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Nauka"><svg viewBox="0 0 24 24"><use href="#i-book-open"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Wietrzenie"><svg viewBox="0 0 24 24"><use href="#i-wind"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Serwis"><svg viewBox="0 0 24 24"><use href="#i-wrench"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Noc"><svg viewBox="0 0 24 24"><use href="#i-moon"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Dzień"><svg viewBox="0 0 24 24"><use href="#i-sun"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Mróz"><svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Oszczędny"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Taryfa szczytowa"><svg viewBox="0 0 24 24"><use href="#i-zap"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Czasowy"><svg viewBox="0 0 24 24"><use href="#i-timer"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Ochrona"><svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ── zachowanie temperatur ─────────────────────────────────── -->
+    <section class="card col gap-12" data-od-id="pole-zachowanie">
+      <span class="col gap-2">
+        <span class="t-label">Co tryb robi z temperaturami</span>
+        <span class="t-small muted">Działa nad harmonogramami pomieszczeń</span>
+      </span>
+
+      <div class="segment segment--block" role="tablist" id="segment-zachowanie"
+           aria-label="Zachowanie temperatur" data-od-id="segment-zachowanie">
+        <button type="button" role="tab" aria-selected="true"  data-zachowanie="korekta">Korekta</button>
+        <button type="button" role="tab" aria-selected="false" data-zachowanie="stala">Stała temp.</button>
+        <button type="button" role="tab" aria-selected="false" data-zachowanie="bez">Bez zmian</button>
+      </div>
+
+      <p class="f-hint" id="opis-korekta">Harmonogramy działają dalej, tylko przesunięte —
+        poniżej zera oszczędzasz, powyżej dogrzewasz.</p>
+      <p class="f-hint" id="opis-stala" hidden>Harmonogramy są ignorowane. Wszystkie pomieszczenia
+        w zakresie trzymają jedną temperaturę.</p>
+      <p class="f-hint" id="opis-bez" hidden>Temperatury bez zmian — tryb zmienia tylko ciepłą wodę
+        i rekuperację.</p>
+
+      <div class="col gap-12" id="blok-korekta">
+        <div class="stepper" data-od-id="stepper-korekta">
+          <button type="button" id="korekta-minus" aria-label="Obniż korektę o pół stopnia">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+          <span class="row gap-4" style="align-items:baseline" aria-live="polite">
+            <span class="st-val t-num" id="korekta-val">+1,5</span>
+            <span class="st-unit">°C</span>
+          </span>
+          <button type="button" id="korekta-plus" aria-label="Podnieś korektę o pół stopnia">
+            <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+        </div>
+        <p class="t-small muted">Zakres od −5,0 do +3,0 °C.</p>
+      </div>
+
+      <div class="col gap-12" id="blok-stala" hidden>
+        <div class="stepper" data-od-id="stepper-stala">
+          <button type="button" id="stala-minus" aria-label="Obniż o 0,5 °C">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+          <span class="row gap-4" style="align-items:baseline">
+            <span class="st-val" id="stala-val">18,0</span>
+            <span class="st-unit">°C</span>
+          </span>
+          <button type="button" id="stala-plus" aria-label="Podnieś o 0,5 °C">
+            <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+        </div>
+        <div class="slider" data-od-id="suwak-stala">
+          <input type="range" id="suwak-stala" min="10" max="26" step="0.5" value="18"
+                 aria-label="Stała temperatura trybu" aria-valuetext="18,0 °C">
+          <div class="slider-scale">
+            <span>10 °C</span><span>18 °C</span><span>26 °C</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── zakres pomieszczeń ────────────────────────────────────── -->
+    <section class="col gap-8" data-od-id="pole-zakres">
+      <div class="sectionhead">
+        <h2>Zakres pomieszczeń</h2>
+        <span class="t-small muted" id="licznik-zakresu">3 z 6</span>
+      </div>
+
+      <div class="card" style="padding:6px 18px">
+        <div class="listrow" data-od-id="zakres-wszystkie">
+          <span class="lr-text">
+            <span class="lr-name">Wszystkie pomieszczenia</span>
+            <span class="lr-sub">Tryb obejmuje każde pomieszczenie z ogrzewaniem</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" id="sw-wszystkie" aria-label="Wszystkie pomieszczenia">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+      </div>
+
+      <div class="card" style="padding:6px 18px" id="lista-zakresu">
+        <div class="listrow">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-indygo)">
+            <svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Sypialnia AJ</span>
+            <span class="lr-sub">Piętro</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" class="zakres-room" aria-label="Objęta trybem: Sypialnia AJ">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+
+        <div class="listrow">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-blekit)">
+            <svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Sypialnia Ala</span>
+            <span class="lr-sub">Piętro · pokój dla gości</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" class="zakres-room" checked aria-label="Objęta trybem: Sypialnia Ala">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+
+        <div class="listrow">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-amber)">
+            <svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Salon AJ</span>
+            <span class="lr-sub">Parter</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" class="zakres-room" checked aria-label="Objęty trybem: Salon AJ">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+
+        <div class="listrow">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-ceglany)">
+            <svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Kuchnia</span>
+            <span class="lr-sub">Parter</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" class="zakres-room" aria-label="Objęta trybem: Kuchnia">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+
+        <div class="listrow">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-szmaragd)">
+            <svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Gabinet</span>
+            <span class="lr-sub">Parter · własny harmonogram</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" class="zakres-room" aria-label="Objęty trybem: Gabinet">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+
+        <div class="listrow">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-morski)">
+            <svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Łazienka</span>
+            <span class="lr-sub">Piętro · własny harmonogram</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" class="zakres-room" checked aria-label="Objęta trybem: Łazienka">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+
+        <div class="listrow is-off" data-od-id="zakres-kotlownia">
+          <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-grafit)">
+            <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+          <span class="lr-text">
+            <span class="lr-name">Kotłownia</span>
+            <span class="lr-sub">Zawsze poza trybami — chroni instalację</span>
+          </span>
+          <label class="switch">
+            <input type="checkbox" disabled aria-label="Kotłownia zawsze poza trybami">
+            <span class="sw-track"></span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── obiegi ────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-cwu">
+      <label id="lab-cwu" for="sel-cwu">Ciepła woda w tym trybie</label>
+      <div class="select-wrap">
+        <select class="select" id="sel-cwu" aria-describedby="hint-cwu">
+          <option value="bez">Bez zmian</option>
+          <option value="55" selected>Podniesiona do 55 °C</option>
+          <option value="40">Obniżona do 40 °C</option>
+          <option value="doba">Dogrzewana raz na dobę</option>
+          <option value="off">Wyłączona</option>
+        </select>
+        <svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg>
+      </div>
+      <p class="f-hint" id="hint-cwu">Więcej kąpieli przy gościach — zasobnik nadąża z wyższym celem.</p>
+    </section>
+
+    <section class="field" data-od-id="pole-rekuperacja">
+      <label id="lab-rekuperacja" for="sel-rekuperacja">Rekuperacja w tym trybie</label>
+      <div class="select-wrap">
+        <select class="select" id="sel-rekuperacja" aria-describedby="hint-rekuperacja">
+          <option value="bez">Bez zmian</option>
+          <option value="1">Bieg 1 — cicho</option>
+          <option value="2">Bieg 2 — normalnie</option>
+          <option value="3" selected>Bieg 3 — intensywnie</option>
+          <option value="4">Bieg 4 — maksymalnie</option>
+        </select>
+        <svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg>
+      </div>
+      <p class="f-hint" id="hint-rekuperacja">Więcej osób to więcej wilgoci i CO₂.</p>
+    </section>
+
+    <!-- ── zakończenie ───────────────────────────────────────────── -->
+    <section class="card col gap-12" data-od-id="pole-koniec">
+      <span class="col gap-2">
+        <span class="t-label">Jak tryb się kończy</span>
+        <span class="t-small muted">Po zakończeniu budynek wraca do trybu Praca</span>
+      </span>
+
+      <div class="segment segment--block" role="tablist" id="segment-koniec"
+           aria-label="Zakończenie trybu" data-od-id="segment-koniec">
+        <button type="button" role="tab" aria-selected="false" data-koniec="recznie">Ręcznie</button>
+        <button type="button" role="tab" aria-selected="false" data-koniec="czas">Po czasie</button>
+        <button type="button" role="tab" aria-selected="true"  data-koniec="data">Do daty</button>
+      </div>
+
+      <p class="f-hint" id="opis-recznie" hidden>Tryb trwa, dopóki nie wybierzesz innego w Centralnym.</p>
+      <p class="f-hint" id="opis-czas" hidden>Tryb wygasa sam po zadanej liczbie godzin.</p>
+      <p class="f-hint" id="opis-data">Tryb wygasa o świcie wskazanego dnia, żeby budynek
+        zdążył wrócić do harmonogramu.</p>
+
+      <div class="stepper" id="blok-godziny" data-od-id="stepper-godziny" hidden>
+        <button type="button" id="godziny-minus" aria-label="Skróć o godzinę">
+          <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+        <span class="row gap-4" style="align-items:baseline" aria-live="polite">
+          <span class="st-val t-num" id="godziny-val">8</span>
+          <span class="st-unit">h</span>
+        </span>
+        <button type="button" id="godziny-plus" aria-label="Wydłuż o godzinę">
+          <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+      </div>
+
+      <div class="col gap-8" id="blok-data">
+        <label class="t-label" for="in-data-konca">Data zakończenia</label>
+        <input class="input" type="date" id="in-data-konca" value="2026-08-10">
+      </div>
+    </section>
+
+    <!-- ── podsumowanie ──────────────────────────────────────────── -->
+    <p class="notebox" data-od-id="podsumowanie-trybu">
+      <svg viewBox="0 0 24 24"><use href="#i-lightbulb"/></svg>
+      <span id="podsumowanie" aria-live="polite">Podsumowanie liczy się z pól powyżej.</span>
+    </p>
+
+    <!-- ── wpływ na wbudowane tryby ──────────────────────────────── -->
+    <div class="notif notif--info" data-od-id="powiadomienie-pierwszenstwo">
+      <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-info"/></svg></span>
+      <div class="notif-body">
+        <p class="t-label">Tryby nie sumują się</p>
+        <p class="t-body muted" style="font-size:var(--fs-11)">W danym momencie obowiązuje jeden tryb
+          budynku. Włączenie tego trybu wyłącza poprzedni; korekta globalna z Centralnego działa dalej
+          i dodaje się do korekty trybu.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── pasek akcji ─────────────────────────────────────────────── -->
+  <div class="formbar" data-od-id="pasek-akcji">
+    <a class="btn btn--ghost" href="06-centralny.html">Anuluj</a>
+    <button class="btn" type="button" id="btn-zapisz" disabled>Zapisz zmiany</button>
+  </div>
+
+  <!-- ── nakładki ────────────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <div class="dialog" id="dialog-usun" role="dialog" aria-modal="true"
+       aria-labelledby="dialog-tytul" hidden data-od-id="dialog-usuniecia">
+    <span class="dg-mark"><svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></span>
+    <p class="dg-title" id="dialog-tytul">Usunąć tryb „Goście”?</p>
+    <p class="dg-text">Tryb zniknie z Centralnego. Harmonogramy i temperatury pomieszczeń
+      zostają bez zmian — tryb tylko je przesuwał.</p>
+    <div class="dg-actions">
+      <button class="btn btn--ghost" type="button" id="btn-anuluj-usun">Zostaw</button>
+      <button class="btn btn--danger" type="button" id="btn-potwierdz-usun">Usuń</button>
+    </div>
+  </div>
+
+  <div class="toastwrap" style="bottom:92px" data-od-id="toasty">
+    <div class="toast" id="toast" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+      <span id="toast-text">Zapisano</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    /* Ten sam formularz co przy tworzeniu trybu, wypełniony wartościami trybu
+       Goście. Zapisz aktywuje się dopiero po zmianie — jak na ekranach edycji
+       pomieszczenia. */
+    var stan = {
+      nazwa: 'Goście',
+      zachowanie: 'korekta',
+      korekta: 1.5,
+      stala: 18,
+      wszystkie: false,
+      koniec: 'data',
+      godziny: 8
+    };
+
+    var KOREKTA_MIN = -5, KOREKTA_MAX = 3, KROK = 0.5;
+    var GODZINY_MIN = 1, GODZINY_MAX = 72;
+    var brudne = false;
+
+    function fmt(n) {
+      var s = Math.abs(n).toFixed(1).replace('.', ',');
+      return (n < 0 ? '\u2212' : '') + s;
+    }
+    function fmtZnak(n) { return (n > 0 ? '+' : '') + fmt(n); }
+
+    var nazwa = document.getElementById('in-nazwa');
+    var zapisz = document.getElementById('btn-zapisz');
+    var podsumowanie = document.getElementById('podsumowanie');
+
+    function brudny() { brudne = true; rysuj(); }
+
+    /* ── zachowanie temperatur ──────────────────────────────────── */
+    var segZach = document.getElementById('segment-zachowanie');
+    var blokKorekta = document.getElementById('blok-korekta');
+    var blokStala = document.getElementById('blok-stala');
+    var opisyZach = {
+      korekta: document.getElementById('opis-korekta'),
+      stala: document.getElementById('opis-stala'),
+      bez: document.getElementById('opis-bez')
+    };
+
+    function ustawZachowanie(kod) {
+      stan.zachowanie = kod;
+      segZach.querySelectorAll('button').forEach(function (b) {
+        b.setAttribute('aria-selected', String(b.dataset.zachowanie === kod));
+      });
+      Object.keys(opisyZach).forEach(function (k) { opisyZach[k].hidden = k !== kod; });
+      blokKorekta.hidden = kod !== 'korekta';
+      blokStala.hidden = kod !== 'stala';
+      rysuj();
+    }
+    segZach.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        ustawZachowanie(b.dataset.zachowanie); brudny();
+      });
+    });
+
+    var korektaVal = document.getElementById('korekta-val');
+    var korektaMinus = document.getElementById('korekta-minus');
+    var korektaPlus = document.getElementById('korekta-plus');
+
+    function rysujKorekte() {
+      korektaVal.textContent = fmtZnak(stan.korekta);
+      korektaMinus.disabled = stan.korekta <= KOREKTA_MIN;
+      korektaPlus.disabled = stan.korekta >= KOREKTA_MAX;
+    }
+    korektaMinus.addEventListener('click', function () {
+      stan.korekta = Math.max(KOREKTA_MIN, stan.korekta - KROK); rysujKorekte(); brudny();
+    });
+    korektaPlus.addEventListener('click', function () {
+      stan.korekta = Math.min(KOREKTA_MAX, stan.korekta + KROK); rysujKorekte(); brudny();
+    });
+
+    var suwak = document.getElementById('suwak-stala');
+    var stalaVal = document.getElementById('stala-val');
+    var stalaMinus = document.getElementById('stala-minus');
+    var stalaPlus = document.getElementById('stala-plus');
+
+    function rysujStala() {
+      var v = parseFloat(suwak.value);
+      stan.stala = v;
+      stalaVal.textContent = fmt(v);
+      suwak.setAttribute('aria-valuetext', fmt(v) + ' °C');
+      var pct = (v - parseFloat(suwak.min)) / (parseFloat(suwak.max) - parseFloat(suwak.min)) * 100;
+      suwak.style.setProperty('--fill', pct + '%');
+      stalaMinus.disabled = v <= parseFloat(suwak.min);
+      stalaPlus.disabled = v >= parseFloat(suwak.max);
+    }
+    function zmienStala(delta) {
+      suwak.value = (parseFloat(suwak.value) + delta).toFixed(1);
+      rysujStala(); brudny();
+    }
+    suwak.addEventListener('input', function () { rysujStala(); brudny(); });
+    stalaMinus.addEventListener('click', function () { zmienStala(-KROK); });
+    stalaPlus.addEventListener('click', function () { zmienStala(KROK); });
+
+    /* ── zakres pomieszczeń ─────────────────────────────────────── */
+    var swWszystkie = document.getElementById('sw-wszystkie');
+    var listaZakresu = document.getElementById('lista-zakresu');
+    var licznikZakresu = document.getElementById('licznik-zakresu');
+    var pokoje = Array.prototype.slice.call(document.querySelectorAll('.zakres-room'));
+
+    function policzZakres() {
+      return pokoje.filter(function (p) { return p.checked; }).length;
+    }
+    function rysujZakres() {
+      stan.wszystkie = swWszystkie.checked;
+      listaZakresu.hidden = swWszystkie.checked;
+      var n = swWszystkie.checked ? pokoje.length : policzZakres();
+      licznikZakresu.textContent = n + ' z ' + pokoje.length;
+      rysuj();
+    }
+    swWszystkie.addEventListener('change', function () { rysujZakres(); brudny(); });
+    pokoje.forEach(function (p) {
+      p.addEventListener('change', function () { rysujZakres(); brudny(); });
+    });
+
+    /* ── obiegi ─────────────────────────────────────────────────── */
+    var selCwu = document.getElementById('sel-cwu');
+    var selRek = document.getElementById('sel-rekuperacja');
+    selCwu.addEventListener('change', brudny);
+    selRek.addEventListener('change', brudny);
+
+    /* ── zakończenie ────────────────────────────────────────────── */
+    var segKoniec = document.getElementById('segment-koniec');
+    var blokGodziny = document.getElementById('blok-godziny');
+    var blokData = document.getElementById('blok-data');
+    var dataKonca = document.getElementById('in-data-konca');
+    var opisyKoniec = {
+      recznie: document.getElementById('opis-recznie'),
+      czas: document.getElementById('opis-czas'),
+      data: document.getElementById('opis-data')
+    };
+
+    function ustawKoniec(kod) {
+      stan.koniec = kod;
+      segKoniec.querySelectorAll('button').forEach(function (b) {
+        b.setAttribute('aria-selected', String(b.dataset.koniec === kod));
+      });
+      Object.keys(opisyKoniec).forEach(function (k) { opisyKoniec[k].hidden = k !== kod; });
+      blokGodziny.hidden = kod !== 'czas';
+      blokData.hidden = kod !== 'data';
+      rysuj();
+    }
+    segKoniec.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { ustawKoniec(b.dataset.koniec); brudny(); });
+    });
+    dataKonca.addEventListener('change', brudny);
+
+    var godzinyVal = document.getElementById('godziny-val');
+    var godzinyMinus = document.getElementById('godziny-minus');
+    var godzinyPlus = document.getElementById('godziny-plus');
+
+    function rysujGodziny() {
+      godzinyVal.textContent = String(stan.godziny);
+      godzinyMinus.disabled = stan.godziny <= GODZINY_MIN;
+      godzinyPlus.disabled = stan.godziny >= GODZINY_MAX;
+    }
+    godzinyMinus.addEventListener('click', function () {
+      stan.godziny = Math.max(GODZINY_MIN, stan.godziny - 1); rysujGodziny(); brudny();
+    });
+    godzinyPlus.addEventListener('click', function () {
+      stan.godziny = Math.min(GODZINY_MAX, stan.godziny + 1); rysujGodziny(); brudny();
+    });
+
+    /* ── wybór ikony ────────────────────────────────────────────── */
+    document.querySelectorAll('#wybor-ikony button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        document.querySelectorAll('#wybor-ikony button').forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        brudny();
+      });
+    });
+
+    /* ── podsumowanie i walidacja ───────────────────────────────── */
+    function zdanieZakresu() {
+      if (stan.wszystkie) return 'wszystkie pomieszczenia z ogrzewaniem';
+      var n = policzZakres();
+      if (n === 0) return 'żadne pomieszczenie';
+      if (n === 1) return '1 wybrane pomieszczenie';
+      if (n < 5) return n + ' wybrane pomieszczenia';
+      return n + ' wybranych pomieszczeń';
+    }
+    function zdanieTemperatur() {
+      if (stan.zachowanie === 'bez') return 'zostają na swoich harmonogramach';
+      if (stan.zachowanie === 'stala') return 'trzymają stałe ' + fmt(stan.stala) + ' °C';
+      if (stan.korekta === 0) return 'zostają bez przesunięcia';
+      return (stan.korekta < 0 ? 'obniżone' : 'podniesione') + ' o ' +
+             fmt(Math.abs(stan.korekta)) + ' °C';
+    }
+    function zdanieKonca() {
+      if (stan.koniec === 'czas') return 'Wygasa po ' + stan.godziny + ' h.';
+      if (stan.koniec === 'data') {
+        var d = dataKonca.value ? dataKonca.value.split('-') : null;
+        return d ? 'Wygasa ' + d[2] + '.' + d[1] + '.' : 'Wygasa w wybranym dniu.';
+      }
+      return 'Trwa do ręcznej zmiany.';
+    }
+    function zdanieObiegow() {
+      var czesci = [];
+      if (selCwu.value !== 'bez') {
+        czesci.push('ciepła woda: ' + selCwu.options[selCwu.selectedIndex].text.toLowerCase());
+      }
+      if (selRek.value !== 'bez') {
+        czesci.push('rekuperacja: bieg ' + selRek.value);
+      }
+      return czesci.length ? ' ' + czesci.join(', ') + '.' : '';
+    }
+
+    function rysuj() {
+      stan.nazwa = nazwa.value.trim();
+      var pustyZakres = !stan.wszystkie && policzZakres() === 0;
+      zapisz.disabled = !brudne || stan.nazwa.length === 0 || pustyZakres;
+
+      if (!stan.nazwa) {
+        podsumowanie.textContent = 'Tryb musi mieć nazwę — bez niej nie da się go rozpoznać ' +
+          'na karcie w Centralnym.';
+        return;
+      }
+      if (pustyZakres) {
+        podsumowanie.textContent = 'Wybierz przynajmniej jedno pomieszczenie — tryb bez zakresu ' +
+          'nie miałby na co działać.';
+        return;
+      }
+      podsumowanie.textContent = '„' + stan.nazwa + '”: ' + zdanieZakresu() + ' ' +
+        zdanieTemperatur() + '.' + zdanieObiegow() + ' ' + zdanieKonca();
+    }
+
+    nazwa.addEventListener('input', brudny);
+
+    /* ── zapis: toast, bez opuszczania ekranu ───────────────────── */
+    var toast = document.getElementById('toast');
+    var toastText = document.getElementById('toast-text');
+    var toastTimer = null;
+
+    function pokazToast(tekst) {
+      toastText.textContent = tekst;
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    }
+
+    zapisz.addEventListener('click', function () {
+      brudne = false;
+      rysuj();
+      pokazToast('Tryb „' + stan.nazwa + '” zapisany');
+    });
+
+    /* ── usuwanie trybu ─────────────────────────────────────────── */
+    var scrim = document.getElementById('scrim');
+    var dialog = document.getElementById('dialog-usun');
+    var btnUsun = document.getElementById('btn-usun');
+
+    function otworzDialog() {
+      scrim.hidden = false; dialog.hidden = false;
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); dialog.classList.add('is-open');
+      });
+      document.getElementById('btn-anuluj-usun').focus();
+    }
+    function zamknijDialog() {
+      scrim.classList.remove('is-open'); dialog.classList.remove('is-open');
+      setTimeout(function () { scrim.hidden = true; dialog.hidden = true; }, 220);
+      btnUsun.focus();
+    }
+
+    btnUsun.addEventListener('click', otworzDialog);
+    document.getElementById('btn-anuluj-usun').addEventListener('click', zamknijDialog);
+    scrim.addEventListener('click', zamknijDialog);
+    document.getElementById('btn-potwierdz-usun').addEventListener('click', function () {
+      window.location.href = '06-centralny.html';
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !dialog.hidden) zamknijDialog();
+    });
+
+    /* stan początkowy */
+    rysujKorekte();
+    rysujStala();
+    rysujGodziny();
+    rysujZakres();
+    rysuj();
+  })();
+</script>
+</body>
+</html>

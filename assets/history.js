@@ -52,7 +52,8 @@
         ]
       }
     },
-    /* Łazienka — szpilka wilgotności po prysznicu, temperatura ponad normą w programie porannym */
+    /* Łazienka — szpilka wilgotności po prysznicu, temperatura ponad normą w programie porannym;
+       okno otwarte 06:15–06:35 po prysznicu wstrzymuje grzanie na 20 min (M-06) */
     'lazienka': {
       temperatura: {
         label: 'Temperatura', color: 'var(--app-1)', dotColor: 'var(--app-1)',
@@ -60,6 +61,7 @@
         values: [21.0, 20.6, 20.2, 20.2, 20.4, 21.5, 24.6, 24.8, 24.5, 23.8,
                  23.2, 22.8, 22.6, 22.5, 22.6, 22.8, 23.0, 24.4, 24.6, 24.2,
                  23.4, 22.6, 21.8, 21.2, 21.0],
+        windowEvent: { fromH: 6.25, toH: 6.6, label: 'okno otwarte' },
         cards: [
           { icon: 'flame', tone: 'amber', color: 'var(--on-warning)', value: '+0,7 °C', label: 'Ponad górną granicą komfortu' },
           { icon: 'clock', tone: 'hum', color: 'var(--status-info)', value: '2×', label: 'Programy poranny i wieczorny' }
@@ -294,6 +296,24 @@
     });
   }
 
+  /* pasmo „okno otwarte" na wykresie dobowym (M-06): kreskowany prostokąt
+     w tonie neutralnym (nie temperatury/wilgotności, żeby nie konkurował
+     z linią serii) + etykieta nad osią godzin, tej samej wysokości co
+     podpis „nasłonecznienie" */
+  function windowBandMarkup(ev) {
+    var pxPerH = W / 24;
+    var x = (ev.fromH * pxPerH).toFixed(1);
+    var w = ((ev.toH - ev.fromH) * pxPerH).toFixed(1);
+    var midX = (ev.fromH * pxPerH + (ev.toH - ev.fromH) * pxPerH / 2).toFixed(1);
+    return '<rect x="' + x + '" y="0" width="' + w + '" height="' + H +
+        '" style="fill:var(--muted);opacity:.14"/>' +
+      '<line x1="' + x + '" y1="0" x2="' + x + '" y2="' + H + '" style="stroke:var(--muted);stroke-width:1;stroke-dasharray:2 2;opacity:.5"/>' +
+      '<line x1="' + (parseFloat(x) + parseFloat(w)).toFixed(1) + '" y1="0" x2="' + (parseFloat(x) + parseFloat(w)).toFixed(1) + '" y2="' + H +
+        '" style="stroke:var(--muted);stroke-width:1;stroke-dasharray:2 2;opacity:.5"/>' +
+      '<text x="' + midX + '" y="122" text-anchor="middle" ' +
+        'style="fill:var(--muted);font-family:var(--font-body);font-size:9px">' + ev.label + '</text>';
+  }
+
   function render(key) {
     var s = SERIES[key];
     if (!s) return;
@@ -316,6 +336,9 @@
       '<rect x="110.6" y="0" width="98.3" height="' + H + '" style="fill:var(--app-2);opacity:.10"/>' +
       '<text x="159.8" y="12" text-anchor="middle" ' +
         'style="fill:var(--app-1a);font-family:var(--font-body);font-size:9px">nasłonecznienie</text>' +
+      /* pasmo „okno otwarte" (M-06) — tylko gdy seria je deklaruje; skala
+         identyczna jak pasmo nasłonecznienia: W=295 na 24 h = 12,29 px/h */
+      (s.windowEvent ? windowBandMarkup(s.windowEvent) : '') +
       /* siatka */
       '<line x1="0" y1="' + TOP + '" x2="' + W + '" y2="' + TOP + '" style="stroke:var(--border)"/>' +
       '<line x1="0" y1="' + mid + '" x2="' + W + '" y2="' + mid + '" style="stroke:var(--border)"/>' +

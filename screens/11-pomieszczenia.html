@@ -53,12 +53,12 @@
         </div>
       </section>
 
-      <section class="notif notif--warning" data-od-id="powiadomienie-lazienka">
-        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg></span>
+      <section class="notif notif--info" data-od-id="powiadomienie-lazienka">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-grid-2x2"/></svg></span>
         <div class="notif-body">
-          <h3 class="t-label">Łazienka — temperatura powyżej normy</h3>
-          <p class="t-body muted" style="font-size:var(--fs-11)">24,2° w programie porannym,
-            0,7° nad górną granicą komfortu.</p>
+          <h3 class="t-label">Łazienka — okno otwarte</h3>
+          <p class="t-body muted" style="font-size:var(--fs-11)">Grzanie wstrzymane od 4 min.
+            Wróci samo, gdy czujnik wykryje zamknięcie.</p>
           <a class="notif-link t-link" href="room-lazienka-glowny.html">Zobacz pomieszczenie
             <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
         </div>
@@ -79,7 +79,7 @@
         <span class="rr-text">
           <span class="rr-name">Sypialnia AJ</span>
           <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
-          <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+          <span class="rr-sched rr-sched--manual"><svg viewBox="0 0 24 24"><use href="#i-sliders-vertical"/></svg>Ustawiono ręcznie · do 08:44</span>
           <span class="rr-climate" data-od-id="klimat-sypialnia-aj"
                 title="Bez regulacji — temperatura utrzymywana">
             <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
@@ -118,11 +118,11 @@
         <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Łazienka</span>
-          <span class="rr-status"><i class="dot dot--info"></i>Program poranny · nad normą</span>
+          <span class="rr-status"><i class="dot dot--info"></i>Okno otwarte · grzanie wstrzymane</span>
           <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
-          <span class="rr-climate rr-climate--cool" data-od-id="klimat-lazienka"
-                title="Temperatura regulowana w dół — grzanie wstrzymane do 22,0°">
-            <svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg>Chłodzenie</span>
+          <span class="rr-climate rr-climate--paused" data-od-id="klimat-lazienka"
+                title="Okno otwarte od 4 min — grzanie wstrzymane automatycznie">
+            <svg viewBox="0 0 24 24"><use href="#i-grid-2x2"/></svg>Wstrzymane</span>
         </span>
         <span class="rr-right">
           <span class="rr-vals">
@@ -158,10 +158,10 @@
         <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Gabinet</span>
-          <span class="rr-status"><i class="dot dot--low"></i>Tryb eco · poza strefą komfortu</span>
+          <span class="rr-status"><i class="dot"></i>Tryb eco</span>
           <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
           <span class="rr-climate" data-od-id="klimat-gabinet"
-                title="Bez regulacji — grzanie wstrzymane w trybie eco">
+                title="Bez regulacji — temperatura utrzymywana">
             <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
         </span>
         <span class="rr-right">
@@ -173,16 +173,19 @@
         </span>
       </a>
 
-      <a class="roomrow" href="room-sypialnia-ala-glowny.html" data-od-id="pomieszczenie-sypialnia-ala"
+      <!-- wyłączone z ogrzewania w konsoli budynku (Centralny): odczyty są
+           aktualne, tylko grzanie nie pracuje — inaczej niż przy czujniku
+           offline. Stan odwracalny jednym przełącznikiem na ekranie 06. -->
+      <a class="roomrow is-heat-off" href="room-sypialnia-ala-glowny.html" data-od-id="pomieszczenie-sypialnia-ala"
          style="--room:var(--room-blekit)">
         <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Sypialnia Ala</span>
-          <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
-          <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
-          <span class="rr-climate" data-od-id="klimat-sypialnia-ala"
-                title="Bez regulacji — temperatura utrzymywana">
-            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
+          <span class="rr-status"><i class="dot dot--off"></i>Wyłączone z ogrzewania</span>
+          <span class="rr-sched rr-sched--offroom"><svg viewBox="0 0 24 24"><use href="#i-power"/></svg>Poza harmonogramem</span>
+          <span class="rr-climate rr-climate--none" data-od-id="klimat-sypialnia-ala"
+                title="Grzanie wyłączone z konsoli budynku — temperatura swobodnie schodzi">
+            <svg viewBox="0 0 24 24"><use href="#i-power"/></svg>Bez grzania</span>
         </span>
         <span class="rr-right">
           <span class="rr-vals">

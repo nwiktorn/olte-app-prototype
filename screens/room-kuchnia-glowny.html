@@ -28,7 +28,7 @@
     <a class="iconbtn" href="11-pomieszczenia.html" aria-label="Wstecz">
       <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
     <div class="appbar-title"><h1 class="t-title">Kuchnia</h1></div>
-    <a class="iconbtn" href="07-edycja-pomieszczenia.html" aria-label="Edytuj pomieszczenie">
+    <a class="iconbtn" href="room-kuchnia-edycja.html" aria-label="Edytuj pomieszczenie">
       <svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></a>
     <button class="iconbtn" type="button" id="btn-opcje" aria-label="Więcej opcji"
             aria-haspopup="dialog" aria-expanded="false">
@@ -72,8 +72,8 @@
         <circle class="dial-arc-dot" id="tarcza-kropka" cx="285.3" cy="125.4" r="7" style="fill:var(--surface);stroke:color-mix(in oklch, color-mix(in oklch, var(--room-warm) 72.7%, var(--room-cool)) 78%, var(--fg));stroke-width:2.5;transform-origin:285.3px 125.4px"/>
       </svg>
       <div class="dial-center">
-        <p class="t-eyebrow" data-od-id="podpis-nastawy">Nadana temperatura</p>
-        <p class="dial-value t-num t-dial" id="tarcza-nastawa" data-count-to="23.0" data-suffix="°">0°</p>
+        <p class="t-eyebrow" data-od-id="podpis-temperatury">Nadana temperatura</p>
+        <p class="dial-value t-num t-dial" id="tarcza-temperatura" data-count-to="23.0" data-suffix="°">0°</p>
         <p class="dial-now t-num" data-od-id="temperatura-biezaca">
           <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>22,6°
           <span class="dial-now-cap">w pomieszczeniu</span>
@@ -98,11 +98,17 @@
     <div class="row" data-od-id="stan-harmonogramu" style="justify-content:center;gap:8px;margin-top:2px">
       <span class="tagpill tagpill--info" id="pigulka-stanu">
         <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg><span id="pigulka-stanu-tekst">Harmonogram bazowy</span></span>
-      <a class="iconbtn" href="07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+      <a class="iconbtn" href="room-kuchnia-edycja.html#segment-tryb-harmonogramu"
          data-od-id="btn-ustawienia-harmonogramu" title="Ustawienia harmonogramu"
          aria-label="Ustawienia harmonogramu — zmień na własny harmonogram lub stałą temperaturę">
         <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
     </div>
+    <p class="t-small muted" id="podpis-nadpisania" data-od-id="podpis-nadpisania"
+       style="text-align:center;margin-top:4px" hidden>
+      Do <span id="podpis-nadpisania-czas">17:30</span>, potem
+      <button type="button" class="t-link" id="btn-wroc-harmonogram"
+              style="color:var(--accent);background:none;border:0;padding:0;cursor:pointer">wróć do harmonogramu</button>
+    </p>
 
     <!-- ── przejścia ─────────────────────────────────────────────── -->
     <div class="col gap-12" data-od-id="linki" style="margin-top:6px">
@@ -163,7 +169,7 @@
     </div>
     <div class="sh-body">
       <div class="col" data-od-id="opcje-lista">
-        <a class="listrow" href="07-edycja-pomieszczenia.html">
+        <a class="listrow" href="room-kuchnia-edycja.html">
           <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></span>
           <span class="lr-text"><span class="lr-name">Edytuj pomieszczenie</span>
             <span class="lr-sub">Nazwa, ikona, temperatura docelowa</span></span>
@@ -260,20 +266,20 @@
     }
 
     /* ── tarcza interaktywna: przeciągnięcie kropki nadaje temperaturę ──
-       Tarcza ma JEDEN rejestr kolorystyczny i pokazuje nastawę od pierwszej
+       Tarcza ma JEDEN rejestr kolorystyczny i pokazuje nadaną temperaturę od pierwszej
        klatki: neutralna podstawa (--track) to cały zakres data-temp-min…max
-       — ten sam, co stepper w 07-edycja-pomieszczenia — a kolorowy łuk
-       rośnie do nastawy. Wcześniej w spoczynku widać było łuk wyniku
+       — ten sam, co stepper w room-*-edycja — a kolorowy łuk
+       rośnie do nadanej temperatury. Wcześniej w spoczynku widać było łuk wyniku
        pomieszczenia w barwach Gauge/*, a pierwsze przeciągnięcie przełączało
        tarczę na kolor pomieszczenia; ta zmiana barwy czytała się jak błąd.
        Wynik pomieszczenia mówi teraz plakietka i karta „Podsumowanie
-       pomieszczenia", a tarcza odpowiada wyłącznie za nastawę.
+       pomieszczenia", a tarcza odpowiada wyłącznie za nadaną temperaturę.
 
-       Wielka liczba w środku to NASTAWA — zmienia się przy przeciąganiu,
+       Wielka liczba w środku to NADANA TEMPERATURA — zmienia się przy przeciąganiu,
        a odczyty pod nią (temperatura w pomieszczeniu, wilgotność) stoją
        nieruchomo jako punkt odniesienia. Łuk siedzi na kolorze pomieszczenia
        i tak samo czyta się w spoczynku i w ruchu: jego barwa to ton z ZAKRESU
-       pomieszczenia dla bieżącej nastawy — --room-cool przy 15 °C, --room-warm
+       pomieszczenia dla bieżącej nadanej temperatury — --room-cool przy 15 °C, --room-warm
        przy 26 °C, tożsamość w środku zakresu. Status zmienia się na „ustawiono
        ręcznie" (harmonogram zawieszony, tak jak tryb „Stała temperatura"). */
     (function () {
@@ -284,24 +290,32 @@
       var arcTemp = document.getElementById('tarcza-luk-temperatura');
       var gradStart = document.getElementById('grad-poczatek');
       var gradEnd = document.getElementById('grad-koniec');
-      var setValEl = document.getElementById('tarcza-nastawa');
+      var setValEl = document.getElementById('tarcza-temperatura');
       var descEl = document.getElementById('tarcza-opis');
       var pill = document.getElementById('pigulka-stanu');
       var pillText = document.getElementById('pigulka-stanu-tekst');
       var pillIconUse = pill.querySelector('svg use');
       var nextChangeRow = document.getElementById('wiersz-najblizsza-zmiana');
+      var overrideNote = document.getElementById('podpis-nadpisania');
+      var overrideTime = document.getElementById('podpis-nadpisania-czas');
+      var overrideBtn = document.getElementById('btn-wroc-harmonogram');
+      var nextChangeTimeText = (nextChangeRow && nextChangeRow.querySelector('.row.gap-6')
+        ? nextChangeRow.querySelector('.row.gap-6').textContent.replace(/\s+/g, ' ').replace(/^.*Zmiana o\s*/, '').trim()
+        : '');
+      var defaultPill = { cls: pill.className, icon: pillIconUse.getAttribute('href'), text: pillText.textContent };
 
       var min = parseFloat(dial.dataset.tempMin);
       var max = parseFloat(dial.dataset.tempMax);
       var step = parseFloat(dial.dataset.tempStep);
       var current = parseFloat(dial.dataset.tempSet);
+      var startTemp = current;
       var manual = false;
 
       var CX = 160, CY = 160, R = 130;
       var START_DEG = 106, SWEEP_DEG = 328; /* ta sama geometria co łuk wyniku 0–100 */
       var ARC_LEN = 744;
 
-      /* Barwa łuku to ton z ZAKRESU pomieszczenia dla bieżącej nastawy:
+      /* Barwa łuku to ton z ZAKRESU pomieszczenia dla bieżącej nadanej temperatury:
          --room-cool przy 15 °C, --room-warm przy 26 °C, tożsamość w środku.
          JS podstawia tylko procent — nigdy gotowy rgb(). Wcześniej kolory
          były liczone tutaj z getComputedStyle().color, ale silnik
@@ -317,7 +331,7 @@
       /* pierścień uchwytu o 22 % głębszy od łuku, żeby biała kropka
          miała krawędź także tam, gdzie leży na własnym kolorze */
       function ringAt(f) { return 'color-mix(in oklch, ' + toneAt(f) + ' 78%, var(--fg))'; }
-      /* wielka liczba nastawy — ten sam ton pogłębiony do progu 4,5:1 */
+      /* wielka liczba nadanej temperatury — ten sam ton pogłębiony do progu 4,5:1 */
       function inkAt(f) { return 'color-mix(in oklch, ' + toneAt(f) + ' 66%, var(--fg))'; }
       /* ogon gradientu leży 35 punktów skali chłodniej niż głowa łuku:
          tyle wystarcza na sheen zdradzający kierunek ruchu, a za dużo
@@ -377,14 +391,32 @@
            trzymała stroke-dashoffset łuku (i opacity kropki) na wartościach
            startowych, nadpisując to, co ustawia render() */
         dial.removeAttribute('data-enter');
-        /* nastawa przechodzi pod kontrolę użytkownika — count-up wejścia
+        /* nadana temperatura przechodzi pod kontrolę użytkownika — count-up wejścia
            przestaje nadpisywać wielką liczbę */
         setValEl.dataset.locked = '1';
         pill.className = 'tagpill tagpill--manual';
         pillIconUse.setAttribute('href', '#i-sliders-vertical');
         pillText.textContent = 'Ustawiono ręcznie';
         if (nextChangeRow) nextChangeRow.hidden = true;
+        if (overrideNote) {
+          if (overrideTime && nextChangeTimeText) overrideTime.textContent = nextChangeTimeText;
+          overrideNote.hidden = false;
+        }
       }
+
+      function wrocDoHarmonogramu() {
+        if (!manual) return;
+        manual = false;
+        dial.classList.remove('is-manual');
+        delete setValEl.dataset.locked;
+        pill.className = defaultPill.cls;
+        pillIconUse.setAttribute('href', defaultPill.icon);
+        pillText.textContent = defaultPill.text;
+        if (overrideNote) overrideNote.hidden = true;
+        if (nextChangeRow) nextChangeRow.hidden = false;
+        setTemp(startTemp, true);
+      }
+      if (overrideBtn) overrideBtn.addEventListener('click', wrocDoHarmonogramu);
 
       function setTemp(temp, announce) {
         temp = Math.round(temp / step) * step;
@@ -394,7 +426,7 @@
         render(temp, announce);
       }
 
-      /* stan startowy — łuk już jest w tonie zapisanej nastawy, bo markup
+      /* stan startowy — łuk już jest w tonie zapisanej nadanej temperatury, bo markup
          nosi te same wartości color-mix(); paintTone() tylko potwierdza je
          z JS, bez wchodzenia w tryb ręczny. Dzięki temu pierwsze dotknięcie
          tarczy nie zmienia barwy, tylko ją przesuwa w zakresie. */

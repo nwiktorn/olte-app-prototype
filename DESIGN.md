@@ -6,7 +6,8 @@ architektury informacji, per-pokojową strukturę ekranów i audyt DS wdrożony 
 
 **Produkt:** aplikacja mobilna/B2B do monitorowania systemu grzewczego OLTE w budynku — bilans
 budynku, temperatura i wilgotność per pomieszczenie, historia dobowa, porównanie sezonów,
-jednostka centralna, harmonogram bazowy z nadpisaniem per pomieszczenie.
+jednostka centralna, harmonogram bazowy z nadpisaniem per pomieszczenie oraz własne tryby
+budynku z konfiguracją temperatury, zakresu pomieszczeń, CWU i rekuperacji.
 **Kanwa:** iPhone 393 × 852 px. Język interfejsu: polski.
 **Źródło prawdy w kodzie:** `assets/olte.css` — poza blokiem `:root` i jego nadpisaniem dla
 trybu ciemnego nie występuje w arkuszu żaden surowy hex.
@@ -159,14 +160,14 @@ w drzewie. Zamiast tego każda rola jest liczona `color-mix()` w regule komponen
 |---|---|---|---|
 | tożsamość | `var(--room)` | próbka w wyborze, glif ikony | 3,12:1 na karcie |
 | ink | `color-mix(in oklch, var(--room) 66%, var(--fg))` | glif ikony, nazwa przy hover | 5,99:1 na karcie |
-| rampa tarczy | `color-mix(in oklch, var(--room-warm) f%, var(--room-cool))` | łuk nastawy: chłodny koniec przy 15 °C → ciepły przy 26 °C | 3,05:1 wobec `--track` |
-| nastawa w tarczy | `color-mix(in oklch, <ton rampy> 66%, var(--fg))` | wielka liczba w środku tarczy | 6,10:1 na karcie |
+| rampa tarczy | `color-mix(in oklch, var(--room-warm) f%, var(--room-cool))` | łuk nadanej temperatury: chłodny koniec przy 15 °C → ciepły przy 26 °C | 3,05:1 wobec `--track` |
+| nadana temperatura w tarczy | `color-mix(in oklch, <ton rampy> 66%, var(--fg))` | wielka liczba w środku tarczy | 6,10:1 na karcie |
 | tint | `color-mix(in oklch, var(--room) 14%, var(--surface))` | tło ikony pomieszczenia | glif na tincie 5,21:1 |
 
 **Gdzie kolor się pojawia i gdzie nie.** Na liście: wyłącznie tło i glif ikony
 (`.iconbox--room`) plus podświetlenie nazwy przy hover — bez kolorowego paska i bez obwódki
 wiersza, bo wiersz nosi już cztery inne nośniki znaczenia. Na ekranie pomieszczenia: pasek
-tożsamości i rampa tarczy nastawy. **Stan offline wygrywa z tożsamością** — Kotłownia
+tożsamości i rampa tarczy. **Stan offline wygrywa z tożsamością** — Kotłownia
 zachowuje przypisany kolor w danych, ale jej ikona zostaje wygaszona (`.iconbox--off`), bo
 wiersz bez odczytu nie może wyglądać na aktywny.
 
@@ -184,9 +185,9 @@ Zieleń, Szałwia i Koral zostają nieprzypisane — są dostępne w wyborze dla
 Nowe pomieszczenie startuje na **Room/Zieleń**, czyli na tym samym kolorze, który przyjmuje
 ekran bez przypisania.
 
-**Rampa tarczy nastawy.** Kolorowy łuk (`.dial-arc-temp`) rośnie od początku skali do nastawy
+**Rampa tarczy.** Kolorowy łuk (`.dial-arc-temp`) rośnie od początku skali do nadanej temperatury
 na neutralnej podstawie (`.dial-arc-basis`, `--track`), a jego barwa to **ton z zakresu
-pomieszczenia** dla bieżącej nastawy: `--room-cool` przy 15 °C, `--room-warm` przy 26 °C,
+pomieszczenia** dla bieżącej nadanej temperatury: `--room-cool` przy 15 °C, `--room-warm` przy 26 °C,
 tożsamość w środku zakresu (ok. 20,5 °C). Przeciąganie kropki przeprowadza barwę przez ten
 zakres płynnie i **percepcyjnie równo**, bo interpolacja idzie przez `color-mix(in oklch, …)`,
 a nie przez sRGB, który przeszedłby przez odbarwiony środek.
@@ -201,7 +202,7 @@ z `getComputedStyle().color`, silnik serializował wynik `color-mix()` jako `okl
 odczyt trzech liczb dawał `rgb(1, 0, 275)` — jaskrawy niebieskofiolet identyczny w każdym
 pomieszczeniu, niezależny od tożsamości.
 
-Gradient łuku ma dwa przystanki: głowa na tonie nastawy, ogon o 35 punktów skali chłodniej.
+Gradient łuku ma dwa przystanki: głowa na tonie nadanej temperatury, ogon o 35 punktów skali chłodniej.
 Tyle wystarcza na sheen zdradzający kierunek ruchu; więcej robiłoby z łuku dwubarwny pasek.
 Uchwyt zostaje biały (`--surface`) z pierścieniem o 22 % głębszym od łuku — wypełniony kolorem
 łuku zlewałby się z nim.
@@ -215,7 +216,7 @@ Jasność chłodnego końca jest dodatkowo ograniczona progiem 3,05:1 wobec pods
 więc sześć pozycji ma go niżej niż +0,035 — inaczej najjaśniejsze tożsamości gubiłyby krawędź
 łuku na jasnym tle. Zmierzone na całym przebiegu, motyw jasny / ciemny: łuk wobec podstawy
 min **3,05 / 3,12:1**, biały uchwyt wobec łuku **3,45 / 3,41:1**, pierścień uchwytu wobec
-uchwytu **5,07 / 5,03:1**, wielka liczba nastawy wobec karty **6,35 / 6,10:1**. Dystans
+uchwytu **5,07 / 5,03:1**, wielka liczba nadanej temperatury wobec karty **6,35 / 6,10:1**. Dystans
 percepcyjny między końcami zakresu to 0,051–0,106 Oklab.
 
 | Kolor | Chłodny (15 °C) | Ciepły (26 °C) | Charakter zakresu |
@@ -235,7 +236,7 @@ Zakresy sąsiednich tożsamości mogą na siebie zachodzić: chłodny Szmaragd l
 Morskiego, przy 0,036 dystansu między samymi tożsamościami. W produkcie to nie koliduje — zakres
 pojawia się na jednej tarczy naraz, a tożsamość niesie ikona i nazwa.
 
-**Przypisanie klasą.** Tam, gdzie jest tarcza nastawy, kolor przypisuje się klasą
+**Przypisanie klasą.** Tam, gdzie jest tarcza nadanej temperatury, kolor przypisuje się klasą
 `.room--<nazwa>`, która ustawia całą trójkę naraz (`--room`, `--room-cool`, `--room-warm`) —
 więc nie da się przypisać ekranowi szmaragdowej ikony i morskiego łuku. Konteksty, które niosą
 wyłącznie tożsamość (wiersz listy, próbka w wyborze koloru), ustawiają samo `--room` inline.
@@ -415,14 +416,16 @@ Odczyty na tych ekranach są przykładowe — nie pochodzą z pliku Figmy.
 
 | Plik | Domyka pozycję | Zawartość |
 |---|---|---|
-| `06-centralny` | 8 | jednostka grzewcza: COP, sprężarka, zasilanie i powrót, trzy obiegi, tryby pracy, rozdział ciepła |
-| `07-edycja-pomieszczenia` | 9, 10 | nazwa, wybór ikony, stepper i suwak temperatury, przełączniki, dialog usunięcia |
+| `06-centralny` | 8 | konsola budynku: tryb budynku, korekta globalna, harmonogram bazowy inline, przełączniki grzania dla 7 pomieszczeń, temperatury obiegów, telemetria jednostki zwinięta — patrz §12a |
+| `room-<slug>-edycja` (×7) | 9, 10 | nazwa, wybór ikony, stepper i suwak temperatury, przełączniki, dialog usunięcia |
 | `08-harmonogram` | 9, 10 | cztery bloki dobowe, arkusz edycji bloku, kopiowanie na inne dni |
 | `09-stany-danych` | 7 | diagnostyka czujników: ładowanie → błąd → dane, czujnik offline, pusta lista zgłoszeń |
 | `10-zgloszenie-usterki` | — | formularz serwisowy: `select`, `textarea`, `notif--info`, dialog potwierdzenia — jedyne miejsce w prototypie, gdzie te komponenty DS są użyte |
 | `11-pomieszczenia` | — | hub drugiej zakładki: centrum powiadomień (`notif--error/--warning`), rozpiska wszystkich pomieszczeń, przejście do formularza dodania |
 | `12-dodaj-pomieszczenie` | — | formularz dodania: nazwa, wybór ikony, kondygnacja, stepper/suwak temperatury, przełączniki zachowania — „Zapisz” aktywuje się po wpisaniu nazwy |
-| `room-<slug>-*` | — | komplet pięciu ekranów per pomieszczenie (siedem pomieszczeń) — patrz §10 |
+| `13-dodaj-tryb` | — | formularz trybu własnego budynku: nazwa, ikona, zachowanie temperatur, zakres pomieszczeń, CWU, rekuperacja, zakończenie, podsumowanie live — patrz §12a |
+| `tryb-goscie-edycja` | — | ten sam formularz wypełniony trybem Goście + usuwanie trybu; wejście ołówkiem z karty trybu w `06` |
+| `room-<slug>-*` | — | komplet siedmiu ekranów per pomieszczenie (sześć pomieszczeń ogrzewanych) + dwa ekrany Kotłowni — patrz §10 |
 
 ---
 
@@ -436,8 +439,8 @@ Dostała własny ekran-hub.
   (`notif--error` dla czujnika offline, `notif--warning` dla wartości poza normą, oba linkują
   do konkretnego pomieszczenia lub do diagnostyki), pod nim pełna `.roomlist` wszystkich
   siedmiu pomieszczeń, CTA „Dodaj pomieszczenie" (`.btn--ghost.btn--block`) na dole i drugi
-  wjazd do tego samego przepływu w `appbar` (`i-plus`). Formularz dodania pomieszczenia nie
-  istnieje jeszcze jako ekran — obie akcje sygnalizują to toastem.
+  wjazd do tego samego przepływu w `appbar` (`i-plus`). Formularz dodania pomieszczenia jest
+  osobnym ekranem `12-dodaj-pomieszczenie.html`.
 - **`05-ekran-startowy`** — sekcja „Twoje pokoje" (nagłówek, przycisk „Rozwiń", siedem
   wierszy `.roomlist`) usunięta w całości; ekran startowy kończy się teraz na powiadomieniu
   systemowym plus jedną karcianą kartą-linkiem do huba (`Wszystkie pomieszczenia`), żeby nie
@@ -464,7 +467,7 @@ Dostała własny ekran-hub.
 ## 10. Siedem pomieszczeń — architektura per-pokój (poz. 15)
 
 Zatwierdzona zmiana: jeden „uniwersalny" komplet ekranów pokoju (`02`/`01`×2/`03`/`04`),
-odwiedzany przez wszystkie siedem wierszy huba, został zastąpiony **odrębnym kompletem pięciu
+odwiedzany przez wszystkie siedem wierszy huba, został zastąpiony **odrębnym kompletem siedmiu
 plików dla każdego pomieszczenia**. Powód: appbar, historia i podsumowanie muszą zgadzać się
 z pomieszczeniem, z którego przyszedł użytkownik — jeden wspólny plik to gwarantowana
 niekonsekwencja przy siedmiu wierszach linkujących do tego samego miejsca.
@@ -473,6 +476,7 @@ niekonsekwencja przy siedmiu wierszach linkujących do tego samego miejsca.
 
 ```
 screens/room-<slug>-glowny.html          tarcza temperatury, pigułki, arkusz opcji
+screens/room-<slug>-edycja.html          nazwa, ikona, kolor, harmonogram, usunięcie
 screens/room-<slug>-podsumowanie.html    metryka zgodności z harmonogramem, wnioski
 screens/room-<slug>-historia-temp.html   wykres dobowy — temperatura
 screens/room-<slug>-historia-wilg.html   wykres dobowy — wilgotność
@@ -480,44 +484,47 @@ screens/room-<slug>-sezony.html          porównanie sezonu grzewczego/chłodnic
 ```
 
 `<slug>`: `sypialnia-aj`, `salon-aj`, `lazienka`, `kuchnia`, `gabinet`, `sypialnia-ala`.
-**Kotłownia** ma jeden plik (`room-kotlownia-glowny.html`) — patrz niżej.
+**Kotłownia** ma dwa pliki: `room-kotlownia-glowny.html` (patrz niżej) i
+`room-kotlownia-edycja.html` — wariant okrojony bez harmonogramu/temperatury docelowej
+(czujnik offline, nie bierze udziału w sterowaniu), tylko nazwa/ikona/kolor/czujnik/
+kondygnacja/usunięcie.
 
-### Tarcza pomieszczenia = nastawa; wynik 0–100 zostaje przy budynku
+### Tarcza pomieszczenia = nadana temperatura; wynik 0–100 zostaje przy budynku
 
 Historycznie łuk tarczy pomieszczenia kodował **wynik pomieszczenia 0–100** w barwach
 `Gauge/*`, a nadawanie temperatury przeciąganiem kropki przełączało go w drugi rejestr
 kolorystyczny — kolor pomieszczenia. Ta zmiana barwy przy pierwszym dotknięciu czytała się
 jak błąd, nie jak informacja, więc tarcza pomieszczenia ma dziś **jeden rejestr**: od
-pierwszej klatki pokazuje nastawę na neutralnej podstawie `--track`, w kolorze pomieszczenia.
+pierwszej klatki pokazuje nadaną temperaturę na neutralnej podstawie `--track`, w kolorze pomieszczenia.
 
 Wynik pomieszczenia nadal istnieje i nadal jest wyliczany z tej samej tabeli progów poniżej —
 komunikują go plakietka stanu, karta „Podsumowanie pomieszczenia" i opis `sr-only` tarczy.
 Tarcza w konwencji wyniku zostaje na **tarczy bilansu budynku** (`05-ekran-startowy.html`,
 92/100) i w specimenach `Gauge/*` w Design Systemie.
 
-### Środek tarczy = nastawa nad odczytami
+### Środek tarczy = nadana temperatura nad odczytami
 
-W środku tarczy stoi **nastawa**: podpis „Nadana temperatura" (`.t-eyebrow`) i wielka liczba
-(`.dial-value .t-dial`, 42 px). Pod nią dwa opisane odczyty — zmierzona temperatura
+W środku tarczy stoi **nadana temperatura**: podpis „Nadana temperatura" (`.t-eyebrow`) i wielka liczba
+(`.dial-value .t-dial`, 45 px). Pod nią dwa opisane odczyty — zmierzona temperatura
 (`.dial-now` + `.dial-now-cap`, 15 px) i wilgotność (`.dial-hum` + `.dial-hum-cap`, 13 px).
 
 Zasada rozdziału: **wielka liczba to wartość, którą użytkownik ustawia** — zmienia się przy
 przeciąganiu kropki. Odczyty pod nią stoją nieruchomo jako punkt odniesienia, więc dystans
 „nadane vs. rzeczywiste" widać w jednym rzucie oka. Count-up wejścia jest blokowany
-(`dataset.locked`) w momencie pierwszej interakcji, żeby animacja nie nadpisywała nastawy.
+(`dataset.locked`) w momencie pierwszej interakcji, żeby animacja nie nadpisywała nadanej temperatury.
 Konsekwencja: pigułki odczytów z górnego wiersza (`pill--temp` / `pill--hum`) zostały
 z ekranów pomieszczeń usunięte — te dane są teraz w centrum, a zwolniony wiersz nosi pasek
 tożsamości (ikona w kolorze pomieszczenia + kondygnacja + identyfikator czujnika).
 
-Dwa rejestry koloru: **kolor = to, co ustawiasz, neutralny = to, co zmierzone.** Nastawa bierze
+Dwa rejestry koloru: **kolor = to, co ustawiasz, neutralny = to, co zmierzone.** Nadana temperatura bierze
 **kolor pomieszczenia** pogłębiony w stronę `--fg` (66 % / 34 %, minimum 5,64:1 dla najsłabszej
 pozycji palety) — sama tożsamość nie przechodzi 4,5:1 wymaganego dla tekstu. Odczyty zostają
 na `--n-700`, a ich podpisy na `--muted`.
 
-### Rampa łuku nastawy = zakres barwowy koloru pomieszczenia
+### Rampa łuku nadanej temperatury = zakres barwowy koloru pomieszczenia
 
-Łuk nastawy trzyma się rodziny `--room` i ma się tak czytać **w każdym stanie — w spoczynku
-i w trakcie przeciągania**. Jego barwa to ton z **zakresu** pomieszczenia dla bieżącej nastawy:
+Łuk nadanej temperatury trzyma się rodziny `--room` i ma się tak czytać **w każdym stanie — w spoczynku
+i w trakcie przeciągania**. Jego barwa to ton z **zakresu** pomieszczenia dla bieżącej nadanej temperatury:
 `--room-cool` przy 15 °C, `--room-warm` przy 26 °C, tożsamość w środku zakresu. Pełna definicja
 końców, tabela dziesięciu zakresów i pomiary kontrastu są w sekcji 1 („Zakres barwowy
 pomieszczenia").
@@ -533,7 +540,7 @@ a naiwny odczyt trzech liczb dawał `rgb(1, 0, 275)` — jaskrawy niebieskofiole
 w każdym pomieszczeniu, niezależnie od jego tożsamości. Rozwiązywanie `var()` i `color-mix()`
 zostaje po stronie przeglądarki.
 
-Gradient łuku ma dwa przystanki: głowa na tonie nastawy, ogon o 35 punktów skali chłodniej —
+Gradient łuku ma dwa przystanki: głowa na tonie nadanej temperatury, ogon o 35 punktów skali chłodniej —
 sheen zdradzający kierunek ruchu, nie druga barwa. Uchwyt zostaje biały z pierścieniem o 22 %
 głębszym od łuku. Kontrasty na całym przebiegu (najsłabsza pozycja palety, jasny / ciemny):
 łuk wobec podstawy `--track` 3,05 / 3,12:1, biały uchwyt wobec łuku 3,45 / 3,41:1, pierścień
@@ -550,11 +557,11 @@ wobec uchwytu 5,07 / 5,03:1. Dystans percepcyjny między końcami zakresu to 0,0
 Geometria łuku jest wspólna dla obu konwencji: `--dial-offset` = `744 × (1 − ułamek)`, pozycja
 kropki końcowej: kąt = `106° + ułamek × 328°`, `cx = 160 + 130·cos(θ)`, `cy = 160 + 130·sin(θ)`
 (stopnie → radiany). Na tarczy bilansu budynku i w specimenach `Gauge/*` ułamek to
-`wynik / 100`; na tarczy pomieszczenia to `(nastawa − 15) / 11`. Przeliczone nastawy:
+`wynik / 100`; na tarczy pomieszczenia to `(nadana temperatura − 15) / 11`. Przeliczone wartości:
 Sypialnia AJ 20,5 °C → offset 372,0 · kropka 160,0/30,0; Sypialnia Ala 22,5 → 236,7 ·
 272,2/94,3; Salon AJ i Kuchnia 23,0 → 202,9 · 285,3/125,4; Łazienka 22,0 → 270,5 ·
 251,5/67,6; Gabinet 19,0 → 473,5 · 68,5/67,6. Wcześniej kropka stała w pozycji **wyniku**,
-a nie nastawy — na Gabinecie przy nastawie 19 °C leżała w punkcie 40/100, czyli nie zgadzała
+a nie nadanej temperatury — na Gabinecie przy nadanej temperaturze 19 °C leżała w punkcie 40/100, czyli nie zgadzała
 się z liczbą w środku tarczy.
 
 ### Stany zaprojektowane per pomieszczenie
@@ -578,7 +585,7 @@ ma sezonowy `tagpill` z `i-trending-up` (+4%, pogorszenie), reszta zachowuje `i-
 ### Semantyka „tryb eco" — informacja, nie usprawiedliwienie (audyt 2026-07-27)
 
 „Tryb eco" (pisownia: **eco**, nie „eko") jest tagiem informacyjnym niezależnym od oceny
-komfortu — mówi, że pomieszczenie działa w reżimie oszczędnym, nic więcej. Ocena komfortu
+komfortu — mówi, że pomieszczenie działa w trybie oszczędnym, nic więcej. Ocena komfortu
 (kolor kropki statusu, ton tarczy, pill) wynika wyłącznie z wyniku 0–100 opisanego wyżej.
 Gabinet w trybie eco i z niskim wynikiem (40, Wymaga uwagi) pokazuje to wprost w obu
 miejscach, w których się pojawia — hub `11-pomieszczenia.html` i ekran pomieszczenia —
@@ -604,7 +611,7 @@ fikcyjnej historii tego pomieszczenia.
 
 ### Formularz dodania pomieszczenia
 
-`12-dodaj-pomieszczenie.html` — ten sam zestaw komponentów co `07-edycja-pomieszczenia`
+`12-dodaj-pomieszczenie.html` — ten sam zestaw komponentów co `room-<slug>-edycja.html`
 (`.field`, `.iconpick`, `.stepper`, `.slider`, `.formbar`), ale w stanie pustym/domyślnym:
 brak nazwy, brak wybranej ikony, temperatura docelowa 21 °C. „Zapisz” w pasku akcji jest
 zablokowany do wpisania nazwy. Zapis otwiera dialog potwierdzenia i wraca do huba — bez
@@ -629,18 +636,18 @@ design-system.html          dokumentacja z żywymi komponentami i statusem pozyc
 DESIGN.md                   ten dokument
 assets/olte.css             tokeny i komponenty — jedno źródło prawdy
 assets/theme.js             motyw jasny/ciemny, localStorage + postMessage
-assets/icons.js             sprite ikon (73 symbole, nazwy Lucide)
+assets/icons.js             sprite ikon (86 symboli, nazwy Lucide)
 assets/history.js           renderer wykresu dobowego + ROOM_SERIES (dane per pomieszczenie)
 screens/05…10                sześć ekranów współdzielonych (startowy, centralny, edycja,
                              harmonogram, diagnostyka, zgłoszenie usterki)
 screens/11-pomieszczenia     hub drugiej zakładki
 screens/12-dodaj-pomieszczenie  formularz dodania pomieszczenia
+screens/13-dodaj-tryb        formularz nowego trybu budynku (§12a)
+screens/tryb-<slug>-edycja   edycja trybu własnego — jeden plik per tryb (§12a)
 screens/room-<slug>-*        pięć ekranów na pomieszczenie × sześć pomieszczeń (§10) +
                              jeden specjalny dla Kotłowni (offline)
 screens/room-<slug>-harmonogram  harmonogram własny — jeden plik per ogrzewane pomieszczenie
                              (§12), nadpisuje harmonogram bazowy tylko dla tego pomieszczenia
-screens/01…04                pięć plików-przekierowań na miejsce oryginalnych ekranów z Figmy
-OLTE-App.fig                plik źródłowy
 ```
 
 ---
@@ -650,14 +657,14 @@ OLTE-App.fig                plik źródłowy
 Produkt jest B2B, skierowany na budynki (biura, obiekty komercyjne, wielorodzinne), nie na
 pojedyncze domy jednorodzinne — stąd terminologia w całym prototypie używa „budynek/budynkowy”
 tam, gdzie wcześniej było „dom/domowy” (m.in. Card Hero na `05-ekran-startowy`, podtytuł
-`08-harmonogram`, wartość harmonogramu w `07-edycja-pomieszczenia`).
+`08-harmonogram`, wartość harmonogramu w `room-<slug>-edycja.html`).
 
 ### Model trzech poziomów
 
 1. **Harmonogram bazowy** (`08-harmonogram.html`) — cztery bloki dobowe, typ dnia
    (roboczy/weekend/nieobecność). To **domyślny** harmonogram dla każdego nowego pomieszczenia;
    pomieszczenie go dziedziczy automatycznie, bez żadnej konfiguracji.
-2. **Nadpisanie per pomieszczenie** — wybierane w `07-edycja-pomieszczenia.html` segmentem
+2. **Nadpisanie per pomieszczenie** — wybierane w `room-<slug>-edycja.html` segmentem
    trzyopcyjnym `Harmonogram bazowy / Stała temperatura / Własny harmonogram`
    (zastąpił dotychczasowy binarny przełącznik „Steruj harmonogramem”):
    - **Stała temperatura** — harmonogram jest ignorowany, obowiązuje jedna temperatura
@@ -672,20 +679,19 @@ tam, gdzie wcześniej było „dom/domowy” (m.in. Card Hero na `05-ekran-start
    - `Własny harmonogram` (`.tagpill--warning` / `.rr-sched--own`, żółty) — świadome
      odejście od domyślnego.
    - `Stała temperatura` (`.rr-sched--off`, wyciszony) — harmonogram nieaktywny (Kotłownia).
-   - `Ustawiono ręcznie` (`.tagpill--manual`, tło `--track` / tekst `--n-700`, ikona
-     `#i-sliders-vertical`) — użytkownik przeciągnął kropkę na tarczy temperatury (patrz
-     punkt 5); zastępuje dowolny z trzech stanów wyżej, dopóki nie zmieni trybu ręcznie
-     w `07-edycja-pomieszczenia.html`. Nie ma odpowiednika w `.rr-sched` — hub
-     `11-pomieszczenia.html` nie pokazuje jeszcze tego stanu (otwarty punkt spójności,
-     jak w punkcie 4 niżej).
+   - `Ustawiono ręcznie` (`.tagpill--manual` / `.rr-sched--manual`, tło `--track` / tekst
+     `--n-700`, ikona `#i-sliders-vertical`) — użytkownik przeciągnął kropkę na tarczy
+     temperatury (patrz punkt 5); zastępuje dowolny z trzech stanów wyżej, dopóki
+     nadpisanie nie wygaśnie albo nie wróci do harmonogramu ręcznie (patrz punkt 5).
 
    Widoczny w dwóch miejscach: pod tarczą temperatury na każdym `room-<slug>-glowny.html`
    (`data-od-id="stan-harmonogramu"`) i w liście `11-pomieszczenia.html`
-   (`.rr-sched` pod `.rr-status` każdego wiersza) — użytkownik z siedmioma pomieszczeniami
-   widzi od razu, które odbiegają od bazowego bez wchodzenia w edycję każdego z nich.
+   (`.rr-sched` pod `.rr-status` każdego wiersza, z sufiksem „· do &lt;godzina&gt;” w stanie
+   `--manual`) — użytkownik z siedmioma pomieszczeniami widzi od razu, które odbiegają od
+   bazowego bez wchodzenia w edycję każdego z nich.
    Na ekranie pomieszczenia plakietka ma obok siebie `.iconbtn` z ikoną `settings`
    (`data-od-id="btn-ustawienia-harmonogramu"`) prowadzący prosto do
-   `07-edycja-pomieszczenia.html#segment-tryb-harmonogramu` — przełączenie na własny
+   `room-<slug>-edycja.html#segment-tryb-harmonogramu` — przełączenie na własny
    harmonogram lub stałą temperaturę bez przechodzenia przez pełną edycję. Plakietka
    pozostaje statusem, zębatka jest jedynym elementem klikalnym w tym wierszu.
    Specimen: `komponent-stan-harmonogramu`.
@@ -693,10 +699,14 @@ tam, gdzie wcześniej było „dom/domowy” (m.in. Card Hero na `05-ekran-start
    `.rr-sched`) odpowiada na pytanie „w którą stronę idzie teraz temperatura”, niezależne
    od tego, *który* harmonogram pomieszczenie stosuje:
    - `Dogrzewanie` (`.rr-climate--heat`, `#i-flame`, `--on-temp`) — regulacja w górę.
-   - `Chłodzenie` (`.rr-climate--cool`, `#i-snowflake`, `--on-hum`) — regulacja w dół
-     (grzanie wstrzymane, pomieszczenie schodzi do zadanej wartości).
+   - `Wychładzanie` (`.rr-climate--cool`, `#i-trending-down`, `--on-hum`) — temperatura
+     schodzi, bo grzanie jest wstrzymane. **Nie** „Chłodzenie”: budynek nie ma funkcji
+     chłodzenia, więc nazwa i ikona opisują kierunek zmiany, nie działanie urządzenia
+     (patrz decyzja D-4 w sekcji „Konsola budynku”).
    - `Utrzymanie` (klasa bazowa bez modyfikatora, `#i-minus`, `--muted`) — brak regulacji,
      temperatura w zadanym punkcie.
+   - `Wstrzymane` (`.rr-climate--paused`, `#i-grid-2x2`, `--status-info`) — grzanie zatrzymane
+     automatycznie przez wykrycie otwartego okna; wraca samo, bez akcji użytkownika (M-06).
    - `Brak danych` (`.rr-climate--none`, `--status-off`) — czujnik nieaktywny; kierunku
      nigdy nie zgadujemy bez odczytu (Kotłownia).
 
@@ -705,26 +715,39 @@ tam, gdzie wcześniej było „dom/domowy” (m.in. Card Hero na `05-ekran-start
    wstrzymane do 22,0°”). Specimen: `komponent-rr-climate` w `design-system.html`.
    Wdrożone w `11-pomieszczenia.html` (7/7 wierszy); ekrany `room-<slug>-glowny.html`
    jeszcze tego wskaźnika nie mają — otwarty punkt spójności.
+4a. **Okno otwarte — mechanika, nie tylko przełącznik (M-06)** — „Wykrywanie otwartego
+   okna” istniało jako toggle w `room-*-edycja.html`/`12-dodaj-pomieszczenie.html`, ale nie
+   miało żadnego widocznego efektu. Referencyjne wdrożenie: Łazienka.
+   - `notif--info` na panelu pomieszczenia, nad tarczą: „Okno otwarte od 4 min — grzanie
+     wstrzymane automatycznie. Wróci samo, gdy czujnik wykryje zamknięcie.”
+   - `.rr-climate--paused` na liście pomieszczeń (patrz punkt 4) plus `.rr-status`
+     zmienione na „Okno otwarte · grzanie wstrzymane”.
+   - Centrum powiadomień na `11-pomieszczenia.html` odzwierciedla ten sam stan (`notif--info`,
+     ikona `grid-2x2`), zamiast duplikować starą treść „temperatura powyżej normy”.
+   - Wykres dobowy (`assets/history.js`) rysuje pasmo zdarzenia analogicznie do pasma
+     nasłonecznienia: prostokąt `var(--muted)` z przerywaną obwódką i podpisem pod osią
+     godzin. Pole opcjonalne w danych serii — `windowEvent: { fromH, toH, label }` — więc
+     pozostałe 11 serii bez tego pola renderują się bez zmian.
+   - Nie dotyczy Kotłowni (brak dialu/harmonogramu, offline) ani pomieszczeń bez
+     otwieranych okien w scenariuszu prototypu — to jest demonstracja mechaniki na jednym
+     pomieszczeniu, nie stan wdrożony wszędzie.
 5. **Tarcza jako kontrolka — przeciąganie ustawia temperaturę** — kropka na tarczy
    (`.dial-arc-dot`, ukryty hit-target `.dial-hit` r=24px, `role="slider"`) jest przeciągalna
    wskaźnikiem, dotykiem i klawiaturą (strzałki ±0,5 °C, `PageUp`/`PageDown` ±2 °C,
-   `Home`/`End` = 15/26 °C). Łuk domyślnie koduje **wynik pomieszczenia 0–100** (punkt
-   „Tarcza pomieszczenia" wyżej) — pierwsza interakcja przełącza tarczę w tryb **temperatury
-   docelowej** na zakresie `15–26 °C` krokiem `0,5 °C`, tym samym co stepper w
-   `07-edycja-pomieszczenia.html`:
-   - Łuk i kropka zaczynają kodować pozycję w zakresie temperatury, nie wynik.
-   - Kolor łuku i `.dial-value` przechodzi z tonu wyniku (`--gauge-*`) na `--accent`.
-   - Etykieta `.dial-center` zmienia się z „Obecna temperatura” na „Ustawiona temperatura”.
-   - Plakietka stanu (punkt 3) przechodzi na `.tagpill--manual` „Ustawiono ręcznie”, a wiersz
-     „najbliższa zmiana” się chowa — harmonogram jest zawieszony, tak jak w trybie „Stała
-     temperatura”, tylko zainicjowane z tarczy, nie z segmentu w edycji.
+   `Home`/`End` = 15/26 °C). Tarcza od pierwszej klatki pokazuje nadaną temperaturę
+   na zakresie `15–26 °C` krokiem `0,5 °C`, a łuk korzysta z zakresu barwowego danego pomieszczenia:
+   - Łuk i kropka pokazują pozycję nadanej temperatury; neutralna podstawa pokazuje cały zakres.
+   - Kolor łuku, uchwytu i wielkiej liczby pochodzi z `--room-cool` → `--room-warm`, więc nie
+     zmienia się na inną paletę przy pierwszym dotknięciu ani między spoczynkiem a przeciąganiem.
+   - Odczyty temperatury i wilgotności pozostają neutralne i są pokazane pod wielką liczbą.
+   - Po ręcznej zmianie plakietka stanu przechodzi na `.tagpill--manual` „Ustawiono ręcznie”,
+     wiersz „najbliższa zmiana” się chowa, a pod plakietką pojawia się limit: „Do <godzina>,
+     potem wróć do harmonogramu”. Link `#btn-wroc-harmonogram` przywraca stan sprzed zmiany.
 
-   Ten sam mechanizm (geometria łuku: `CX=160, CY=160, R=130`, `START_DEG=106°`,
-   `SWEEP_DEG=328°`, `ARC_LEN=744`) obsługuje obie interpretacje — wynik i temperaturę —
-   przez współdzieloną funkcję kąt→punkt; zmienia się tylko to, co reprezentuje `f` (ułamek
-   0–1: wynik/100 albo `(temp−min)/(max−min)`). Wdrożone identycznie w 6/6
-   `room-<slug>-glowny.html` (nie w Kotłowni — offline, bez tarczy). Specimen:
-   `komponent-tarcza-interaktywna` w `design-system.html`.
+   Geometria łuku (`CX=160, CY=160, R=130`, `START_DEG=106°`, `SWEEP_DEG=328°`, `ARC_LEN=744`)
+   jest wspólna dla 6/6 `room-<slug>-glowny.html`; zmienia się tylko ułamek `(temp−15)/11`.
+   Kotłownia nie ma tarczy, bo jest offline. Specimen: `komponent-tarcza-interaktywna`
+   w `design-system.html`.
 
 ### Które pomieszczenia mają co (stan demonstracyjny)
 
@@ -742,6 +765,174 @@ Każdy z sześciu plików `room-<slug>-harmonogram.html` jest w pełni samodziel
 nakładki, JS, klasy co `08-harmonogram.html`), różni się tylko blokami dobowymi, podtytułem
 i notatką w stopce — zgodnie z wzorcem ustanowionym dla `room-<slug>-glowny.html` (§10):
 kopiowanie struktury, nie budowanie od zera.
+
+
+---
+
+## 12a. Konsola budynku — przeprojektowanie ekranu Centralny (pochłania M-03)
+
+### Dlaczego
+
+Ekran nazywał się „Centralny", a miał **jedną kontrolkę i osiem bloków odczytów**. Klikalny
+był tylko segment „Auto / Komfort / Eko / Postój". Trzy realne kontrolki — żądanie bufora,
+cel CWU, bieg rekuperacji — były narysowane jako `.bar` bez interakcji. Lista „Kto teraz
+pobiera ciepło" dublowała zakładkę Pomieszczenia i wymieniała pomieszczenia, których
+w prototypie nie ma („hall i pokój gościnny" — R-09). Harmonogram bazowy, czyli najważniejsze
+narzędzie sterowania budynkiem, był tam tylko odsyłaczem, i to dwa razy.
+
+### Przeramowanie
+
+Centralny odpowiada na trzy pytania zarządcy, w tej kolejności:
+
+1. **Jaki tryb obowiązuje teraz w całym budynku?** → tryb budynku
+2. **Jak zmienić coś wszędzie naraz, bez wchodzenia w siedem pomieszczeń?** → korekta
+   globalna, harmonogram bazowy inline, przełączniki grzania, temperatury obiegów
+3. **Co wymaga mojej decyzji?** → sekcja „Wymaga uwagi" (alerty instalacji)
+
+Podział pracy z zakładką Pomieszczenia: **tam przeglądanie i szczegóły pojedynczego
+pomieszczenia, tu operacje masowe.** Dlatego wiersz w konsoli nie jest klikalny jako link —
+klikalny jest tylko przełącznik. Gdyby wiersz linkował, konsola dublowałaby hub.
+
+### Architektura, od góry
+
+| Blok | Rola | Komponent | Specimen |
+|---|---|---|---|
+| Tryb budynku | Praca / Ograniczony / Urlop (z datą powrotu) / Postój + tryby własne + kafel dodawania | `.moderow`, `.mr-custom`, `.mr-add` | `komponent-moderow` |
+| Korekta globalna | przesunięcie −3,0 … +3,0 °C na wszystkie temperatury | `.stepper` | `komponent-korekta-globalna` |
+| Harmonogram bazowy | doba widoczna od razu, edycja bloków dalej na `08` | `.daystrip` | (istniejący) |
+| Grzanie w pomieszczeniach | 7 wierszy, jeden przełącznik na pomieszczenie | `.listrow` + `.switch` | `komponent-wiersz-sterowania` |
+| Obiegi | CWU: nadana temperatura celu 45–60 °C + dogrzanie na żądanie; rekuperacja: bieg 1–4; bufor: odczyt | `.stepper`, `.segment`, `.bar` | (istniejące) |
+| Telemetria jednostki | zwinięta, nagłówek niesie wniosek („Jednostka pracuje · COP 4,3") | `.foldcard` | `komponent-foldcard` |
+| Wymaga uwagi | alerty instalacji (filtr, serwis) | `.notif--warning` | (istniejący) |
+
+Proporcja odwróciła się z **1 kontrolki na 8 odczytów** na **6 kontrolek i 2 odczyty**.
+
+Usunięte z ekranu: lista „Kto teraz pobiera ciepło" (zastąpiona listą sterowania), hero
+z COP jako pierwszy blok (schodzi do `.foldcard`), stopka „Odczyt z jednostki 12 s temu"
+(wchodzi do podpisu zwiniętego nagłówka), martwy link „Zamów filtr" (`href="#"` → `09`).
+
+### Cztery decyzje
+
+**D-1. Tryb budynku zastąpił dawny wybór charakteru pracy jednostki — nie stoi obok niego.**
+Dawny segment mieszał dwie osie na jednym przełączniku: charakter pracy pompy (Auto /
+Komfort / Eko — jak agresywnie grzać) i stan budynku (Postój — nikogo nie ma). Dwa
+przełączniki na jednym ekranie, oba wpływające na temperaturę, to pewna pomyłka
+użytkownika. Zostaje **jeden wybór**, z którego wynika zachowanie pompy. Postój przeszedł
+z osi „charakter pracy" na oś „stan budynku", gdzie od początku należał.
+
+**D-2. Jedno centrum powiadomień na warstwę, nie trzy na projekt.**
+Były trzy: `05` („System działa prawidłowo"), `06` („Filtr do wymiany", martwy link),
+`11` („Wymaga uwagi", dwa alerty). Podział docelowy:
+
+- `11-pomieszczenia.html` — alerty **pomieszczeń** (czujnik offline, okno otwarte)
+- `06-centralny.html` — alerty **instalacji** (filtr, sprężarka, serwis)
+- `05-ekran-startowy.html` — **bez własnego centrum**; dawne powiadomienie mówiło tylko
+  „nie wykryto nieprawidłowości", czyli nie nosiło żadnej informacji, a jego link nie miał
+  celu. W jego miejsce weszła druga karta przejścia — do konsoli budynku, żeby ekran
+  startowy prowadził do obu hubów, nie tylko do pomieszczeń.
+
+**D-3. Wyłączenie pomieszczenia to nowy, piąty stan harmonogramu — widoczny na trzech
+powierzchniach.**
+Bez tego ktoś wyłączyłby Kuchnię w konsoli i nie zrozumiał, dlaczego jej tarcza nic nie
+robi. Stan pojawia się:
+
+- w konsoli: `.listrow.is-off`, wygaszona ikona i nazwa, podpis „Wyłączone z ogrzewania",
+  a oryginalny podpis przechowany w `data-sub`, żeby wrócił po włączeniu;
+- na liście pomieszczeń: `.roomrow.is-heat-off` + `.rr-sched--offroom` (`--muted`, ikona
+  `power`, „Poza harmonogramem");
+- w panelu pomieszczenia: `notif--info` nad tarczą z linkiem do `06` oraz plakietka
+  `tagpill--off`; wiersz „najbliższa zmiana" jest schowany, bo ta zmiana nie nastąpi.
+
+`--offroom` różni się od `--off` **intencją**: `--off` to brak odczytu (usterka czujnika),
+`--offroom` to decyzja użytkownika — odczyty są aktualne, stan odwracalny jednym
+przełącznikiem. Referencyjne pomieszczenie: **Sypialnia Ala**.
+
+Wyjątek: **Kotłownia ma przełącznik `disabled`.** To ona chroni instalację przed
+zamarznięciem, więc jej wyłączenie nie jest decyzją, którą interfejs powinien oferować.
+Powód jest w podpisie wiersza, nie tylko w atrybucie.
+
+**D-4. Budynek grzeje i nie chłodzi — nazwy stanów muszą to odzwierciedlać.**
+Lista pomieszczeń pokazywała stan „Chłodzenie" (`.rr-climate--cool`, ikona `snowflake`),
+choć Centralny nie ma i nie będzie miał funkcji chłodzenia. Stan przeformułowany na
+**„Wychładzanie"** z ikoną `trending-down`: temperatura schodzi, bo grzanie jest wstrzymane,
+a nie bo instalacja chłodzi. Nazwa klasy `--cool` zostaje (jest udokumentowana i używana),
+zmienia się jej znaczenie i prezentacja. Tryby budynku mówią wyłącznie o grzaniu —
+Postój utrzymuje 8 °C jako ochronę przeciwzamarzaniową, nie jako nadaną temperaturę komfortu.
+
+### Tryby — co robi każdy
+
+| Tryb | Ikona | Efekt | Data powrotu |
+|---|---|---|---|
+| Praca | `house` | Harmonogramy działają bez zmian | — |
+| Ograniczony | `trending-down` | Wszystkie temperatury −2 °C, harmonogramy działają dalej | — |
+| Urlop | `calendar` | Temperatury −4 °C do dnia powrotu, CWU raz na dobę | **tak** |
+| Postój | `power` | Harmonogramy wstrzymane, 8 °C antyzamarzaniowe, CWU wyłączona | — |
+
+Urlop i Postój pokazują `notif--info` mówiące wprost, że nadane temperatury pomieszczeń są zapisane,
+ale nie obowiązują. Bez tego nadana temperatura na tarczy w panelu pomieszczenia kłamałaby.
+
+Wybór trybu nigdy nie polega na samym kolorze: karta zaznaczona dostaje obramowanie
+`--accent`, pogrubioną nazwę i `aria-pressed="true"`, a plakietka w nagłówku sekcji
+powtarza nazwę trybu tekstem.
+
+### Tryby własne — dodawanie i edycja
+
+Cztery tryby powyżej są **wbudowane i nieusuwalne**. Za nimi w siatce idą tryby własne,
+a na końcu kafel dodawania:
+
+| Element | Klasa | Rola |
+|---|---|---|
+| Tryb wbudowany | `.moderow button` | wybór, bez edycji |
+| Tryb własny | `.moderow .mr-custom` (wrapper) + `.mr-edit` | wybór **i** wejście w edycję |
+| Kafel dodawania | `.mr-add` | akcja, prowadzi na `13-dodaj-tryb.html` |
+
+**Ołówek `square-pen` jest jedynym wyróżnikiem trybu własnego.** Tryby świadomie **nie mają
+koloru tożsamości**, choć pomieszczenia go mają: kolor na karcie trybu znaczy „wybrany",
+więc drugie znaczenie zniosłoby pierwsze. Rozpoznanie niesie ikona i nazwa.
+
+Konstrukcja: ikona edycji to osobny link, a linku nie da się zagnieździć w przycisku wyboru
+(przycisk w przycisku). Dlatego pole siatki przejmuje wrapper `.mr-custom`: przycisk
+wypełnia je w całości i dostaje `padding-right: 44px`, żeby nazwa nigdy nie weszła pod
+ikonę, a ołówek leży nad nim w prawym górnym rogu. Grafika ma 32 px, ale `::after`
+z `inset: -6px` rozciąga pole dotyku do 44 × 44 px. Kafel dodawania ma krawędź kreskowaną,
+bo jest **akcją, nie wyborem** — nie przyjmuje `aria-pressed`.
+
+Referencyjny tryb własny w prototypie: **Goście** (`bed-double`, +1,5 °C w trzech
+pomieszczeniach, CWU 55 °C, rekuperacja bieg 3, do 10.08).
+
+### Formularz trybu — siedem pól
+
+`13-dodaj-tryb.html` (tworzenie) i `tryb-goscie-edycja.html` (edycja) to **ten sam zestaw
+pól**; różnią się wypełnieniem, przyciskiem usuwania w pasku górnym i warunkiem aktywacji
+zapisu (przy tworzeniu wystarczy nazwa, przy edycji potrzebna jest zmiana).
+
+| Pole | Kontrolka | Zakres |
+|---|---|---|
+| Nazwa | `.input` | do 20 znaków, wymagana |
+| Ikona | `.iconpick` (7 kolumn × 2) | 14 ikon trybów ze sprite'u |
+| Zachowanie temperatur | `.segment--block` | korekta −5,0 … +3,0 °C · stała 10 … 26 °C · bez zmian |
+| Zakres pomieszczeń | `.switch` + lista `.listrow` | wszystkie albo wybrane z 6 |
+| Ciepła woda | `.select` | bez zmian · 55 °C · 40 °C · raz na dobę · wyłączona |
+| Rekuperacja | `.select` | bez zmian · bieg 1–4 |
+| Zakończenie | `.segment--block` | ręcznie · po czasie 1–72 h · do daty |
+
+Trzy zasady, które ten formularz ustala dla całego projektu:
+
+1. **Etykiety segmentów są krótkie celowo.** Trzy pełne opisy nie zmieściłyby się w jednym
+   wierszu na 393 px — wyjaśnienie niesie `.f-hint` pod kontrolką, tak samo jak w segmencie
+   harmonogramu pomieszczenia. To ta sama lekcja, co przy `#segment-tryb-harmonogramu`.
+2. **Podsumowanie w `.notebox` jest częścią kontraktu formularza, nie ozdobą.** Pola opisują
+   *ustawienia*, a podsumowanie *skutek*, i przelicza się przy każdej zmianie. Ono też
+   niesie błędy zamiast osobnego komunikatu — przy pustym zakresie mówi wprost, dlaczego
+   `Zapisz` jest zablokowany.
+3. **Kotłownia jest w liście zakresu, ale `disabled`** — spójnie z D-3. Dlatego zakres liczy
+   się do 6, nie do 7, a powód stoi w podpisie wiersza, nie tylko w atrybucie.
+
+Zakres korekty trybu (−5,0 … +3,0 °C) jest szerszy w dół niż korekta globalna (−3,0 … +3,0 °C),
+bo tryb może zastępować całą dobę. Głębsze obniżenia zostają przy Urlopie i Postoju, które
+mają własną ochronę przeciwzamarzaniową. Tryby **nie sumują się** — obowiązuje jeden naraz —
+ale korekta globalna działa dalej i **dodaje się** do korekty trybu; ekran edycji mówi to
+wprost w `notif--info`, bo to jedyne miejsce, gdzie dwie korekty się spotykają.
 
 
 ---

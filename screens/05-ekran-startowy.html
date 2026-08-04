@@ -88,17 +88,10 @@
       </p>
     </section>
 
-    <!-- ── Notification · Type = Success ─────────────────────────── -->
-    <section class="notif" data-od-id="powiadomienie-system">
-      <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg></span>
-      <div class="notif-body">
-        <h2 class="t-label">System grzewczy działa prawidłowo</h2>
-        <p class="t-body muted" style="font-size:var(--fs-11)">OLTE monitoruje Twój system grzewczy
-          i nie wykrył żadnych nieprawidłowości w jego działaniu.</p>
-        <a class="notif-link t-link" href="#">Więcej informacji
-          <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
-      </div>
-    </section>
+    <!-- Ekran startowy nie ma własnego centrum powiadomień: alerty
+         pomieszczeń są na ekranie Pomieszczenia, alerty instalacji
+         w Centralnym. Dawne „System działa prawidłowo" nie nosiło
+         żadnej informacji, a jego link nie miał celu. -->
 
     <!-- ── Przejście do huba pomieszczeń ─────────────────────────── -->
     <a class="linkcard" href="11-pomieszczenia.html" data-od-id="link-pomieszczenia">
@@ -106,7 +99,18 @@
         <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></span>
       <span class="lc-body col gap-2">
         <span class="t-value">Wszystkie pomieszczenia</span>
-        <span class="t-body-lg muted">7 aktywnych · 2 wymaga uwagi</span>
+        <span class="t-body-lg muted">7 pomieszczeń · 2 wymagają uwagi</span>
+      </span>
+      <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+    </a>
+
+    <!-- ── Przejście do konsoli budynku ──────────────────────────── -->
+    <a class="linkcard" href="06-centralny.html" data-od-id="link-centralny">
+      <span class="iconbox iconbox--36 iconbox--good">
+        <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg></span>
+      <span class="lc-body col gap-2">
+        <span class="t-value">Konsola budynku</span>
+        <span class="t-body-lg muted">Tryb: Praca · 6 z 7 pomieszczeń grzeje</span>
       </span>
       <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
     </a>

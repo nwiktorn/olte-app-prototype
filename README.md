@@ -1,8 +1,12 @@
 # OLTE — prototyp aplikacji
 
 Klikalny prototyp aplikacji mobilnej do monitoringu i sterowania ogrzewaniem w budynku:
-45 ekranów w ramkach telefonu plus samodzielna dokumentacja design systemu.
+53 ekrany w ramkach telefonu plus samodzielna dokumentacja design systemu.
 Całość to statyczny HTML/CSS/JS bez frameworka i bez procesu budowania.
+
+Aktualny zakres prototypu obejmuje konsolę centralnego sterowania budynkiem oraz własne
+tryby pracy: można je tworzyć, wybierać i edytować, definiując temperaturę, pomieszczenia,
+CWU, rekuperację i sposób zakończenia trybu.
 
 **Podgląd online:** _uzupełnij po pierwszym wdrożeniu na Vercel_
 
@@ -11,7 +15,7 @@ Całość to statyczny HTML/CSS/JS bez frameworka i bez procesu budowania.
 | Plik / katalog | Rola |
 |---|---|
 | `index.html` | Launcher — jeden ekran telefonu na środku (pełny ekran na mobile, wycentrowana ramka na desktopie) z przyciskami „Wszystkie ekrany” i „Design system” w górnym pasku; punkt wejścia do prototypu |
-| `screens-overview.html` | Galeria wszystkich 45 ekranów w miniaturach, tylko do podglądu — z linkiem „Otwórz” do pełnej interakcji na każdym |
+| `screens-overview.html` | Galeria wszystkich 53 ekranów w miniaturach, tylko do podglądu — z linkiem „Otwórz” do pełnej interakcji na każdym |
 | `design-system.html` | Dokumentacja design systemu: tokeny, typografia, ikony, komponenty, stany |
 | `screens/` | Po jednym pliku HTML na ekran — prototyp jest klikalny bezpośrednio w przeglądarce |
 | `assets/olte.css` | Jedyne źródło prawdy dla tokenów i komponentów |
@@ -21,9 +25,9 @@ Całość to statyczny HTML/CSS/JS bez frameworka i bez procesu budowania.
 | `DESIGN.md` | Specyfikacja design systemu i decyzje projektowe |
 | `brand-spec.md` | Tokeny marki (kolory, kroje pisma, postawa wizualna) |
 
-Ekrany dzielą się na trzy grupy: przepływy budynkowe (`05`–`12`), panele pomieszczeń
-(`room-<pomieszczenie>-glowny`) oraz ich ekrany szczegółowe — harmonogram, historia
-temperatury i wilgotności, podsumowanie doby, porównanie sezonów.
+Ekrany dzielą się na trzy grupy: przepływy budynkowe (`05`–`13` oraz formularze trybów własnych),
+panele pomieszczeń (`room-<pomieszczenie>-glowny`) oraz ich ekrany szczegółowe — edycja,
+harmonogram, historia temperatury i wilgotności, podsumowanie doby i porównanie sezonów.
 
 ## Uruchomienie lokalne
 

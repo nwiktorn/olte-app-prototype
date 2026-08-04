@@ -115,8 +115,8 @@
 
   /* ── zakres barwowy pomieszczenia — chłodny ↔ ciepły koniec ───────
      Każda tożsamość ma własny zakres dwóch końców: chłodny nosi łuk
-     nastawy przy 15 °C, ciepły przy 26 °C, a tożsamość leży w środku
-     zakresu, więc przy nastawie ~20,5 °C łuk czyta się dokładnie jako
+     nadanej temperatury przy 15 °C, ciepły przy 26 °C, a tożsamość leży w środku
+     zakresu, więc przy nadanej temperaturze ~20,5 °C łuk czyta się dokładnie jako
      kolor pomieszczenia.
 
      Końce są wyprowadzone z tożsamości jedną regułą, nie doborem na
@@ -524,7 +524,7 @@ p, h1, h2, h3, h4 { margin: 0; }
 /* ═══ przypisanie koloru pomieszczenia ═══════════════════════════════
    Klasa ustawia całą trójkę naraz — tożsamość i oba końce zakresu —
    więc nie da się przypisać ekranowi szmaragdowej ikony i morskiego
-   łuku. Wymagana wszędzie, gdzie jest tarcza nastawy.
+   łuku. Wymagana wszędzie, gdzie jest tarcza nadanej temperatury.
    Konteksty, które niosą wyłącznie tożsamość (wiersz listy, próbka
    w wyborze koloru), mogą nadal ustawiać samo --room inline. */
 .room--zielen   { --room: var(--room-zielen);   --room-cool: var(--room-zielen-cool);   --room-warm: var(--room-zielen-warm); }
@@ -631,7 +631,7 @@ p, h1, h2, h3, h4 { margin: 0; }
 .segment--block { display: flex; width: 100%; }
 .segment--block button { flex: 1; justify-content: center; min-height: 36px; }
 
-/* #segment-tryb-harmonogramu (07-edycja-pomieszczenia): 3 długie etykiety PL
+/* #segment-tryb-harmonogramu (room-<slug>-edycja): 3 długie etykiety PL
    nie mieszczą się w jednym rzędzie na szerokości karty — dopuszczamy zawijanie
    tekstu i zwężamy padding tylko dla tego segmentu, bez zmiany .segment--block
    używanego gdzie indziej z krótkimi etykietami. */
@@ -753,12 +753,17 @@ p, h1, h2, h3, h4 { margin: 0; }
 .rr-sched svg { width: 12px; height: 12px; flex: none; }
 .rr-sched--own { color: var(--on-warning); }
 .rr-sched--off { color: var(--status-off); }
+.rr-sched--manual { color: var(--n-700); }
+/* piąta pozycja: pomieszczenie wyłączone z ogrzewania w konsoli budynku.
+   Ciemniejsze od --off (brak danych), bo to stan zamierzony, nie usterka. */
+.rr-sched--offroom { color: var(--muted); }
 /* Kierunek regulacji temperatury w wierszu listy pomieszczeń — domyślnie utrzymanie */
 .rr-climate { display: flex; align-items: center; gap: 4px; color: var(--muted); font-size: var(--fs-11); line-height: 14px; }
 .rr-climate svg { width: 12px; height: 12px; flex: none; }
 .rr-climate--heat { color: var(--on-temp); }
 .rr-climate--cool { color: var(--on-hum); }
 .rr-climate--none { color: var(--status-off); }
+.rr-climate--paused { color: var(--status-info); }
 .rr-right { flex: none; display: flex; align-items: center; gap: 8px; }
 .rr-vals { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
 .rr-temp { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-17); line-height: 23px; color: var(--accent); }
@@ -772,6 +777,13 @@ p, h1, h2, h3, h4 { margin: 0; }
 /* czujnik offline (poz. 07) — wiersz zostaje klikalny, dane są wygaszone */
 .roomrow.is-offline .rr-name { color: var(--muted); }
 .roomrow.is-offline:hover .rr-name { color: var(--fg); }
+
+/* pomieszczenie wyłączone z ogrzewania z konsoli budynku (Centralny).
+   Inaczej niż offline: odczyty są aktualne, tylko grzanie nie pracuje —
+   dlatego wygaszamy tożsamość i nadaną temperaturę, ale nazwa i odczyt zostają
+   w pełnej sile. Stan jest odwracalny jednym przełącznikiem. */
+.roomrow.is-heat-off .iconbox { background: var(--surf-off); color: var(--status-off); }
+.roomrow.is-heat-off .rr-temp { color: var(--muted); }
 .roomrow.is-offline .rr-temp { color: var(--status-off); }
 
 /* ═══ nagłówek sekcji ════════════════════════════════════════════════ */
@@ -863,21 +875,21 @@ p, h1, h2, h3, h4 { margin: 0; }
   pointer-events: none;
 }
 
-/* ═══ środek tarczy — nastawa nad odczytami ══════════════════════════
+/* ═══ środek tarczy — nadana temperatura nad odczytami ══════════════════════════
    Hierarchia w środku, od góry: podpis „Nadana temperatura", wielka
-   liczba NASTAWY, pod nią zmierzona temperatura w pomieszczeniu
+   liczba NADANEJ TEMPERATURY, pod nią zmierzona temperatura w pomieszczeniu
    (.dial-now) i na końcu wilgotność (.dial-hum). Wielka liczba to
    wartość, którą użytkownik ustawia — zmienia się przy przeciąganiu
    kropki; odczyty pod nią stoją nieruchomo jako punkt odniesienia,
    więc dystans „nadane vs. rzeczywiste" widać w jednym rzucie oka.
 
    Trzy stopnie wielkości (42 / 15 / 13 px) i dwa rejestry koloru:
-   nastawa bierze ton z zakresu pomieszczenia dla bieżącej wartości,
+   nadana temperatura bierze ton z zakresu pomieszczenia dla bieżącej wartości,
    pogłębiony w stronę --fg (66 % tonu + --fg — min 6,10:1, bo sam ton
    zakresu, np. szałwia, nie daje 4,5:1 wymaganego dla tekstu),
    a odczyty zostają neutralne. Kolor = to, co ustawiasz; neutralny =
    to, co zmierzone. Wartość domyślna w CSS to środek zakresu, czyli
-   sama tożsamość — JS nadpisuje ją tonem bieżącej nastawy od pierwszej
+   sama tożsamość — JS nadpisuje ją tonem bieżącej nadanej temperatury od pierwszej
    klatki. */
 .dial-now, .dial-hum {
   display: flex;
@@ -908,11 +920,11 @@ p, h1, h2, h3, h4 { margin: 0; }
 
    Tryb temperatury działa jak wypełnienie, nie jak paleta: neutralna
    podstawa (.dial-arc-basis, --track) pokazuje cały zakres 15–26 °C,
-   a kolorowy łuk (.dial-arc-temp) rośnie od początku skali do nastawy.
+   a kolorowy łuk (.dial-arc-temp) rośnie od początku skali do nadanej temperatury.
    Łuk SIEDZI NA KOLORZE POMIESZCZENIA i ma się tak czytać w każdym
    stanie — w spoczynku i w trakcie przeciągania.
 
-   Barwa łuku jest tonem z ZAKRESU pomieszczenia dla bieżącej nastawy:
+   Barwa łuku jest tonem z ZAKRESU pomieszczenia dla bieżącej nadanej temperatury:
    --room-cool przy 15 °C, --room-warm przy 26 °C, tożsamość w środku
    (ok. 20,5 °C). Zakres obejmuje 48° hue, więc ruch kropki prowadzi
    przez jedną rodzinę barwną — dla zieleni od teal do oliwki, dla
@@ -933,7 +945,7 @@ p, h1, h2, h3, h4 { margin: 0; }
    color-mix() rozwiązuje przeglądarka.
 
    Gradient łuku ma dwa przystanki (.dial-grad-stop): koniec na tonie
-   bieżącej nastawy, początek na tonie o 35 punktów skali chłodniejszym,
+   bieżącej nadanej temperatury, początek na tonie o 35 punktów skali chłodniejszym,
    więc łuk ma delikatny sheen zdradzający kierunek ruchu, a nie
    wrażenie drugiej barwy. Oba przystanki płyną razem z kropką.
    Kropka zostaje biała (--surface) z pierścieniem o 22 % głębszym od
@@ -972,13 +984,13 @@ p, h1, h2, h3, h4 { margin: 0; }
 .dial--interactive.is-dragging .dial-arc-dot,
 .dial--interactive.is-dragging .dial-arc-fill { transition: fill .12s linear, opacity .3s ease; }
 
-/* Podstawa zakresu i łuk nastawy są widoczne OD PIERWSZEJ KLATKI —
+/* Podstawa zakresu i łuk nadanej temperatury są widoczne OD PIERWSZEJ KLATKI —
    tarcza pomieszczenia nie ma już dwóch trybów kolorystycznych.
    Wcześniej w spoczynku pokazywała łuk wyniku w barwach Gauge/*, a po
    dotknięciu przechodziła na kolor pomieszczenia; ta zmiana barwy przy
    pierwszym przeciągnięciu czytała się jak błąd, nie jak informacja.
    Wynik pomieszczenia mówi teraz plakietka i karta „Podsumowanie
-   pomieszczenia", a tarcza odpowiada wyłącznie za nastawę. */
+   pomieszczenia", a tarcza odpowiada wyłącznie za nadaną temperaturę. */
 .dial-arc-basis {
   fill: none;
   stroke: var(--track);
@@ -1005,8 +1017,8 @@ p, h1, h2, h3, h4 { margin: 0; }
   stroke-dashoffset: var(--dial-len, 457);
   animation: dial-fill .9s cubic-bezier(.16,.8,.3,1) .15s forwards;
 }
-/* łuk nastawy rysuje się tak samo jak łuk wyniku — --dial-offset na
-   tarczy pomieszczenia koduje nastawę, nie wynik. */
+/* łuk nadanej temperatury rysuje się tak samo jak łuk wyniku — --dial-offset na
+   tarczy pomieszczenia koduje nadaną temperaturę, nie wynik. */
 .dial[data-enter] .dial-arc-temp {
   stroke-dashoffset: var(--dial-len, 744);
   animation: dial-fill .9s cubic-bezier(.16,.8,.3,1) .15s forwards;
@@ -1456,6 +1468,111 @@ button.listrow:hover .lr-name, a.listrow:hover .lr-name { color: var(--accent); 
 .toast svg { width: 17px; height: 17px; flex: none; color: var(--primary-300); }
 .toast--error { background: var(--danger-strong); color: var(--on-solid); }
 .toast--error svg { color: currentColor; }
+
+/* ═══════════════════════════════════════════════════════════════════════
+   KONSOLA BUDYNKU (Centralny)
+   ═══════════════════════════════════════════════════════════════════════ */
+
+/* Tryb budynku — jedno nadrzędne ustawienie obecności dla całego budynku.
+   Cztery karty w siatce 2 × 2: na 393 px daje pole ~166 px, więc nazwa
+   i podpis mieszczą się bez zawijania w jednym wierszu każdy. Wybór nie
+   polega na samym kolorze — dochodzi obramowanie i pogrubiona nazwa. */
+.moderow { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.moderow button {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 3px;
+  min-height: 84px; padding: 12px 13px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-sm);
+  transition: background .15s ease, border-color .15s ease, transform .06s ease;
+}
+.moderow button svg { width: 20px; height: 20px; color: var(--muted); transition: color .15s ease; }
+.moderow button:hover { border-color: var(--n-200); }
+.moderow button:active { transform: scale(.98); }
+.moderow .mr-name {
+  font-family: var(--font-display); font-weight: 600; font-size: var(--fs-14); line-height: 19px;
+}
+.moderow .mr-sub { font-size: var(--fs-11); line-height: 15px; color: var(--muted); }
+.moderow button[aria-pressed='true'] {
+  background: var(--primary-100);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+.moderow button[aria-pressed='true'] svg { color: var(--accent); }
+.moderow button[aria-pressed='true'] .mr-name { font-weight: 800; color: var(--accent-strong); }
+.moderow button[aria-pressed='true'] .mr-sub { color: var(--on-success); }
+.moderow button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* Tryb własny — karta wyboru z osobną ikoną edycji.
+   Ikona nie może być zagnieżdżona w przycisku wyboru (przycisk w przycisku),
+   dlatego pole siatki przejmuje wrapper: przycisk wypełnia je w całości,
+   a link edycji leży nad nim w prawym górnym rogu. Prawy padding przycisku
+   ustępuje miejsca ikonie, żeby nazwa nigdy nie wchodziła pod nią. */
+.moderow .mr-custom { position: relative; display: grid; }
+.moderow .mr-custom > button { width: 100%; height: 100%; padding-right: 44px; }
+.mr-edit {
+  position: absolute; top: 6px; right: 6px;
+  display: grid; place-items: center;
+  width: 32px; height: 32px;
+  border-radius: var(--r-md);
+  color: var(--muted);
+  transition: background .15s ease, color .15s ease;
+}
+/* Pole dotyku 44 × 44 px bez rozpychania grafiki — ikona zostaje 32 px. */
+.mr-edit::after { content: ''; position: absolute; inset: -6px; }
+.mr-edit svg { width: 16px; height: 16px; color: inherit; }
+.mr-edit:hover { background: var(--track); color: var(--accent); }
+.mr-edit:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.moderow .mr-custom > button[aria-pressed='true'] ~ .mr-edit { color: var(--accent-strong); }
+
+/* Kafel dodawania — ostatnie pole siatki. Kreskowana krawędź odróżnia akcję
+   od wyboru: kafla nie da się "wcisnąć", prowadzi na formularz nowego trybu. */
+.mr-add {
+  display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 3px;
+  min-height: 84px; padding: 12px 13px;
+  background: transparent;
+  border: 1px dashed var(--n-200);
+  border-radius: var(--r-lg);
+  color: var(--muted);
+  transition: border-color .15s ease, color .15s ease, background .15s ease;
+}
+.mr-add svg { width: 20px; height: 20px; color: inherit; }
+.mr-add:hover { border-color: var(--accent); color: var(--accent); background: var(--primary-100); }
+.mr-add:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.mr-add .mr-sub { color: inherit; opacity: .8; }
+
+/* Wiersz sterowania pomieszczeniem — pomieszczenie wyłączone z ogrzewania.
+   Wygaszamy ikonę i nazwę, ale wiersz zostaje czytelny: wyłączenie to stan
+   do odwrócenia jednym tapnięciem, nie awaria. */
+.listrow.is-off .iconbox { background: var(--surf-off); color: var(--status-off); }
+.listrow.is-off .lr-name { color: var(--muted); }
+
+/* Karta zwijana — telemetria jednostki schodzi z pierwszego planu, ale
+   pozostaje pod ręką dla serwisu. Nakładana na .card, więc zeruje jego
+   padding i rozdaje go nagłówkowi oraz treści osobno. */
+.foldcard { padding: 0; }
+.foldcard > summary {
+  display: flex; align-items: center; gap: 12px;
+  min-height: 60px; padding: 14px 18px;
+  cursor: pointer; list-style: none;
+  border-radius: var(--r-xl);
+}
+.foldcard > summary::-webkit-details-marker { display: none; }
+.foldcard > summary::marker { content: ''; }
+.foldcard > summary:hover .fc-title { color: var(--accent); }
+.foldcard > summary:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.foldcard .fc-title {
+  font-family: var(--font-display); font-weight: 700; font-size: var(--fs-15); line-height: 21px;
+  transition: color .15s ease;
+}
+.foldcard .fc-sub { font-size: var(--fs-12); line-height: 16px; color: var(--muted); }
+.foldcard .fc-chev { flex: none; color: var(--n-200); transition: transform .2s ease; }
+.foldcard .fc-chev svg { width: 20px; height: 20px; }
+.foldcard[open] > summary { border-bottom: 1px solid var(--border); border-radius: var(--r-xl) var(--r-xl) 0 0; }
+.foldcard[open] > summary .fc-chev { transform: rotate(180deg); }
+.foldcard .fc-body { display: flex; flex-direction: column; gap: 14px; padding: 16px 18px 18px; }
 
 /* ═══ pomocnicze ═════════════════════════════════════════════════════ */
 .row      { display: flex; align-items: center; gap: 12px; }

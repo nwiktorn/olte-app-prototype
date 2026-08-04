@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=393, initial-scale=1">
-<title>OLTE · Edycja pomieszczenia</title>
+<title>OLTE · Edycja pomieszczenia — Sypialnia AJ</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -29,7 +29,7 @@
       <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></a>
     <div class="appbar-title">
       <h1 class="t-title">Edytuj pomieszczenie</h1>
-      <span class="ab-sub">Sypialnia · czujnik OLTE-S2 4f21</span>
+      <span class="ab-sub">Sypialnia AJ · czujnik OLTE-S2 4f21</span>
     </div>
     <button class="iconbtn" type="button" id="btn-usun" aria-label="Usuń pomieszczenie">
       <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></button>
@@ -40,7 +40,7 @@
     <!-- ── nazwa ─────────────────────────────────────────────────── -->
     <section class="field" data-od-id="pole-nazwa">
       <label for="in-nazwa">Nazwa pomieszczenia</label>
-      <input class="input" id="in-nazwa" type="text" value="Sypialnia" maxlength="24"
+      <input class="input" id="in-nazwa" type="text" value="Sypialnia AJ" maxlength="24"
              autocomplete="off" aria-describedby="hint-nazwa">
       <p class="f-hint" id="hint-nazwa">Widoczna na liście, w powiadomieniach i w historii odczytów.</p>
     </section>
@@ -142,7 +142,7 @@
         <button type="button" id="btn-minus" aria-label="Obniż o 0,5 °C">
           <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
         <span class="row gap-4" style="align-items:baseline">
-          <span class="st-val" id="wartosc-temp">21,0</span>
+          <span class="st-val" id="wartosc-temp">20,5</span>
           <span class="st-unit">°C</span>
         </span>
         <button type="button" id="btn-plus" aria-label="Podnieś o 0,5 °C">
@@ -150,8 +150,8 @@
       </div>
 
       <div class="slider" data-od-id="suwak-temperatura">
-        <input type="range" id="suwak-temp" min="15" max="26" step="0.5" value="21"
-               aria-label="Temperatura docelowa" aria-valuetext="21,0 °C">
+        <input type="range" id="suwak-temp" min="15" max="26" step="0.5" value="20.5"
+               aria-label="Temperatura docelowa" aria-valuetext="20,5 °C">
         <div class="slider-scale">
           <span>15 °C</span><span>20 °C</span><span>26 °C</span>
         </div>
@@ -191,10 +191,10 @@
       <div class="listrow" data-od-id="opcja-priorytet">
         <span class="lr-text">
           <span class="lr-name">Priorytet w rozdziale ciepła</span>
-          <span class="lr-sub">Wymaga trybu Komfort na jednostce centralnej</span>
+          <span class="lr-sub">Niedostępne w tej instalacji — sterownik bez rozdziału priorytetów</span>
         </span>
         <label class="switch">
-          <input type="checkbox" disabled aria-label="Priorytet w rozdziale ciepła (niedostępne w trybie Auto)">
+          <input type="checkbox" disabled aria-label="Priorytet w rozdziale ciepła (niedostępne w tej instalacji)">
           <span class="sw-track"></span>
         </label>
       </div>
@@ -246,7 +246,7 @@
   <div class="dialog" id="dialog-usun" role="dialog" aria-modal="true"
        aria-labelledby="dialog-tytul" hidden data-od-id="dialog-usuniecia">
     <span class="dg-mark"><svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></span>
-    <p class="dg-title" id="dialog-tytul">Usunąć „Sypialnię”?</p>
+    <p class="dg-title" id="dialog-tytul">Usunąć „Sypialnię AJ”?</p>
     <p class="dg-text">Historia odczytów z 14 miesięcy zostanie skasowana bez możliwości
       przywrócenia. Czujnik pozostanie sparowany z instalacją.</p>
     <div class="dg-actions">

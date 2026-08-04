@@ -262,7 +262,7 @@
     <p class="ds-note">Kolor pomieszczenia to <strong>etykieta, nie status</strong>. Nie mówi nic
       o temperaturze, jakości odczytu ani o poprawności czegokolwiek — służy wyłącznie rozpoznaniu
       pomieszczenia. Dlatego nie wchodzi w miejsca zajęte przez Gauge/* i Status/*: pojawia się na
-      tle i glifie ikony pomieszczenia, na rampie tarczy nastawy i w podświetleniu nazwy na liście.
+      tle i glifie ikony pomieszczenia, na rampie tarczy nadanej temperatury i w podświetleniu nazwy na liście.
       Każda pozycja wywodzi się z tokenu już obecnego w palecie i przechodzi 3:1 na powierzchni
       karty w obu motywach (minimum 3,12:1 jasny, 3,92:1 ciemny), więc może nieść 27-punktową
       kreskę tarczy bez korekty per motyw. Cztery pozycje są <strong>stonowane</strong> wobec
@@ -298,9 +298,9 @@
     </div>
 
     <h3 class="ds-sub-h">Zakres barwowy — chłodny ↔ ciepły koniec każdej tożsamości</h3>
-    <p class="ds-note">Łuk nastawy na tarczy nie jest jednym kolorem: każda tożsamość ma
+    <p class="ds-note">Łuk nadanej temperatury na tarczy nie jest jednym kolorem: każda tożsamość ma
       <strong>zakres dwóch końców</strong>. Chłodny nosi łuk przy 15 °C, ciepły przy 26 °C,
-      a tożsamość leży w środku zakresu — przy nastawie ok. 20,5 °C łuk czyta się dokładnie
+      a tożsamość leży w środku zakresu — przy nadanej temperaturze ok. 20,5 °C łuk czyta się dokładnie
       jako kolor pomieszczenia. Przeciąganie kropki przeprowadza barwę przez ten zakres
       płynnie, bo interpolacja idzie przez <code>color-mix(in oklch, …)</code>.</p>
     <p class="ds-note">Końce są wyprowadzone z tożsamości jedną regułą, nie doborem na oko:
@@ -344,7 +344,7 @@
       raz na <code>:root</code> i przestał reagować na nadpisanie niżej w drzewie. Zamiast tego
       każda rola jest liczona <code>color-mix()</code> w regule komponentu, więc wystarczy ustawić
       <code>--room</code> na <code>.screen</code> albo na <code>.roomrow</code>. Tam, gdzie jest
-      tarcza nastawy, przypisanie idzie klasą <code>.room--&lt;nazwa&gt;</code>, która ustawia
+      tarcza nadanej temperatury, przypisanie idzie klasą <code>.room--&lt;nazwa&gt;</code>, która ustawia
       całą trójkę naraz — tożsamość i oba końce zakresu — więc nie da się przypisać ekranowi
       szmaragdowej ikony i morskiego łuku.</p>
     <div class="swatches" data-od-id="kolory-pomieszczen-role">
@@ -663,12 +663,44 @@
                 <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>—</span></span>
               <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
           </a>
+          <a class="roomrow" href="screens/room-sypialnia-aj-glowny.html">
+            <span class="iconbox iconbox--44 iconbox--room" style="--room:var(--room-indygo)"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Sypialnia AJ</span>
+              <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
+              <span class="rr-sched rr-sched--manual"><svg viewBox="0 0 24 24"><use href="#i-sliders-vertical"/></svg>Ustawiono ręcznie · do 08:44</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num">23,0°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow is-heat-off" href="screens/room-sypialnia-ala-glowny.html" style="--room:var(--room-blekit)">
+            <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Sypialnia Ala</span>
+              <span class="rr-status"><i class="dot dot--off"></i>Wyłączone z ogrzewania</span>
+              <span class="rr-sched rr-sched--offroom"><svg viewBox="0 0 24 24"><use href="#i-power"/></svg>Poza harmonogramem</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num">22,9°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>46%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
         </div>
-        <p class="t-small muted" style="padding:0 20px 16px">Trzy stany: <code>.rr-sched</code>
+        <p class="t-small muted" style="padding:0 20px 16px">Pięć stanów: <code>.rr-sched</code>
           domyślny (niebieski, <code>Harmonogram bazowy</code>) — pomieszczenie dziedziczy bez
           zmian; <code>.rr-sched--own</code> (żółty) — świadome odejście od bazowego, edytowalne
           niezależnie; <code>.rr-sched--off</code> (wyciszony) — harmonogram nieaktywny, jedna
-          stała temperatura. Widoczny pod <code>.rr-status</code> w <a href="screens/11-pomieszczenia.html"
+          stała temperatura; <code>.rr-sched--manual</code> (<code>--n-700</code>) — nadpisanie
+          ręczne z tarczy, z limitem („· do &lt;godzina&gt;") przejętym z tej samej godziny, o
+          której harmonogram i tak miał zmienić temperaturę; <code>.rr-sched--offroom</code>
+          (<code>--muted</code>, ikona <code>power</code>) — pomieszczenie wyłączone z ogrzewania
+          w <a href="screens/06-centralny.html" style="color:var(--accent);font-weight:600">konsoli
+          budynku</a>, wiersz dostaje <code>.roomrow.is-heat-off</code>. Ostatni stan różni się od
+          <code>--off</code> intencją: odczyty są aktualne, wyłączenie jest zamierzone i odwracalne
+          jednym przełącznikiem, nie jest usterką czujnika. Widoczny pod <code>.rr-status</code>
+          w <a href="screens/11-pomieszczenia.html"
           style="color:var(--accent);font-weight:600">hubie pomieszczeń</a> i pod tarczą na
           każdym <code>room-&lt;slug&gt;-glowny.html</code>.</p>
       </div>
@@ -746,8 +778,8 @@
             <span class="rr-text">
               <span class="rr-name">Łazienka</span>
               <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
-              <span class="rr-climate rr-climate--cool" title="Temperatura regulowana w dół — grzanie wstrzymane do 22,0°">
-                <svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg>Chłodzenie</span></span>
+              <span class="rr-climate rr-climate--paused" title="Okno otwarte od 4 min — grzanie wstrzymane automatycznie">
+                <svg viewBox="0 0 24 24"><use href="#i-grid-2x2"/></svg>Wstrzymane</span></span>
             <span class="rr-right">
               <span class="rr-vals">
                 <span class="rr-temp rr-temp--warm t-num">24,2°</span>
@@ -767,6 +799,19 @@
                 <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span></span>
               <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
           </a>
+          <a class="roomrow" href="screens/room-sypialnia-ala-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Sypialnia Ala</span>
+              <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+              <span class="rr-climate rr-climate--cool" title="Temperatura schodzi w dół — grzanie wstrzymane do 21,5°. Budynek nie chłodzi aktywnie.">
+                <svg viewBox="0 0 24 24"><use href="#i-trending-down"/></svg>Wychładzanie</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp rr-temp--warm t-num">22,9°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>46%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
           <a class="roomrow is-offline" href="screens/room-kotlownia-glowny.html">
             <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
             <span class="rr-text">
@@ -784,9 +829,14 @@
         <p class="t-small muted" style="padding:0 20px 16px">Czwarta mikro-linia wiersza, pod
           <code>.rr-sched</code> — odpowiada na pytanie „w którą stronę idzie temperatura”.
           <code>.rr-climate--heat</code> (<code>flame</code>, <code>--on-temp</code>) — regulacja
-          w górę; <code>.rr-climate--cool</code> (<code>snowflake</code>, <code>--on-hum</code>) —
-          regulacja w dół; klasa bazowa bez modyfikatora (<code>minus</code>, <code>--muted</code>) —
-          brak regulacji, temperatura utrzymywana; <code>.rr-climate--none</code>
+          w górę; <code>.rr-climate--cool</code> (<code>trending-down</code>, <code>--on-hum</code>)
+          — <strong>Wychładzanie</strong>: temperatura schodzi, bo grzanie jest wstrzymane, a nie
+          bo instalacja chłodzi. Budynek nie ma funkcji chłodzenia, więc nazwa i ikona mówią
+          o kierunku, nie o działaniu urządzenia (patrz decyzja o zakresie w DESIGN.md).
+          Klasa bazowa bez modyfikatora (<code>minus</code>, <code>--muted</code>) —
+          brak regulacji, temperatura utrzymywana; <code>.rr-climate--paused</code>
+          (<code>grid-2x2</code>, <code>--status-info</code>) — grzanie wstrzymane automatycznie
+          przez wykrycie otwartego okna, wraca samo po zamknięciu; <code>.rr-climate--none</code>
           (<code>--status-off</code>) — brak odczytu, kierunek nieznany, nigdy nie zgaduj kierunku
           bez danych. Kierunek zawsze dublowany w <code>title</code> — kolor nie jest jedynym
           nośnikiem informacji. Wdrożone w <a href="screens/11-pomieszczenia.html"
@@ -799,7 +849,7 @@
           <div class="row" style="justify-content:center;gap:8px">
             <span class="tagpill tagpill--info">
               <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
-            <a class="iconbtn" href="screens/07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+            <a class="iconbtn" href="screens/room-sypialnia-aj-edycja.html#segment-tryb-harmonogramu"
                title="Ustawienia harmonogramu"
                aria-label="Ustawienia harmonogramu — zmień na własny harmonogram lub stałą temperaturę">
               <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
@@ -807,39 +857,47 @@
           <div class="row" style="justify-content:center;gap:8px">
             <span class="tagpill tagpill--warning">
               <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
-            <a class="iconbtn" href="screens/07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+            <a class="iconbtn" href="screens/room-gabinet-edycja.html#segment-tryb-harmonogramu"
                title="Ustawienia harmonogramu"
                aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub stałą temperaturę">
               <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
           </div>
-          <div class="row" style="justify-content:center;gap:8px">
-            <span class="tagpill tagpill--manual">
-              <svg viewBox="0 0 24 24"><use href="#i-sliders-vertical"/></svg>Ustawiono ręcznie</span>
-            <a class="iconbtn" href="screens/07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
-               title="Ustawienia harmonogramu"
-               aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub własny">
-              <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
+          <div class="col gap-4" style="align-items:center">
+            <div class="row" style="justify-content:center;gap:8px">
+              <span class="tagpill tagpill--manual">
+                <svg viewBox="0 0 24 24"><use href="#i-sliders-vertical"/></svg>Ustawiono ręcznie</span>
+              <a class="iconbtn" href="screens/room-sypialnia-aj-edycja.html#segment-tryb-harmonogramu"
+                 title="Ustawienia harmonogramu"
+                 aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub własny">
+                <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
+            </div>
+            <p class="t-small muted" style="margin:0">Do <span>08:44</span>, potem
+              <span style="color:var(--accent);font-weight:600">wróć do harmonogramu</span></p>
           </div>
         </div>
         <p class="t-small muted" style="padding:0 20px 16px">Wiersz pod tarczą temperatury
           (<code>data-od-id="stan-harmonogramu"</code>) na każdym <code>room-&lt;slug&gt;-glowny.html</code>:
           plakietka stanu plus <code>.iconbtn</code> z ikoną <code>settings</code> prowadzący
-          bezpośrednio do <code>07-edycja-pomieszczenia.html#segment-tryb-harmonogramu</code> —
+          bezpośrednio do <code>room-&lt;slug&gt;-edycja.html#segment-tryb-harmonogramu</code> —
           zmiana trybu na własny lub stałą temperaturę bez przechodzenia przez pełną edycję.
           Trzeci stan, <code>.tagpill--manual</code> (tło <code>--track</code>, tekst
           <code>--n-700</code>, ikona <code>sliders-vertical</code>), nie jest ustawiany z tego
           ekranu — pojawia się automatycznie, gdy użytkownik przeciągnie kropkę na samej tarczy
           (patrz specimen „Tarcza · przeciąganie temperatury" niżej); zastępuje wtedy
           <code>tagpill--info</code>/<code>tagpill--warning</code> i chowa wiersz „najbliższa
-          zmiana", bo harmonogram jest zawieszony. Plakietka jest statusem (nie klikalna),
-          zębatka jest jedynym elementem interaktywnym w tym wierszu; cel dotykowy
-          <code>.iconbtn</code> to 40×40 px. <code>aria-label</code> nazywa docelowe tryby, a nie
-          samą ikonę. Wdrożone w 6/6 ogrzewanych pomieszczeniach (Kotłownia bez harmonogramu —
-          bez skrótu i bez tarczy).</p>
+          zmiana", bo harmonogram jest zawieszony. Pod plakietką pojawia się limit obowiązywania
+          nadpisania (<code>data-od-id="podpis-nadpisania"</code>) — „do &lt;godzina&gt;", ta sama
+          godzina co schowana „najbliższa zmiana": nadpisanie zawiesza jeden nadchodzący blok,
+          nie wisi bez końca. Link „wróć do harmonogramu" (<code>#btn-wroc-harmonogram</code>)
+          przywraca poprzedni stan plakietki i nadaną temperaturę sprzed przeciągnięcia. Plakietka jest
+          statusem (nie klikalna), zębatka i link powrotu są jedynymi elementami interaktywnymi;
+          cel dotykowy <code>.iconbtn</code> to 40×40 px. <code>aria-label</code> nazywa docelowe
+          tryby, a nie samą ikonę. Wdrożone w 6/6 ogrzewanych pomieszczeniach (Kotłownia bez
+          harmonogramu — bez skrótu i bez tarczy).</p>
       </div>
 
       <div class="demo" data-od-id="komponent-tarcza-interaktywna">
-        <div class="demo-label">Tarcza · nastawa w środku i przeciąganie kropki</div>
+        <div class="demo-label">Tarcza · nadana temperatura w środku i przeciąganie kropki</div>
         <div class="demo-body" style="align-items:center;padding:24px 20px">
           <section class="dial dial--interactive room--indygo" style="width:320px;height:320px;--dial-len:744;--dial-offset:372.0">
             <svg viewBox="0 0 320 320" width="320" height="320">
@@ -870,17 +928,17 @@
             </div>
           </section>
         </div>
-        <p class="t-small muted" style="padding:0 20px 16px">W środku stoi <strong>nastawa</strong>
+        <p class="t-small muted" style="padding:0 20px 16px">W środku stoi <strong>nadana temperatura</strong>
           (<code>.dial-value</code>) pod podpisem „Nadana temperatura", a pod nią odczyty:
           temperatura (<code>.dial-now</code>) i wilgotność (<code>.dial-hum</code>) —
           <code>45 / 15 / 13 px</code>. Dwa rejestry koloru: <strong>kolor = to, co ustawiasz</strong>,
-          <strong>neutralny = to, co zmierzone</strong>. Nastawa zmienia się przy przeciąganiu,
+          <strong>neutralny = to, co zmierzone</strong>. Nadana temperatura zmienia się przy przeciąganiu,
           odczyty stoją, więc dystans „nadane vs. rzeczywiste" widać od razu. Tarcza nie schodzi
           poniżej <code>320×320 px</code> — treść środka nie skaluje się razem z pierścieniem
           i przy mniejszym rozmiarze podpisy wchodzą na łuk.</p>
         <p class="t-small muted" style="padding:0 20px 16px">Tarcza to <strong>wypełnienie, nie
           paleta</strong>: neutralna podstawa (<code>.dial-arc-basis</code>) pokazuje zakres
-          <code>15–26 °C</code>, kolorowy łuk (<code>.dial-arc-temp</code>) rośnie do nastawy.
+          <code>15–26 °C</code>, kolorowy łuk (<code>.dial-arc-temp</code>) rośnie do nadanej temperatury.
           Barwa to ton z <strong>zakresu pomieszczenia</strong> dla bieżącej wartości:
           <code>--room-cool</code> przy 15 °C, <code>--room-warm</code> przy 26 °C, tożsamość
           w środku — pomiary w sekcji <strong>Zakres barwowy</strong>. Jeden rejestr od pierwszej
@@ -893,7 +951,7 @@
           (<code>role="slider"</code>, hit-target r=24 px): strzałki ±0,5 °C,
           <code>PageUp</code>/<code>PageDown</code> ±2 °C, <code>Home</code>/<code>End</code>
           skok do 15/26 °C — ten sam zakres i krok co stepper w
-          <a href="screens/07-edycja-pomieszczenia.html" style="color:var(--accent);font-weight:600">edycji
+          <a href="screens/room-sypialnia-aj-edycja.html" style="color:var(--accent);font-weight:600">edycji
           pomieszczenia</a>. Po zmianie plakietka stanu przechodzi na
           <code>tagpill--manual</code> „Ustawiono ręcznie". Wdrożone w 6/6
           <code>room-&lt;slug&gt;-glowny.html</code> (nie w Kotłowni — offline, bez tarczy).</p>
@@ -1107,7 +1165,251 @@
     </div>
   </section>
 
+<!-- ══════════════ KONSOLA BUDYNKU ══════════════ -->
+  <section class="ds" data-od-id="konsola-budynku">
+    <h2>Konsola budynku</h2>
+    <p class="ds-note">Komponenty ekranu <a href="screens/06-centralny.html"
+      style="color:var(--accent);font-weight:600">Centralny</a>. Zakładka odpowiada na trzy
+      pytania zarządcy: <strong>jaki tryb obowiązuje w budynku</strong>,
+      <strong>jak zmienić coś wszędzie naraz</strong> i <strong>co wymaga decyzji</strong>.
+      Dlatego proporcja jest odwrotna niż wcześniej: kontrolki przed odczytami, a telemetria
+      jednostki schodzi do karty zwijanej. Przeglądanie i szczegóły pojedynczego pomieszczenia
+      zostają w zakładce Pomieszczenia — konsola robi operacje masowe i nie dubluje tej listy.</p>
+
+    <div class="demo" data-od-id="komponent-moderow">
+      <div class="demo-label">Building Mode · tryb budynku (<code>.moderow</code>)</div>
+      <div class="demo-body" style="max-width:393px">
+        <div class="moderow" role="group" aria-label="Tryb budynku">
+          <button type="button" aria-pressed="true">
+            <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>
+            <span class="mr-name">Praca</span>
+            <span class="mr-sub">Harmonogramy działają</span>
+          </button>
+          <button type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24"><use href="#i-trending-down"/></svg>
+            <span class="mr-name">Ograniczony</span>
+            <span class="mr-sub">Wszędzie −2 °C</span>
+          </button>
+          <button type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24"><use href="#i-calendar"/></svg>
+            <span class="mr-name">Urlop</span>
+            <span class="mr-sub">Z datą powrotu · −4 °C</span>
+          </button>
+          <button type="button" aria-pressed="false">
+            <svg viewBox="0 0 24 24"><use href="#i-power"/></svg>
+            <span class="mr-name">Postój</span>
+            <span class="mr-sub">Tylko antyzamarzanie</span>
+          </button>
+          <div class="mr-custom">
+            <button type="button" aria-pressed="false">
+              <svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg>
+              <span class="mr-name">Goście</span>
+              <span class="mr-sub">Wybrane +1,5 °C</span>
+            </button>
+            <a class="mr-edit" href="screens/tryb-goscie-edycja.html" aria-label="Edytuj tryb Goście">
+              <svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></a>
+          </div>
+          <a class="mr-add" href="screens/13-dodaj-tryb.html">
+            <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg>
+            <span class="mr-name">Dodaj tryb</span>
+            <span class="mr-sub">Własne ustawienie</span>
+          </a>
+        </div>
+      </div>
+      <p class="t-small muted" style="padding:0 20px 16px">Jedno nadrzędne ustawienie obecności
+        dla całego budynku. Zastąpiło segment „Auto / Komfort / Eko / Postój”, który mieszał
+        dwie różne osie: charakter pracy pompy i stan budynku. Karty w siatce 2 × 2 —
+        na 393 px pole ma ~166 px, więc nazwa i podpis mieszczą się w jednym wierszu każdy.
+        Zaznaczenie nie polega na samym kolorze: dochodzi obramowanie <code>--accent</code>
+        i pogrubiona nazwa. <code>Urlop</code> odkrywa pole daty powrotu, a <code>Urlop</code>
+        i <code>Postój</code> pokazują <code>.notif--info</code> mówiące wprost, że nadane temperatury
+        pomieszczeń są zapisane, ale nie obowiązują — inaczej nadana temperatura w panelu pomieszczenia
+        kłamałaby.</p>
+      <p class="t-small muted" style="padding:0 20px 16px">Cztery pierwsze tryby są wbudowane
+        i nieusuwalne. Dalej idą <strong>tryby własne</strong> (<code>.mr-custom</code>) i na końcu
+        kafel dodawania (<code>.mr-add</code>). Ołówek <code>square-pen</code> jest jedynym
+        wyróżnikiem trybu własnego — tryby nie mają koloru tożsamości, bo kolor na karcie znaczy
+        „wybrany”, więc drugie znaczenie zniosłoby pierwsze. Ikona edycji to osobny link, nie da się
+        jej zagnieździć w przycisku wyboru, dlatego pole siatki przejmuje wrapper: przycisk wypełnia
+        je w całości, a ołówek leży nad nim z prawym paddingiem 44 px, żeby nazwa nigdy nie weszła
+        pod ikonę. Grafika ołówka ma 32 px, ale <code>::after</code> rozciąga pole dotyku do 44 px.
+        Kafel dodawania ma kreskowaną krawędź, bo jest akcją, nie wyborem — nie przyjmuje stanu
+        <code>aria-pressed</code> i prowadzi na formularz.</p>
+    </div>
+
+    <div class="demo" data-od-id="komponent-formularz-trybu">
+      <div class="demo-label">Mode Form · formularz trybu własnego (<code>.segment</code> + <code>.notebox</code>)</div>
+      <div class="demo-body" style="max-width:393px">
+        <div class="card col gap-12">
+          <span class="col gap-2">
+            <span class="t-label">Co tryb robi z temperaturami</span>
+            <span class="t-small muted">Działa nad harmonogramami pomieszczeń</span>
+          </span>
+          <div class="segment segment--block" role="tablist" id="demo-segment-zachowanie"
+               aria-label="Zachowanie temperatur">
+            <button type="button" role="tab" aria-selected="true">Korekta</button>
+            <button type="button" role="tab" aria-selected="false">Stała temp.</button>
+            <button type="button" role="tab" aria-selected="false">Bez zmian</button>
+          </div>
+          <p class="f-hint">Harmonogramy działają dalej, tylko przesunięte — poniżej zera
+            oszczędzasz, powyżej dogrzewasz.</p>
+        </div>
+        <p class="notebox" style="margin-top:12px">
+          <svg viewBox="0 0 24 24"><use href="#i-lightbulb"/></svg>
+          <span>„Goście”: 3 wybrane pomieszczenia podniesione o 1,5 °C. Ciepła woda: podniesiona
+            do 55 °C, rekuperacja: bieg 3. Wygasa 10.08.</span>
+        </p>
+      </div>
+      <p class="t-small muted" style="padding:0 20px 16px">Ten sam zestaw pól obsługuje
+        <a href="screens/13-dodaj-tryb.html" style="color:var(--accent);font-weight:600">tworzenie</a>
+        i <a href="screens/tryb-goscie-edycja.html" style="color:var(--accent);font-weight:600">edycję</a>
+        trybu; różnią się tylko wypełnieniem i przyciskiem usuwania w pasku górnym. Siedem pól
+        w kolejności od tożsamości do skutków: <strong>nazwa</strong> (do 20 znaków),
+        <strong>ikona</strong> z 14 pozycji sprite’u, <strong>zachowanie temperatur</strong>
+        (korekta −5,0 … +3,0 °C, stała 10 … 26 °C, albo bez zmian), <strong>zakres pomieszczeń</strong>,
+        <strong>ciepła woda</strong>, <strong>rekuperacja</strong> i <strong>zakończenie</strong>
+        (ręcznie, po czasie 1–72 h, do daty). Etykiety segmentów są krótkie celowo — trzy pełne
+        zdania nie zmieściłyby się w jednym wierszu na 393 px, a wyjaśnienie niesie
+        <code>.f-hint</code> pod kontrolką, jak w segmencie harmonogramu pomieszczenia.</p>
+      <p class="t-small muted" style="padding:0 20px 16px"><strong>Podsumowanie w
+        <code>.notebox</code> to część kontraktu formularza, nie ozdoba.</strong> Zdanie przelicza
+        się przy każdej zmianie i opisuje dokładnie to, co zostanie zapisane — pola formularza
+        opisują <em>ustawienia</em>, a podsumowanie <em>skutek</em>. Ono też niesie błędy zamiast
+        osobnego komunikatu: przy pustym zakresie mówi wprost, dlaczego <code>Zapisz</code> jest
+        zablokowany. Zapis blokują dwa warunki: brak nazwy i zakres bez ani jednego pomieszczenia.
+        Kotłownia jest w liście zakresu, ale z <code>disabled</code> — chroni instalację przed
+        zamarznięciem, więc jej wyłączenie nie jest decyzją, którą interfejs oferuje. Zakres liczy
+        się więc do 6, nie do 7.</p>
+    </div>
+
+    <div class="demo" data-od-id="komponent-korekta-globalna">
+      <div class="demo-label">Global Trim · korekta globalna (<code>.stepper</code>)</div>
+      <div class="demo-body" style="max-width:393px">
+        <div class="card col gap-12">
+          <div class="row-between">
+            <span class="col gap-2">
+              <span class="t-value">Korekta globalna</span>
+              <span class="t-small muted">Przesuwa wszystkie temperatury naraz</span>
+            </span>
+            <button class="btn btn--quiet btn--sm" type="button">Wyzeruj</button>
+          </div>
+          <div class="stepper">
+            <button type="button" aria-label="Obniż korektę o pół stopnia">
+              <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+            <span class="row gap-4" style="align-items:baseline">
+              <span class="st-val t-num">−1,5</span>
+              <span class="st-unit">°C</span>
+            </span>
+            <button type="button" aria-label="Podnieś korektę o pół stopnia">
+              <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+          </div>
+          <p class="t-small muted">Wszystkie temperatury obniżone o 1,5 °C. Dotyczy pomieszczeń
+            z harmonogramem; Kotłownia i pomieszczenia wyłączone są pomijane.</p>
+        </div>
+      </div>
+      <p class="t-small muted" style="padding:0 20px 16px">Ten sam <code>.stepper</code> co nadana temperatura
+        pomieszczenia, użyty do przesunięcia <em>względnego</em>: zakres −3,0 … +3,0 °C, krok 0,5.
+        Wartość zawsze ze znakiem (<code>+1,5</code> / <code>0,0</code> / <code>−1,5</code>,
+        minus jako U+2212), przycisk <code>Wyzeruj</code> pojawia się dopiero przy niezerowej
+        korekcie. Podpis pod kontrolką wymienia, kogo korekta <strong>nie</strong> dotyczy —
+        bez tego „wszystkie temperatury” byłoby nieprawdą.</p>
+    </div>
+
+    <div class="demo" data-od-id="komponent-wiersz-sterowania">
+      <div class="demo-label">Room Control Row · grzanie w pomieszczeniu (<code>.listrow</code> + <code>.switch</code>)</div>
+      <div class="demo-body" style="max-width:393px">
+        <div class="card" style="padding:6px 18px">
+          <div class="listrow">
+            <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-indygo)">
+              <svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="lr-text">
+              <span class="lr-name">Sypialnia AJ</span>
+              <span class="lr-sub">Ręcznie · 20,5 °C do 08:44</span>
+            </span>
+            <label class="switch">
+              <input type="checkbox" checked aria-label="Grzanie w Sypialni AJ">
+              <span class="sw-track"></span>
+            </label>
+          </div>
+          <div class="listrow is-off">
+            <span class="iconbox iconbox--36 iconbox--room" style="--room:var(--room-blekit)">
+              <svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="lr-text">
+              <span class="lr-name">Sypialnia Ala</span>
+              <span class="lr-sub">Wyłączone z ogrzewania</span>
+            </span>
+            <label class="switch">
+              <input type="checkbox" aria-label="Grzanie w Sypialni Ala">
+              <span class="sw-track"></span>
+            </label>
+          </div>
+          <div class="listrow">
+            <span class="iconbox iconbox--36 iconbox--off">
+              <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+            <span class="lr-text">
+              <span class="lr-name">Kotłownia</span>
+              <span class="lr-sub">Stała 18 °C · chroni instalację</span>
+            </span>
+            <label class="switch">
+              <input type="checkbox" checked disabled aria-label="Grzanie w Kotłowni — nie można wyłączyć">
+              <span class="sw-track"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+      <p class="t-small muted" style="padding:0 20px 16px">Wiersz jest <strong>operacją, nie
+        odsyłaczem</strong> — cały wiersz nie jest klikalny, klikalny jest tylko przełącznik.
+        Nawigacja do pomieszczenia należy do zakładki Pomieszczenia; gdyby wiersz też linkował,
+        konsola dublowałaby ten hub. Stan wyłączony to <code>.listrow.is-off</code>: wygaszona
+        ikona i nazwa, podpis zamieniony na „Wyłączone z ogrzewania”, a oryginalny podpis
+        przechowany w <code>data-sub</code>, żeby wrócił po włączeniu. Kotłownia ma przełącznik
+        <code>disabled</code> — to ona chroni instalację przed zamarznięciem, więc jej wyłączenie
+        nie jest decyzją, którą interfejs powinien oferować.</p>
+    </div>
+
+    <div class="demo" data-od-id="komponent-foldcard">
+      <div class="demo-label">Fold Card · telemetria zwinięta (<code>.foldcard</code>)</div>
+      <div class="demo-body" style="max-width:393px">
+        <details class="card foldcard">
+          <summary>
+            <span class="iconbox iconbox--38 iconbox--good"><svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg></span>
+            <span class="grow col gap-2">
+              <span class="fc-title">Jednostka pracuje · COP 4,3</span>
+              <span class="fc-sub">Sprężarka 42 % · 2,4 kW · odczyt 12 s temu</span>
+            </span>
+            <span class="fc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg></span>
+          </summary>
+          <div class="fc-body">
+            <div class="hero-chips">
+              <div class="chipmetric">
+                <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>
+                <span class="col"><span class="cm-val t-num">34 °C</span><span class="cm-lab">Zasilanie</span></span>
+              </div>
+              <div class="chipmetric">
+                <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>
+                <span class="col"><span class="cm-val t-num">29 °C</span><span class="cm-lab">Powrót</span></span>
+              </div>
+              <div class="chipmetric">
+                <svg viewBox="0 0 24 24"><use href="#i-zap"/></svg>
+                <span class="col"><span class="cm-val t-num">0,56 kW</span><span class="cm-lab">Pobór</span></span>
+              </div>
+            </div>
+            <p class="t-small muted">Przy dzisiejszej temperaturze zewnętrznej jednostka pracuje
+              w zakresie najwyższej sprawności.</p>
+          </div>
+        </details>
+      </div>
+      <p class="t-small muted" style="padding:0 20px 16px">Zbudowane na <code>&lt;details&gt;</code>
+        i <code>&lt;summary&gt;</code>, więc rozwijanie działa bez JavaScriptu i jest dostępne
+        z klawiatury bez dodatkowego <code>aria</code>. Nakładane na <code>.card</code>: zeruje
+        jego padding i rozdaje go nagłówkowi (<code>60 px</code> wysokości) oraz treści osobno,
+        a <code>[open]</code> dokłada linię pod nagłówkiem i obraca chevron. Zwinięty nagłówek
+        musi nieść <strong>wniosek</strong>, nie samą nazwę — „Jednostka pracuje · COP 4,3”
+        wystarcza, żeby nie rozwijać karty przy zwykłym przeglądzie.</p>
+    </div>
+  </section>
 <!-- ══════════════ IKONOGRAFIA ══════════════ -->
+
   <section class="ds" data-od-id="ikonografia">
     <h2>Ikonografia</h2>
     <p class="ds-note">Jedno źródło ikon: <strong>Lucide</strong>, pakiet
@@ -1182,6 +1484,8 @@
             <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-cloud-sun"/></svg></span><code>cloud-sun</code></span>
             <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg></span><code>snowflake</code></span>
             <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-wind"/></svg></span><code>wind</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-blinds"/></svg></span><code>blinds</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-grid-2x2"/></svg></span><code>grid-2x2</code></span>
             <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span><code>flame</code></span>
           </div>
         </div>
@@ -1311,10 +1615,11 @@
               <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></button>
             <span class="t-small muted">ostatni: niedostępny</span>
           </div>
-          <div class="segment segment--block" id="demo-segment-tryb" role="tablist" aria-label="Tryb pracy">
-            <button type="button" role="tab" aria-selected="true">Auto</button>
-            <button type="button" role="tab" aria-selected="false">Komfort</button>
-            <button type="button" role="tab" aria-selected="false">Eko</button>
+          <div class="segment segment--block" id="demo-segment-bieg" role="tablist" aria-label="Bieg rekuperacji">
+            <button type="button" role="tab" aria-selected="false" aria-label="Bieg 1">1</button>
+            <button type="button" role="tab" aria-selected="true"  aria-label="Bieg 2">2</button>
+            <button type="button" role="tab" aria-selected="false" aria-label="Bieg 3">3</button>
+            <button type="button" role="tab" aria-selected="false" aria-label="Bieg 4">4</button>
           </div>
         </div>
       </div>
@@ -1385,7 +1690,7 @@
           </div>
           <div class="listrow">
             <span class="lr-text"><span class="lr-name">Priorytet w rozdziale ciepła</span>
-              <span class="lr-sub">Wymaga trybu Komfort na jednostce</span></span>
+              <span class="lr-sub">Niedostępne w tej instalacji — sterownik bez rozdziału priorytetów</span></span>
             <label class="switch"><input type="checkbox" disabled aria-label="Priorytet w rozdziale ciepła">
               <span class="sw-track"></span></label>
           </div>
@@ -1516,7 +1821,7 @@
     <p class="ds-note">Wszystkie kontrolki mają cel dotyku co najmniej 44 px. Wartości liczbowe
       edytuje się dwiema drogami równocześnie — stepperem dla precyzji i suwakiem dla zakresu —
       bo na telefonie każda z nich wygrywa w innej sytuacji. Pełny formularz:
-      <a href="screens/07-edycja-pomieszczenia.html" style="color:var(--accent);font-weight:600">Edycja pomieszczenia</a>.</p>
+      <a href="screens/room-sypialnia-aj-edycja.html" style="color:var(--accent);font-weight:600">Edycja pomieszczenia</a>.</p>
 
     <div class="examples" style="margin-top:32px">
       <div class="demo" data-od-id="form-temperatura">
@@ -1600,7 +1905,7 @@
           <code>aria-pressed</code> nazywa stan. Pięć kolumn na ekranie 393 px daje przycisk
           ~66 px, czyli cel dotykowy z zapasem nad 44 px. Wdrożone w
           <a href="screens/12-dodaj-pomieszczenie.html" style="color:var(--accent);font-weight:600">dodawaniu</a>
-          i <a href="screens/07-edycja-pomieszczenia.html" style="color:var(--accent);font-weight:600">edycji</a>
+          i <a href="screens/room-sypialnia-aj-edycja.html" style="color:var(--accent);font-weight:600">edycji</a>
           pomieszczenia; nowe pomieszczenie startuje na Room/Zieleń, czyli na tym samym kolorze,
           który przyjmuje ekran bez przypisania.</p>
       </div>
@@ -1898,7 +2203,7 @@
     });
   }
 
-  document.querySelectorAll('#demo-segment button, #demo-segment-tryb button').forEach(function (b) {
+  document.querySelectorAll('#demo-segment button, #demo-segment-bieg button, #demo-segment-zachowanie button').forEach(function (b) {
     b.addEventListener('click', function () {
       b.parentNode.querySelectorAll('button').forEach(function (x) {
         x.setAttribute('aria-selected', String(x === b));
