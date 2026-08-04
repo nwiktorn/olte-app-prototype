@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Diagnostyka czujników</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="stany-danych">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="06-centralny.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-title">Diagnostyka</h1>
+      <span class="ab-sub">6 czujników · 1 bez danych</span>
+    </div>
+    <button class="iconbtn" type="button" id="btn-odswiez" aria-label="Odśwież odczyty">
+      <svg viewBox="0 0 24 24"><use href="#i-refresh-cw"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── dane nieaktualne ──────────────────────────────────────── -->
+    <div class="stalebar" id="pasek-nieaktualne" data-od-id="pasek-nieaktualne">
+      <svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg>
+      <span>Ostatnia pełna synchronizacja 2 h temu</span>
+      <button class="sb-act" type="button" id="btn-sync">Synchronizuj</button>
+    </div>
+
+    <!-- ── czujniki ──────────────────────────────────────────────── -->
+    <section class="col gap-8" data-od-id="sekcja-czujniki">
+      <div class="sectionhead">
+        <h2>Czujniki</h2>
+        <span class="t-small muted">stan łączności</span>
+      </div>
+
+      <div class="roomlist" data-od-id="lista-czujnikow">
+        <a class="roomrow" href="room-sypialnia-aj-glowny.html" data-od-id="czujnik-sypialnia">
+          <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+          <span class="rr-text">
+            <span class="rr-name">Sypialnia AJ</span>
+            <span class="rr-status"><i class="dot"></i>Odczyt 40 s temu · bateria 84 %</span>
+          </span>
+          <span class="rr-right">
+            <span class="rr-vals">
+              <span class="rr-temp t-num">20,4°</span>
+              <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>52 %</span>
+            </span>
+            <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </span>
+        </a>
+
+        <a class="roomrow" href="room-salon-aj-glowny.html" data-od-id="czujnik-salon">
+          <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
+          <span class="rr-text">
+            <span class="rr-name">Salon AJ</span>
+            <span class="rr-status"><i class="dot"></i>Odczyt 1 min temu · bateria 61 %</span>
+          </span>
+          <span class="rr-right">
+            <span class="rr-vals">
+              <span class="rr-temp t-num rr-temp--warm">22,1°</span>
+              <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>48 %</span>
+            </span>
+            <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </span>
+        </a>
+
+        <!-- stan: czujnik offline -->
+        <a class="roomrow is-offline" href="room-kotlownia-glowny.html" data-od-id="czujnik-kotlownia">
+          <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+          <span class="rr-text">
+            <span class="rr-name">Kotłownia</span>
+            <span class="rr-status"><i class="dot dot--off"></i>Brak danych od 2 h 14 min</span>
+          </span>
+          <span class="rr-right">
+            <span class="rr-vals">
+              <span class="rr-temp t-num rr-temp--off">—</span>
+              <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>—</span>
+            </span>
+            <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </span>
+        </a>
+
+        <!-- stan: dane nieaktualne, czujnik jeszcze odpowiada -->
+        <a class="roomrow" href="11-pomieszczenia.html" data-od-id="czujnik-garaz">
+          <span class="iconbox iconbox--44 iconbox--amber"><svg viewBox="0 0 24 24"><use href="#i-car"/></svg></span>
+          <span class="rr-text">
+            <span class="rr-name">Garaż</span>
+            <span class="rr-status"><i class="dot dot--mid"></i>Bateria 8 % · odczyty rzadsze</span>
+          </span>
+          <span class="rr-right">
+            <span class="rr-vals">
+              <span class="rr-temp t-num" style="color:var(--app-2)">12,8°</span>
+              <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>67 %</span>
+            </span>
+            <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </span>
+        </a>
+      </div>
+
+      <p class="row gap-6 muted t-small">
+        <svg viewBox="0 0 24 24" style="width:13px;height:13px"><use href="#i-wifi-off"/></svg>
+        Czujnik bez danych zachowuje ostatni znany odczyt w historii, ale nie bierze udziału
+        w sterowaniu.
+      </p>
+    </section>
+
+    <!-- ── zużycie: ładowanie → błąd → dane ──────────────────────── -->
+    <section class="card col gap-12" data-od-id="sekcja-zuzycie">
+      <div class="row-between">
+        <h2 class="t-h2">Zużycie z ostatniej doby</h2>
+        <button class="ghostbtn" type="button" id="btn-ponow" hidden>
+          <svg viewBox="0 0 24 24"><use href="#i-refresh-cw"/></svg>Ponów</button>
+      </div>
+
+      <!-- stan: ładowanie -->
+      <div class="col gap-12" id="zuzycie-ladowanie" data-od-id="zuzycie-ladowanie">
+        <span class="sr-only" role="status">Pobieranie danych zużycia</span>
+        <div class="row gap-12">
+          <span class="skeleton skeleton--box" style="width:42px;height:42px"></span>
+          <span class="col gap-6 grow">
+            <span class="skeleton" style="width:56%;height:14px"></span>
+            <span class="skeleton" style="width:34%;height:11px"></span>
+          </span>
+        </div>
+        <span class="skeleton skeleton--tile" style="width:100%;height:64px"></span>
+        <div class="row gap-8">
+          <span class="skeleton" style="width:33%;height:11px"></span>
+          <span class="skeleton" style="width:24%;height:11px"></span>
+        </div>
+      </div>
+
+      <!-- stan: błąd pobrania -->
+      <div class="emptystate emptystate--error" id="zuzycie-blad" hidden data-od-id="zuzycie-blad">
+        <span class="es-mark"><svg viewBox="0 0 24 24"><use href="#i-cloud-off"/></svg></span>
+        <p class="es-title">Nie udało się pobrać danych</p>
+        <p class="es-text">Jednostka centralna odpowiedziała, ale bez rekordów licznika
+          energii. Ostatni kompletny odczyt: wczoraj 23:50.</p>
+        <div class="es-actions">
+          <button class="btn btn--sm" type="button" id="btn-ponow-blad">
+            <svg viewBox="0 0 24 24"><use href="#i-refresh-cw"/></svg>Ponów próbę</button>
+        </div>
+      </div>
+
+      <!-- stan: dane -->
+      <div class="col gap-12" id="zuzycie-dane" hidden data-od-id="zuzycie-dane">
+        <div class="hero-chips">
+          <div class="chipmetric">
+            <svg viewBox="0 0 24 24" style="color:var(--accent)"><use href="#i-zap"/></svg>
+            <span class="col"><span class="cm-val t-num">18,4 kWh</span><span class="cm-lab">Pobór</span></span>
+          </div>
+          <div class="chipmetric">
+            <svg viewBox="0 0 24 24" style="color:var(--accent)"><use href="#i-gauge"/></svg>
+            <span class="col"><span class="cm-val t-num">3,9</span><span class="cm-lab">Średni COP</span></span>
+          </div>
+          <div class="chipmetric">
+            <svg viewBox="0 0 24 24" style="color:var(--accent)"><use href="#i-clock"/></svg>
+            <span class="col"><span class="cm-val t-num">11 h 20</span><span class="cm-lab">Praca</span></span>
+          </div>
+        </div>
+        <div class="col gap-6">
+          <div class="row-between">
+            <span class="t-body-lg muted">Grzanie</span>
+            <span class="t-caption t-num">14,1 kWh</span>
+          </div>
+          <span class="bar bar--track"><span style="width:77%;background:var(--brand-ceglany)"></span></span>
+          <div class="row-between" style="margin-top:6px">
+            <span class="t-body-lg muted">Ciepła woda</span>
+            <span class="t-caption t-num">4,3 kWh</span>
+          </div>
+          <span class="bar bar--track"><span style="width:23%;background:var(--status-info)"></span></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── zgłoszenia: stan pusty ────────────────────────────────── -->
+    <section class="card" data-od-id="sekcja-zgloszenia">
+      <div class="emptystate" data-od-id="zgloszenia-pusto">
+        <span class="es-mark"><svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg></span>
+        <p class="es-title">Brak otwartych zgłoszeń</p>
+        <p class="es-text">Ostatnie zgłoszenie zamknięto 14 marca — wymiana czujnika
+          w pokoju gościnnym.</p>
+        <div class="es-actions">
+          <a class="btn btn--ghost btn--sm" href="10-zgloszenie-usterki.html">
+            <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg>Zgłoś usterkę</a>
+          <button class="btn btn--quiet btn--sm" type="button">Historia</button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div class="toastwrap" data-od-id="toasty">
+    <div class="toast" id="toast" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+      <span id="toast-text">Zsynchronizowano</span>
+    </div>
+  </div>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html" aria-current="page">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+</div>
+
+<script>
+  (function () {
+    /* Sekcja zużycia przechodzi realny cykl: ładowanie → błąd → (po ponowieniu)
+       ładowanie → dane. Nie ma przełącznika stanów — stan wynika z przebiegu
+       pobierania, tak jak w aplikacji. */
+    var ladowanie = document.getElementById('zuzycie-ladowanie');
+    var blad = document.getElementById('zuzycie-blad');
+    var dane = document.getElementById('zuzycie-dane');
+    var ponow = document.getElementById('btn-ponow');
+    var udanaProba = false;
+
+    function pokaz(el) {
+      [ladowanie, blad, dane].forEach(function (x) { x.hidden = x !== el; });
+      ponow.hidden = el !== dane;
+    }
+
+    function pobierz() {
+      pokaz(ladowanie);
+      setTimeout(function () {
+        if (udanaProba) { pokaz(dane); }
+        else { udanaProba = true; pokaz(blad); }
+      }, 1400);
+    }
+
+    document.getElementById('btn-ponow-blad').addEventListener('click', pobierz);
+    ponow.addEventListener('click', pobierz);
+    pobierz();
+
+    /* toast synchronizacji */
+    var toast = document.getElementById('toast');
+    var toastText = document.getElementById('toast-text');
+    var timer;
+    function pokazToast(tekst, blad) {
+      toastText.textContent = tekst;
+      toast.classList.toggle('toast--error', !!blad);
+      toast.querySelector('use').setAttribute('href', blad ? '#i-triangle-alert' : '#i-circle-check');
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    }
+
+    function synchronizuj() {
+      var pasek = document.getElementById('pasek-nieaktualne');
+      pasek.querySelector('span').textContent = 'Synchronizacja w toku…';
+      setTimeout(function () {
+        pasek.classList.remove('stalebar--error');
+        pasek.querySelector('span').textContent = '5 z 6 czujników zsynchronizowanych';
+        pokazToast('Kotłownia nadal nie odpowiada', true);
+      }, 1200);
+    }
+
+    document.getElementById('btn-sync').addEventListener('click', synchronizuj);
+    document.getElementById('btn-odswiez').addEventListener('click', synchronizuj);
+  })();
+</script>
+</body>
+</html>

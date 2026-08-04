@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Łazienka</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="room-glowny">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="11-pomieszczenia.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title"><h1 class="t-title">Łazienka</h1></div>
+    <a class="iconbtn" href="07-edycja-pomieszczenia.html" aria-label="Edytuj pomieszczenie">
+      <svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></a>
+    <button class="iconbtn" type="button" id="btn-opcje" aria-label="Więcej opcji"
+            aria-haspopup="dialog" aria-expanded="false">
+      <svg viewBox="0 0 24 24"><use href="#i-ellipsis"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── odczyty bieżące ───────────────────────────────────────── -->
+    <div class="row" data-od-id="odczyty" style="gap:8px">
+      <span class="pill pill--temp t-num">
+        <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg><span style="color:var(--status-low)">24,2 °C</span></span>
+      <span class="pill pill--hum t-num">
+        <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>55 %</span>
+      <span class="grow"></span>
+      <button class="iconbtn" type="button" aria-label="Dodaj do ulubionych" aria-pressed="false" id="btn-ulubione">
+        <svg viewBox="0 0 24 24"><use href="#i-heart"/></svg></button>
+    </div>
+
+    <!-- ── tarcza temperatury · stan MID/warning ─────────────────── -->
+    <section class="dial" data-od-id="tarcza-temperatury" style="width:320px;height:320px;margin:0 auto;--dial-len:744;--dial-offset:312.5" data-enter>
+      <svg viewBox="0 0 320 320" width="320" height="320" aria-hidden="true">
+        <path d="M124.2 285A130 130 0 1 1 195.8 285"
+              style="fill:none;stroke:color-mix(in oklch, var(--gauge-low) 12%, transparent);stroke-width:27;stroke-linecap:round"/>
+        <path class="dial-arc-fill" d="M124.2 285A130 130 0 1 1 195.8 285"
+              stroke-dasharray="744" stroke-dashoffset="744"
+              style="fill:none;stroke:var(--gauge-low);stroke-width:27;stroke-linecap:round"/>
+        <circle cx="160" cy="160" r="105"
+                style="fill:none;stroke:color-mix(in oklch, var(--gauge-low) 55%, transparent);stroke-width:.8"/>
+        <circle class="dial-arc-dot" cx="217.5" cy="43.4" r="7" style="fill:var(--surface);transform-origin:217.5px 43.4px"/>
+      </svg>
+      <div class="dial-center">
+        <p class="center" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-16);line-height:22px;color:var(--n-700);max-width:8ch">Obecna temperatura</p>
+        <p class="dial-value t-num" data-count-to="24.2" data-suffix="°" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-45);line-height:56px;letter-spacing:-.02em;color:var(--gauge-low)">0°</p>
+      </div>
+      <p class="sr-only">Temperatura powyżej normy komfortu, wartość bieżąca 24,2 °C. Wynik pomieszczenia 58/100 — Podwyższony.</p>
+    </section>
+
+    <!-- ── najbliższa zmiana harmonogramu ───────────────────────── -->
+    <div class="row" data-od-id="najblizsza-zmiana" style="justify-content:center;gap:8px">
+      <span class="row gap-6 muted" style="font-size:var(--fs-13);line-height:18px">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px"><use href="#i-clock"/></svg>
+        Zmiana o 09:00
+      </span>
+      <span class="n700" style="font-size:var(--fs-13);line-height:18px">→ na 22,0 °C</span>
+    </div>
+
+    <div class="row" data-od-id="stan-harmonogramu" style="justify-content:center;gap:8px;margin-top:2px">
+      <span class="tagpill tagpill--warning">
+        <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
+      <a class="iconbtn" href="07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+         data-od-id="btn-ustawienia-harmonogramu" title="Ustawienia harmonogramu"
+         aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub stałą temperaturę">
+        <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
+    </div>
+
+    <!-- ── przejścia ─────────────────────────────────────────────── -->
+    <div class="col gap-12" data-od-id="linki" style="margin-top:6px">
+      <a class="linkcard" href="room-lazienka-podsumowanie.html" data-od-id="link-podsumowanie">
+        <span class="iconbox iconbox--36 iconbox--amber">
+          <svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg></span>
+        <span class="lc-body col gap-2">
+          <span class="t-value">Podsumowanie pomieszczenia</span>
+          <span class="t-body-lg muted">Co dzieje się w pomieszczeniu — opis słowny</span>
+        </span>
+        <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </a>
+
+      <a class="linkcard" href="room-lazienka-historia-temp.html" data-od-id="link-historia">
+        <span class="iconbox iconbox--36 iconbox--temp">
+          <svg viewBox="0 0 24 24"><use href="#i-activity"/></svg></span>
+        <span class="lc-body col gap-2">
+          <span class="t-value">Historia temperatury</span>
+          <span class="t-body-lg muted">Wykres dobowy, wilgotność i pogoda</span>
+        </span>
+        <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </a>
+
+      <a class="linkcard" href="room-lazienka-sezony.html" data-od-id="link-sezony">
+        <span class="iconbox iconbox--36 iconbox--hum">
+          <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></span>
+        <span class="lc-body col gap-2">
+          <span class="t-value">Porównanie zapotrzebowania</span>
+          <span class="t-body-lg muted">Sezon grzewczy i chłodniczy rok do roku</span>
+        </span>
+        <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </a>
+    </div>
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html" aria-current="page">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+
+  <!-- ── warstwa nakładek ────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <section class="sheet" id="sheet-opcje" role="dialog" aria-modal="true"
+           aria-labelledby="opcje-tytul" hidden data-od-id="arkusz-opcji">
+    <span class="sh-handle"></span>
+    <div class="sh-head">
+      <span class="grow">
+        <span class="sh-title" id="opcje-tytul">Łazienka</span>
+        <span class="sh-sub">Parter - czujnik OLTE-S2 9c02</span>
+      </span>
+      <button class="iconbtn" type="button" id="btn-zamknij-opcje" aria-label="Zamknij">
+        <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="sh-body">
+      <div class="col" data-od-id="opcje-lista">
+        <a class="listrow" href="07-edycja-pomieszczenia.html">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Edytuj pomieszczenie</span>
+            <span class="lr-sub">Nazwa, ikona, temperatura docelowa</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </a>
+        <a class="listrow" href="room-lazienka-harmonogram.html">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Harmonogram</span>
+            <span class="lr-sub">Własny · 4 bloki dobowe</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </a>
+        <button class="listrow" type="button" id="btn-udostepnij">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-share-2"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Udostępnij raport</span>
+            <span class="lr-sub">Ostatnie 30 dni jako PDF</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </button>
+        <a class="listrow" href="09-stany-danych.html">
+          <span class="iconbox iconbox--36 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Stan czujnika</span>
+            <span class="lr-sub">Bateria 91 % · odczyt 25 s temu</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="toastwrap" data-od-id="toasty">
+    <div class="toast" id="toast" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+      <span id="toast-text">Raport przygotowany</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    var b = document.getElementById('btn-ulubione');
+    b.addEventListener('click', function () {
+      var on = b.getAttribute('aria-pressed') === 'true';
+      b.setAttribute('aria-pressed', String(!on));
+      b.setAttribute('aria-label', on ? 'Dodaj do ulubionych' : 'Usuń z ulubionych');
+      b.style.color = on ? '' : 'var(--status-low)';
+      b.querySelector('svg').style.fill = on ? 'none' : 'currentColor';
+    });
+
+    /* ── arkusz „Więcej opcji" ── */
+    var scrim = document.getElementById('scrim');
+    var sheet = document.getElementById('sheet-opcje');
+    var opcje = document.getElementById('btn-opcje');
+
+    function otworz() {
+      scrim.hidden = false; sheet.hidden = false;
+      opcje.setAttribute('aria-expanded', 'true');
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); sheet.classList.add('is-open');
+      });
+    }
+    function zamknij() {
+      scrim.classList.remove('is-open'); sheet.classList.remove('is-open');
+      opcje.setAttribute('aria-expanded', 'false');
+      setTimeout(function () { scrim.hidden = true; sheet.hidden = true; }, 280);
+    }
+    opcje.addEventListener('click', otworz);
+    scrim.addEventListener('click', zamknij);
+    document.getElementById('btn-zamknij-opcje').addEventListener('click', zamknij);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !sheet.hidden) zamknij();
+    });
+
+    /* ── count-up tarczy temperatury, zsynchronizowany z animacją CSS łuku ── */
+    var dialVal = document.querySelector('.dial-value[data-count-to]');
+    if (dialVal) {
+      var target = parseFloat(dialVal.getAttribute('data-count-to').replace(',', '.'));
+      var suffix = dialVal.getAttribute('data-suffix') || '';
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (reduceMotion) {
+        dialVal.textContent = target.toFixed(1).replace('.', ',') + suffix;
+      } else {
+        (function () {
+          var start = null, dur = 650;
+          function tick(ts) {
+            if (start === null) start = ts;
+            var p = Math.min(1, (ts - start) / dur);
+            var eased = 1 - Math.pow(1 - p, 3);
+            dialVal.textContent = (eased * target).toFixed(1).replace('.', ',') + suffix;
+            if (p < 1) requestAnimationFrame(tick);
+          }
+          setTimeout(function () { requestAnimationFrame(tick); }, 550);
+        })();
+      }
+    }
+
+    /* ── toast ── */
+    var toast = document.getElementById('toast');
+    var timer;
+    document.getElementById('btn-udostepnij').addEventListener('click', function () {
+      zamknij();
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    });
+  })();
+</script>
+</body>
+</html>

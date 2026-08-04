@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Dodaj pomieszczenie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="dodaj-pomieszczenie">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="11-pomieszczenia.html" aria-label="Zamknij bez zapisywania">
+      <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-title">Dodaj pomieszczenie</h1>
+      <span class="ab-sub">Krok 1 z 1 · sparowanie czujnika później</span>
+    </div>
+    <span class="iconbtn" style="visibility:hidden" aria-hidden="true"></span>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── nazwa ─────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-nazwa">
+      <label for="in-nazwa">Nazwa pomieszczenia</label>
+      <input class="input" id="in-nazwa" type="text" placeholder="np. Pokój gościnny" maxlength="24"
+             autocomplete="off" aria-describedby="hint-nazwa">
+      <p class="f-hint" id="hint-nazwa">Widoczna na liście, w powiadomieniach i w historii odczytów.</p>
+    </section>
+
+    <!-- ── ikona ─────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-ikona">
+      <label id="lab-ikona">Ikona</label>
+      <div class="iconpick" role="group" aria-labelledby="lab-ikona" id="wybor-ikony"
+           style="grid-template-columns:repeat(7,1fr)">
+        <button type="button" aria-pressed="false" aria-label="Sypialnia"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pokój gościnny"><svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pokój dziecka"><svg viewBox="0 0 24 24"><use href="#i-baby"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Salon"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Salon TV"><svg viewBox="0 0 24 24"><use href="#i-tv"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Gabinet"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Biblioteka"><svg viewBox="0 0 24 24"><use href="#i-book-open"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Jadalnia"><svg viewBox="0 0 24 24"><use href="#i-utensils"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Kuchnia"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Łazienka"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Prysznic lub WC"><svg viewBox="0 0 24 24"><use href="#i-shower-head"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pralnia"><svg viewBox="0 0 24 24"><use href="#i-washing-machine"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Przedpokój"><svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pokój muzyczny"><svg viewBox="0 0 24 24"><use href="#i-piano"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Siłownia"><svg viewBox="0 0 24 24"><use href="#i-dumbbell"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Warsztat"><svg viewBox="0 0 24 24"><use href="#i-hammer"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Serwerownia"><svg viewBox="0 0 24 24"><use href="#i-server"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Kotłownia"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Garaż"><svg viewBox="0 0 24 24"><use href="#i-car"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Strych"><svg viewBox="0 0 24 24"><use href="#i-warehouse"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Ogród zimowy"><svg viewBox="0 0 24 24"><use href="#i-flower-2"/></svg></button>
+      </div>
+      <p class="f-hint" id="hint-ikona">Wybierz ikonę pasującą do funkcji pomieszczenia.</p>
+    </section>
+
+    <!-- ── kondygnacja ───────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-kondygnacja">
+      <label id="lab-kondygnacja" for="sel-kondygnacja">Kondygnacja</label>
+      <div class="select-wrap">
+        <select class="select" id="sel-kondygnacja" aria-describedby="hint-kondygnacja">
+          <option value="parter" selected>Parter</option>
+          <option value="pietro">Piętro</option>
+          <option value="poddasze">Poddasze</option>
+          <option value="piwnica">Piwnica / kotłownia</option>
+        </select>
+        <svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg>
+      </div>
+      <p class="f-hint" id="hint-kondygnacja">Wpływa na grupowanie na ekranie głównym.</p>
+    </section>
+
+    <!-- ── temperatura docelowa ──────────────────────────────────── -->
+    <section class="card col gap-16" data-od-id="pole-temperatura">
+      <div class="row-between">
+        <span class="col gap-2">
+          <span class="t-label">Temperatura docelowa</span>
+          <span class="t-small muted">Obowiązuje poza blokami harmonogramu</span>
+        </span>
+        <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>Ekonomiczna</span>
+      </div>
+
+      <div class="stepper" data-od-id="stepper-temperatura">
+        <button type="button" id="btn-minus" aria-label="Obniż o 0,5 °C">
+          <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+        <span class="row gap-4" style="align-items:baseline">
+          <span class="st-val" id="wartosc-temp">21,0</span>
+          <span class="st-unit">°C</span>
+        </span>
+        <button type="button" id="btn-plus" aria-label="Podnieś o 0,5 °C">
+          <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+      </div>
+
+      <div class="slider" data-od-id="suwak-temperatura">
+        <input type="range" id="suwak-temp" min="15" max="26" step="0.5" value="21"
+               aria-label="Temperatura docelowa" aria-valuetext="21,0 °C">
+        <div class="slider-scale">
+          <span>15 °C</span><span>20 °C</span><span>26 °C</span>
+        </div>
+      </div>
+
+      <p class="notebox">
+        <svg viewBox="0 0 24 24"><use href="#i-lightbulb"/></svg>
+        <span>Nowe pomieszczenie startuje w trybie ekonomicznym — możesz dostosować
+          harmonogram po dodaniu.</span>
+      </p>
+    </section>
+
+    <!-- ── zachowanie ────────────────────────────────────────────── -->
+    <section class="card" data-od-id="pole-zachowanie" style="padding:6px 18px">
+      <div class="listrow" data-od-id="opcja-harmonogram">
+        <span class="lr-text">
+          <span class="lr-name">Steruj harmonogramem</span>
+          <span class="lr-sub">Bloki dobowe nadpiszą temperaturę docelową</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" checked aria-label="Steruj harmonogramem">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+
+      <div class="listrow" data-od-id="opcja-okno">
+        <span class="lr-text">
+          <span class="lr-name">Wykrywanie otwartego okna</span>
+          <span class="lr-sub">Wstrzymuje grzanie przy nagłym spadku temperatury</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" checked aria-label="Wykrywanie otwartego okna">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+
+      <div class="listrow" data-od-id="opcja-powiadomienia">
+        <span class="lr-text">
+          <span class="lr-name">Powiadomienia o wilgotności</span>
+          <span class="lr-sub">Alert powyżej 65 % przez ponad 2 h</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" aria-label="Powiadomienia o wilgotności">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ── czujnik ───────────────────────────────────────────────── -->
+    <div class="notif notif--info" data-od-id="powiadomienie-czujnik">
+      <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-info"/></svg></span>
+      <div class="notif-body">
+        <p class="t-label">Czujnik sparujesz po zapisaniu</p>
+        <p class="t-body muted" style="font-size:var(--fs-11)">Pomieszczenie zostanie utworzone bez
+          odczytów, dopóki nie podłączysz do niego fizycznego czujnika OLTE.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── pasek akcji ─────────────────────────────────────────────── -->
+  <div class="formbar" data-od-id="pasek-akcji">
+    <a class="btn btn--ghost" href="11-pomieszczenia.html">Anuluj</a>
+    <button class="btn" type="button" id="btn-zapisz" disabled>Zapisz</button>
+  </div>
+
+  <!-- ── nakładki ────────────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <div class="dialog" id="dialog-dodano" role="dialog" aria-modal="true"
+       aria-labelledby="dialog-tytul" hidden data-od-id="dialog-potwierdzenia">
+    <span class="dg-mark"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg></span>
+    <p class="dg-title" id="dialog-tytul">Pomieszczenie dodane</p>
+    <p class="dg-text" id="dialog-tekst">„Pokój gościnny” pojawi się teraz na liście pomieszczeń.
+      Sparuj czujnik w ustawieniach pomieszczenia, żeby zacząć zbierać odczyty.</p>
+    <div class="dg-actions">
+      <a class="btn" href="11-pomieszczenia.html" id="btn-wroc-hub">Przejdź do pomieszczeń</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    /* ── suwak, stepper i wartość liczbowa trzymane w jednym stanie ── */
+    var suwak = document.getElementById('suwak-temp');
+    var wartosc = document.getElementById('wartosc-temp');
+    var minus = document.getElementById('btn-minus');
+    var plus = document.getElementById('btn-plus');
+    var zapisz = document.getElementById('btn-zapisz');
+    var nazwa = document.getElementById('in-nazwa');
+
+    function format(v) { return v.toFixed(1).replace('.', ','); }
+
+    function render() {
+      var v = parseFloat(suwak.value);
+      wartosc.textContent = format(v);
+      suwak.setAttribute('aria-valuetext', format(v) + ' °C');
+      var pct = (v - suwak.min) / (suwak.max - suwak.min) * 100;
+      suwak.style.setProperty('--fill', pct + '%');
+      minus.disabled = v <= parseFloat(suwak.min);
+      plus.disabled = v >= parseFloat(suwak.max);
+    }
+
+    function zmien(delta) {
+      suwak.value = (parseFloat(suwak.value) + delta).toFixed(1);
+      render();
+    }
+
+    /* ── Zapisz aktywuje się dopiero, gdy nazwa jest wpisana ── */
+    function waliduj() {
+      zapisz.disabled = nazwa.value.trim().length === 0;
+    }
+
+    suwak.addEventListener('input', render);
+    minus.addEventListener('click', function () { zmien(-0.5); });
+    plus.addEventListener('click', function () { zmien(0.5); });
+    nazwa.addEventListener('input', waliduj);
+    render();
+    waliduj();
+
+    /* ── wybór ikony ── */
+    document.querySelectorAll('#wybor-ikony button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('#wybor-ikony button').forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+      });
+    });
+
+    /* ── dialog potwierdzenia ── */
+    var scrim = document.getElementById('scrim');
+    var dialog = document.getElementById('dialog-dodano');
+    var dialogTekst = document.getElementById('dialog-tekst');
+
+    function otworz() {
+      var podanaNazwa = nazwa.value.trim() || 'Nowe pomieszczenie';
+      dialogTekst.textContent = '„' + podanaNazwa + '” pojawi się teraz na liście pomieszczeń. ' +
+        'Sparuj czujnik w ustawieniach pomieszczenia, żeby zacząć zbierać odczyty.';
+      scrim.hidden = false; dialog.hidden = false;
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); dialog.classList.add('is-open');
+      });
+      document.getElementById('btn-wroc-hub').focus();
+    }
+
+    zapisz.addEventListener('click', otworz);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !dialog.hidden) {
+        scrim.classList.remove('is-open'); dialog.classList.remove('is-open');
+        setTimeout(function () { scrim.hidden = true; dialog.hidden = true; }, 220);
+      }
+    });
+  })();
+</script>
+</body>
+</html>

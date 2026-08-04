@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Pomieszczenia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="pomieszczenia">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <div class="appbar-title" style="text-align:left">
+      <h1 class="t-title">Pomieszczenia</h1>
+      <span class="ab-sub">7 pomieszczeń · 2 wymagają uwagi</span>
+    </div>
+    <a class="iconbtn" href="12-dodaj-pomieszczenie.html" aria-label="Dodaj pomieszczenie">
+      <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></a>
+  </header>
+
+  <main class="content content--tight" data-od-id="tresc">
+
+    <!-- ── Centrum powiadomień ────────────────────────────────────── -->
+    <div class="sectionhead" data-od-id="naglowek-powiadomienia">
+      <h2>Wymaga uwagi</h2>
+    </div>
+
+    <div class="col gap-8" data-od-id="centrum-powiadomien" aria-label="Powiadomienia o pomieszczeniach">
+
+      <section class="notif notif--error" data-od-id="powiadomienie-kotlownia">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg></span>
+        <div class="notif-body">
+          <h3 class="t-label">Kotłownia — czujnik nieaktywny</h3>
+          <p class="t-body muted" style="font-size:var(--fs-11)">Brak odczytu od 3 godzin.
+            Sprawdź zasilanie czujnika lub zgłoś usterkę.</p>
+          <a class="notif-link t-link" href="09-stany-danych.html">Zobacz diagnostykę
+            <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+        </div>
+      </section>
+
+      <section class="notif notif--warning" data-od-id="powiadomienie-lazienka">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg></span>
+        <div class="notif-body">
+          <h3 class="t-label">Łazienka — temperatura powyżej normy</h3>
+          <p class="t-body muted" style="font-size:var(--fs-11)">24,2° w programie porannym,
+            0,7° nad górną granicą komfortu.</p>
+          <a class="notif-link t-link" href="room-lazienka-glowny.html">Zobacz pomieszczenie
+            <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ── Lista wszystkich pomieszczeń ──────────────────────────── -->
+    <div class="sectionhead" data-od-id="naglowek-lista" style="margin-top:8px">
+      <h2>Wszystkie pomieszczenia</h2>
+    </div>
+
+    <section class="roomlist" data-od-id="lista-pomieszczen" aria-label="Pomieszczenia">
+
+      <a class="roomrow" href="room-sypialnia-aj-glowny.html" data-od-id="pomieszczenie-sypialnia-aj">
+        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Sypialnia AJ</span>
+          <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
+          <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+          <span class="rr-climate" data-od-id="klimat-sypialnia-aj"
+                title="Bez regulacji — temperatura utrzymywana">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp t-num">23,0°</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+
+      <a class="roomrow" href="room-salon-aj-glowny.html" data-od-id="pomieszczenie-salon-aj">
+        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Salon AJ</span>
+          <span class="rr-status"><i class="dot"></i>Dogrzewanie zakończone</span>
+          <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+          <span class="rr-climate" data-od-id="klimat-salon-aj"
+                title="Bez regulacji — temperatura utrzymywana">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp t-num">23,4°</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+
+      <a class="roomrow" href="room-lazienka-glowny.html" data-od-id="pomieszczenie-lazienka">
+        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Łazienka</span>
+          <span class="rr-status"><i class="dot dot--info"></i>Program poranny · nad normą</span>
+          <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
+          <span class="rr-climate rr-climate--cool" data-od-id="klimat-lazienka"
+                title="Temperatura regulowana w dół — grzanie wstrzymane do 22,0°">
+            <svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg>Chłodzenie</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp rr-temp--warm t-num">24,2°</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>55%</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+
+      <a class="roomrow" href="room-kuchnia-glowny.html" data-od-id="pomieszczenie-kuchnia">
+        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Kuchnia</span>
+          <span class="rr-status"><i class="dot" style="background:var(--app-1a)"></i>Komfort idealny</span>
+          <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+          <span class="rr-climate rr-climate--heat" data-od-id="klimat-kuchnia"
+                title="Temperatura regulowana w górę — trwa dogrzewanie">
+            <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>Dogrzewanie</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp t-num">22,6°</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>44%</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+
+      <a class="roomrow" href="room-gabinet-glowny.html" data-od-id="pomieszczenie-gabinet">
+        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Gabinet</span>
+          <span class="rr-status"><i class="dot dot--low"></i>Tryb eco · poza strefą komfortu</span>
+          <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
+          <span class="rr-climate" data-od-id="klimat-gabinet"
+                title="Bez regulacji — grzanie wstrzymane w trybie eco">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp t-num">20,8°</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>43%</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+
+      <a class="roomrow" href="room-sypialnia-ala-glowny.html" data-od-id="pomieszczenie-sypialnia-ala">
+        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Sypialnia Ala</span>
+          <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
+          <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+          <span class="rr-climate" data-od-id="klimat-sypialnia-ala"
+                title="Bez regulacji — temperatura utrzymywana">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp t-num">22,9°</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>46%</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+
+      <a class="roomrow is-offline" href="room-kotlownia-glowny.html" data-od-id="pomieszczenie-kotlownia">
+        <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+        <span class="rr-text">
+          <span class="rr-name">Kotłownia</span>
+          <span class="rr-status"><i class="dot dot--off"></i>Czujnik nieaktywny</span>
+          <span class="rr-sched rr-sched--off"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Stała temperatura</span>
+          <span class="rr-climate rr-climate--none" data-od-id="klimat-kotlownia"
+                title="Brak odczytu — kierunek regulacji nieznany">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Brak danych</span>
+        </span>
+        <span class="rr-right">
+          <span class="rr-vals">
+            <span class="rr-temp t-num rr-temp--off">—</span>
+            <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>—</span>
+          </span>
+          <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </span>
+      </a>
+    </section>
+
+    <!-- ── CTA dodania pomieszczenia ──────────────────────────────── -->
+    <a class="btn btn--ghost btn--block" href="12-dodaj-pomieszczenie.html" data-od-id="cta-dodaj-pomieszczenie">
+      <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg>Dodaj pomieszczenie
+    </a>
+
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html" aria-current="page">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+
+</div>
+
+</body>
+</html>

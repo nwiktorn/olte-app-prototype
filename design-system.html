@@ -1,0 +1,1667 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OLTE App · Design system</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/olte.css">
+<script src="assets/theme.js"></script>
+<style>
+  body { background: var(--bg); }
+  .page { max-width: 1180px; margin-inline: auto; padding: 56px 40px 120px; }
+  .ds-head { max-width: 60ch; }
+  .ds-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-body); font-weight: 700; font-size: var(--fs-11);
+    letter-spacing: .1em; text-transform: uppercase; color: var(--accent);
+  }
+  .ds-eyebrow::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; }
+  h1.ds-title {
+    font-family: var(--font-display); font-weight: 800;
+    font-size: clamp(32px, 4vw, 46px); line-height: 1.08; letter-spacing: -.03em;
+    margin: 16px 0 12px;
+  }
+  .ds-sub { font-size: var(--fs-15); line-height: 24px; color: var(--muted); }
+
+  section.ds { padding-top: 56px; margin-top: 48px; border-top: 1px solid var(--border); }
+  section.ds > h2 {
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-26);
+    line-height: 34px; letter-spacing: -.02em; margin-bottom: 8px;
+  }
+  section.ds > .ds-note { font-size: var(--fs-13); line-height: 21px; color: var(--muted); max-width: 68ch; }
+  .ds-table { width: 100%; border-collapse: collapse; font-size: var(--fs-13); }
+  .ds-table th, .ds-table td { text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); }
+  .ds-table th { color: var(--muted); font-weight: 600; font-size: var(--fs-12); }
+  h3.ds-sub-h {
+    font-family: var(--font-body); font-weight: 700; font-size: var(--fs-11);
+    letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+    margin: 40px 0 16px;
+  }
+
+  /* próbki koloru */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 12px; }
+  .sw { border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; background: var(--surface); }
+  .sw-chip { height: 76px; }
+  .sw-meta { padding: 10px 12px; display: flex; flex-direction: column; gap: 2px; }
+  .sw-name { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-13); line-height: 17px; }
+  .sw-hex { font-family: var(--font-body); font-size: var(--fs-11); color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+
+  /* specimen typografii */
+  .specimen { display: grid; grid-template-columns: 190px 1fr; gap: 20px 28px; align-items: baseline; }
+  .specimen dt { display: flex; flex-direction: column; gap: 2px; }
+  .specimen .sp-name { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-13); line-height: 18px; }
+  .specimen .sp-spec { font-family: var(--font-body); font-size: var(--fs-11); color: var(--muted); }
+  .specimen dd { margin: 0; }
+
+  /* siatka przykładów */
+  .examples { display: grid; grid-template-columns: repeat(auto-fill, minmax(330px, 1fr)); gap: 24px; }
+  .demo {
+    border: 1px solid var(--border); border-radius: var(--r-lg);
+    background: var(--surface); overflow: hidden;
+  }
+  .demo-label {
+    padding: 9px 14px; border-bottom: 1px solid var(--border);
+    background: var(--track);
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-11);
+    letter-spacing: .06em; text-transform: uppercase; color: var(--muted);
+  }
+  .demo-body { padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+  .demo-body.is-row { flex-direction: row; flex-wrap: wrap; align-items: center; }
+
+  .roomicons { display: grid; grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); gap: 12px; }
+  .roomicon { display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+  .roomicon span { font-family: var(--font-body); font-size: var(--fs-10); line-height: 14px; color: var(--muted); }
+
+  .icongrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(104px, 1fr)); gap: 14px 10px; }
+  .iconcell { display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+  .iconcell code {
+    font-family: var(--font-mono); font-size: var(--fs-10); line-height: 13px;
+    color: var(--muted); word-break: break-word; hyphens: none;
+  }
+  .examples--wide { grid-template-columns: 1fr; }
+
+  /* tabela propozycji */
+  .proposals { display: flex; flex-direction: column; gap: 0; }
+  .proposal {
+    display: grid; grid-template-columns: 34px 1fr 128px; gap: 16px;
+    padding: 18px 0; border-top: 1px solid var(--border); align-items: start;
+  }
+  .proposal .p-no { font-family: var(--font-display); font-weight: 800; font-size: var(--fs-15); color: var(--n-200); }
+  .proposal h4 { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-15); line-height: 21px; margin: 0 0 4px; }
+  .proposal p { font-size: var(--fs-13); line-height: 20px; color: var(--muted); margin: 0; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px; justify-self: end;
+    padding: 5px 11px; border-radius: var(--r-pill);
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-11);
+    letter-spacing: .04em; text-transform: uppercase; white-space: nowrap;
+  }
+  .badge--done { background: var(--surf-success); color: var(--on-success); border: 1px solid var(--surf-success-line); }
+
+  /* siatka porównania motywów */
+  .themepair { display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+  .themepane { padding: 20px; background: var(--bg); color: var(--fg); display: flex; flex-direction: column; gap: 14px; }
+  .themepane + .themepane { border-left: 1px solid var(--border); }
+  .themepane .tp-name {
+    font-family: var(--font-body); font-weight: 700; font-size: var(--fs-10);
+    letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+  }
+
+  /* makieta nakładki w dokumentacji */
+  .overlaybox {
+    position: relative; height: 300px; overflow: hidden;
+    border-radius: var(--r-lg); background: var(--track);
+  }
+  .overlaybox .ob-bg { padding: 18px; display: flex; flex-direction: column; gap: 12px; }
+  .overlaybox .scrim, .overlaybox .sheet, .overlaybox .dialog { opacity: 1; }
+  .overlaybox .scrim { opacity: 1; }
+  .overlaybox .sheet { transform: translateY(0); }
+  .overlaybox .dialog { transform: translateY(-50%) scale(1); opacity: 1; }
+  .overlaybox .toast { transform: translateY(0); opacity: 1; }
+
+  .backlink {
+    display: inline-flex; align-items: center; gap: 7px; margin-bottom: 26px;
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-13); color: var(--muted);
+  }
+  .backlink svg { width: 15px; height: 15px; }
+  .backlink:hover { color: var(--accent); }
+  @media (max-width: 720px) {
+    .page { padding: 32px 20px 72px; }
+    .specimen { grid-template-columns: 1fr; }
+    .proposal { grid-template-columns: 28px 1fr; }
+    .proposal .badge { grid-column: 2; justify-self: start; }
+  }
+</style>
+</head>
+<body>
+<script src="assets/icons.js"></script>
+
+<div class="page">
+
+  <a class="backlink" href="index.html">
+    <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg>Przegląd ekranów</a>
+
+  <header class="ds-head" data-od-id="naglowek" style="max-width:none">
+    <div class="row-between" style="align-items:flex-start;gap:24px">
+      <div style="max-width:60ch">
+        <p class="ds-eyebrow">Design system · wyciąg z OLTE-App.fig + wdrożone rozszerzenia</p>
+        <h1 class="ds-title">Tokeny, typografia i komponenty aplikacji OLTE</h1>
+        <p class="ds-sub">Wartości bazowe są odczytane z pliku projektowego. Dwanaście pozycji
+          długu i rozszerzeń z poprzedniej wersji tej strony jest już wdrożonych — sekcje
+          <em>Stany</em>, <em>Formularze</em>, <em>Nakładki</em> i <em>Tryb ciemny</em> pokazują
+          żywe komponenty, a nie propozycje.</p>
+      </div>
+      <button class="btn btn--ghost" type="button" id="btn-motyw" aria-pressed="false"
+              style="flex:none" data-od-id="przelacznik-motywu">
+        <svg viewBox="0 0 24 24"><use href="#i-sun-dim"/></svg>
+        <span data-theme-label>Tryb jasny</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ══════════════ KOLORY ══════════════ -->
+  <section class="ds" data-od-id="kolory">
+    <h2>Kolory</h2>
+    <p class="ds-note">23 style wypełnienia i 10 zmiennych brandowych. Skala neutralna
+      i akcent obsługują 90 % interfejsu; skala tarczy służy wyłącznie wskaźnikom jakości.</p>
+
+    <h3 class="ds-sub-h">Neutralne</h3>
+    <div class="swatches" data-od-id="kolory-neutralne">
+      <div class="sw"><div class="sw-chip" style="background:var(--n-0);border-bottom:1px solid var(--border)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/0</span><span class="sw-hex">#ffffff</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--n-100)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/100</span><span class="sw-hex">#e4e9e6</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--n-200)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/200</span><span class="sw-hex">#d3dad6</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--n-500)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/500</span><span class="sw-hex">#737e79 · nietekstowe</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--n-550)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/550</span><span class="sw-hex">#6b756f · tekst AA</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--n-700)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/700</span><span class="sw-hex">#3d4744</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--n-900)"></div>
+        <div class="sw-meta"><span class="sw-name">Neutral/900</span><span class="sw-hex">#101614</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Akcent i brand</h3>
+    <div class="swatches" data-od-id="kolory-akcent">
+      <div class="sw"><div class="sw-chip" style="background:var(--primary-50)"></div>
+        <div class="sw-meta"><span class="sw-name">Primary/50</span><span class="sw-hex">#dceee4</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--primary-100)"></div>
+        <div class="sw-meta"><span class="sw-name">Primary/100</span><span class="sw-hex">#e2f1ea</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--primary-300)"></div>
+        <div class="sw-meta"><span class="sw-name">Primary/300</span><span class="sw-hex">#7ab1a0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--primary-500)"></div>
+        <div class="sw-meta"><span class="sw-name">brand/ZIELEN</span><span class="sw-hex">#478675</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--brand-ceglany)"></div>
+        <div class="sw-meta"><span class="sw-name">brand/CEGLANY</span><span class="sw-hex">#c55339</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--brand-blekit)"></div>
+        <div class="sw-meta"><span class="sw-name">brand/BLEKIT</span><span class="sw-hex">#6790d0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--app-1)"></div>
+        <div class="sw-meta"><span class="sw-name">APP 1</span><span class="sw-hex">#eb684b</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--app-1a)"></div>
+        <div class="sw-meta"><span class="sw-name">APP 1a</span><span class="sw-hex">#eb7f67</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--app-2)"></div>
+        <div class="sw-meta"><span class="sw-name">APP 2</span><span class="sw-hex">#f4c45f</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--app-4)"></div>
+        <div class="sw-meta"><span class="sw-name">APP 4</span><span class="sw-hex">#689c8c</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--app-4a)"></div>
+        <div class="sw-meta"><span class="sw-name">APP 4a</span><span class="sw-hex">#7ab1a0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--app-5a)"></div>
+        <div class="sw-meta"><span class="sw-name">APP 5a</span><span class="sw-hex">#88b1f3</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Status</h3>
+    <div class="swatches" data-od-id="kolory-status">
+      <div class="sw"><div class="sw-chip" style="background:var(--status-high)"></div>
+        <div class="sw-meta"><span class="sw-name">Status/High</span><span class="sw-hex">#478675</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--status-mid)"></div>
+        <div class="sw-meta"><span class="sw-name">Status/Mid</span><span class="sw-hex">#f4c45f</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--status-low)"></div>
+        <div class="sw-meta"><span class="sw-name">Status/Low</span><span class="sw-hex">#eb684b</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--status-info)"></div>
+        <div class="sw-meta"><span class="sw-name">Status/Info</span><span class="sw-hex">#6790d0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--status-off)"></div>
+        <div class="sw-meta"><span class="sw-name">Status/Off</span><span class="sw-hex">#b6b4b4</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Skala tarczy — od najlepszej do najgorszej</h3>
+    <div class="swatches" data-od-id="kolory-gauge">
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-excellent)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Excellent</span><span class="sw-hex">#45a8a3</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-high)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/High</span><span class="sw-hex">#41a083</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-good)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Good</span><span class="sw-hex">#88c588</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-rising)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Rising</span><span class="sw-hex">#d0eb8f</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-low)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Low</span><span class="sw-hex">#f39978</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-danger)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Danger</span><span class="sw-hex">#ed6760</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-info-light)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Info-Light</span><span class="sw-hex">#79a1e0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--gauge-info-dark)"></div>
+        <div class="sw-meta"><span class="sw-name">Gauge/Info-Dark</span><span class="sw-hex">#5c7eed</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Powierzchnie sygnalizacyjne — nazwane jako Surface/*</h3>
+    <div class="swatches" data-od-id="kolory-powierzchnie">
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-success);border-bottom:1px solid var(--surf-success-line)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Success</span><span class="sw-hex">#e6f4ec / #cde9d8</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-info);border-bottom:1px solid var(--surf-info-line)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Info</span><span class="sw-hex">#f0f6ff / #dbeafe</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-warning);border-bottom:1px solid var(--surf-warning-line)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Warning</span><span class="sw-hex">#fefbf0 / #fef3c7</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-error);border-bottom:1px solid var(--surf-error-line)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Error</span><span class="sw-hex">#fdf2f2 / #fde2e2</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-temp)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Temp</span><span class="sw-hex">#fce9e5</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-hum)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Humidity</span><span class="sw-hex">#e7f0fe</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-sun)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Solar</span><span class="sw-hex">#fbefd8</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-off)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Offline</span><span class="sw-hex">#eef0ef</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--track)"></div>
+        <div class="sw-meta"><span class="sw-name">Surface/Track</span><span class="sw-hex">#eef2f0</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Tekst na powierzchniach — kontrast policzony, nie oszacowany</h3>
+    <div class="swatches" data-od-id="kolory-tekst-na-powierzchni">
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-success);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-success)">5,5:1</span></div>
+        <div class="sw-meta"><span class="sw-name">On/Success</span><span class="sw-hex">#2f6b58</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-error);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-error)">6,2:1</span></div>
+        <div class="sw-meta"><span class="sw-name">On/Error</span><span class="sw-hex">#a3352a</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-warning);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-warning)">5,2:1</span></div>
+        <div class="sw-meta"><span class="sw-name">On/Warning</span><span class="sw-hex">#8a6410</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-info);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-info)">5,5:1</span></div>
+        <div class="sw-meta"><span class="sw-name">On/Info</span><span class="sw-hex">#2560c0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-temp);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-temp)">5,9:1</span></div>
+        <div class="sw-meta"><span class="sw-name">On/Temp</span><span class="sw-hex">#b23a2e</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--surf-hum);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-hum)">5,5:1</span></div>
+        <div class="sw-meta"><span class="sw-name">On/Humidity</span><span class="sw-hex">#2560c0</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--accent-strong);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-solid)">4,6:1</span></div>
+        <div class="sw-meta"><span class="sw-name">Primary/550 · wypełnienie</span><span class="sw-hex">#42806f</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--danger-strong);display:grid;place-items:center">
+          <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-15);color:var(--on-solid)">4,7:1</span></div>
+        <div class="sw-meta"><span class="sw-name">Danger/strong · wypełnienie</span><span class="sw-hex">#c25036</span></div></div>
+    </div>
+    <p class="ds-note">Pigułki tarczy (<code>.dial-pill</code>) używają inline <code>color:var(--n-0)</code>
+      na pełnym tle koloru tonu (<code>--accent</code>, <code>--app-4</code>, <code>--app-2</code>)
+      — to jest poprawne użycie: tło jest pełne, więc biały tekst zamiast <code>On/*</code> zachowuje kontrast.
+      Reguła <code>On/*</code> obowiązuje na powierzchniach jasnych (<code>Surface/*</code>), nie na wypełnieniach.</p>
+
+    <h3 class="ds-sub-h">Gradienty</h3>
+    <div class="swatches" data-od-id="kolory-gradienty">
+      <div class="sw"><div class="sw-chip" style="background:var(--hero-good)"></div>
+        <div class="sw-meta"><span class="sw-name">Card Hero · dobry</span><span class="sw-hex">#eaf6ef → #fff 72%</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--hero-mid)"></div>
+        <div class="sw-meta"><span class="sw-name">Card Hero · średni</span><span class="sw-hex">#fff7e6 → #fff 72%</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--hero-bad)"></div>
+        <div class="sw-meta"><span class="sw-name">Card Hero · zły</span><span class="sw-hex">#ffebe0 → #fff 72%</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(135deg,var(--app-4a),var(--app-4) 55%,var(--primary-500))"></div>
+        <div class="sw-meta"><span class="sw-name">Tarcza · dobry</span><span class="sw-hex">#7ab1a0 → #478675</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Card Hero — stany</h3>
+    <div class="row gap-12" data-od-id="card-hero-stany" style="flex-wrap:wrap;align-items:flex-start">
+      <section class="hero col gap-12" style="max-width:220px" data-od-id="hero-stan-dobry">
+        <p class="hero-eyebrow">Stan</p>
+        <h1 class="hero-title" style="font-size:var(--fs-16);line-height:22px">Budynek działa optymalnie</h1>
+      </section>
+      <section class="hero hero--mid col gap-12" style="max-width:220px" data-od-id="hero-stan-sredni">
+        <p class="hero-eyebrow">Stan</p>
+        <h1 class="hero-title" style="font-size:var(--fs-16);line-height:22px">Budynek wymaga uwagi</h1>
+      </section>
+      <section class="hero hero--bad col gap-12" style="max-width:220px" data-od-id="hero-stan-zly">
+        <p class="hero-eyebrow">Stan</p>
+        <h1 class="hero-title" style="font-size:var(--fs-16);line-height:22px">Budynek w alarmie</h1>
+      </section>
+    </div>
+    <p class="ds-note"><code>.hero--mid</code> / <code>.hero--bad</code> — modyfikatory klasy <code>.hero</code>
+      (dziś tylko stan „dobry" jest używany na ekranach; klasy istnieją w <code>olte.css</code> do zastosowania,
+      gdy balans budynku spadnie poniżej progu dobry/średni/zły).</p>
+  </section>
+
+  <!-- ══════════════ TYPOGRAFIA ══════════════ -->
+  <section class="ds" data-od-id="typografia">
+    <h2>Typografia</h2>
+    <p class="ds-note">Manrope dla nagłówków i liczb, Instrument Sans dla tekstu interfejsowego —
+      dwie rodziny, bez trzeciej. Rozmiary pochodzą z jednej skali tokenów
+      <code>--fs-10 … --fs-56</code>: szesnaście stopni, żadnego z przecinkiem.</p>
+
+    <h3 class="ds-sub-h">Katalog styli</h3>
+    <dl class="specimen" data-od-id="typografia-katalog">
+      <dt><span class="sp-name">Heading 1</span><span class="sp-spec">Manrope Bold · 23 / 31</span></dt>
+      <dd class="t-h1">Budynek działa optymalnie</dd>
+      <dt><span class="sp-name">Heading 2</span><span class="sp-spec">Manrope Bold · 18 / 25</span></dt>
+      <dd class="t-h2">Porównanie zapotrzebowania</dd>
+      <dt><span class="sp-name">Label</span><span class="sp-spec">Manrope Bold · 14 / 19</span></dt>
+      <dd class="t-label">System grzewczy działa prawidłowo</dd>
+      <dt><span class="sp-name">Value</span><span class="sp-spec">Manrope SemiBold · 15 / 20</span></dt>
+      <dd class="t-value">Podsumowanie pomieszczenia</dd>
+      <dt><span class="sp-name">Body</span><span class="sp-spec">Instrument Sans Regular · 12 / 16</span></dt>
+      <dd class="t-body">Wykres dobowy, wilgotność i pogoda</dd>
+      <dt><span class="sp-name">Link</span><span class="sp-spec">Instrument Sans SemiBold · 12 / 16</span></dt>
+      <dd class="t-link" style="color:var(--accent)">Więcej informacji</dd>
+      <dt><span class="sp-name">Small</span><span class="sp-spec">Instrument Sans Regular · 10 / 14</span></dt>
+      <dd class="t-small">Oszczędność</dd>
+      <dt><span class="sp-name">Caption</span><span class="sp-spec">Manrope SemiBold · 10 / 14</span></dt>
+      <dd class="t-caption">Ostatnie 24 godziny</dd>
+    </dl>
+
+    <h3 class="ds-sub-h">Rozmiary wyświetlaczowe</h3>
+    <dl class="specimen" data-od-id="typografia-display">
+      <dt><span class="sp-name">Tytuł ekranu</span><span class="sp-spec">Manrope Bold · 20 / 27</span></dt>
+      <dd class="t-title">Sypialnia</dd>
+      <dt><span class="sp-name">Metryka</span><span class="sp-spec">Manrope ExtraBold · 26 / 35</span></dt>
+      <dd class="t-metric t-num" style="color:var(--brand-ceglany)">300</dd>
+      <dt><span class="sp-name">Metryka wiodąca</span><span class="sp-spec">Manrope ExtraBold · 56 / 64</span></dt>
+      <dd class="t-metric-xl t-num" style="color:var(--accent)">80%</dd>
+      <dt><span class="sp-name">Odczyt tarczy</span><span class="sp-spec">Manrope Regular · 45 / 56</span></dt>
+      <dd class="t-num" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-45);line-height:56px;letter-spacing:-.02em">20,4°</dd>
+      <dt><span class="sp-name">Zakładka nawigacji</span><span class="sp-spec">Instrument Sans Medium · 11 / 15</span></dt>
+      <dd style="font-family:var(--font-body);font-weight:500;font-size:var(--fs-11);line-height:15px;color:var(--accent)">Główny</dd>
+    </dl>
+  </section>
+
+  <!-- ══════════════ PODSTAWY ══════════════ -->
+  <section class="ds" data-od-id="podstawy">
+    <h2>Promienie, cienie, odstępy</h2>
+    <p class="ds-note">Skala promieni skrócona z czternastu wartości w pliku do pięciu tokenów —
+      pozostałe przypadki (1, 2, 3, 5, 8, 11, 13, 16, 50 px) były jednorazowe i zostały
+      podciągnięte do najbliższego stopnia. Cienie są wyłącznie miękkie: karta łączy
+      warstwę 8/24 z warstwą 1/2.</p>
+
+    <div class="examples" style="margin-top:32px">
+      <div class="demo" data-od-id="demo-promienie">
+        <div class="demo-label">Promienie</div>
+        <div class="demo-body is-row" style="gap:16px">
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:58px;height:58px;background:var(--primary-100);border-radius:var(--r-sm)"></div>
+            <span class="t-small muted">10 · ikona</span></div>
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:58px;height:58px;background:var(--primary-100);border-radius:var(--r-md)"></div>
+            <span class="t-small muted">12 · kontener</span></div>
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:58px;height:58px;background:var(--primary-100);border-radius:var(--r-lg)"></div>
+            <span class="t-small muted">14 · kafel</span></div>
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:58px;height:58px;background:var(--primary-100);border-radius:var(--r-xl)"></div>
+            <span class="t-small muted">22 · karta</span></div>
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:58px;height:26px;background:var(--primary-100);border-radius:var(--r-pill)"></div>
+            <span class="t-small muted">999 · pigułka</span></div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="demo-cienie">
+        <div class="demo-label">Cienie</div>
+        <div class="demo-body is-row" style="gap:18px">
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:74px;height:56px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-sm)"></div>
+            <span class="t-small muted">shadow-sm</span></div>
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:74px;height:56px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-md)"></div>
+            <span class="t-small muted">shadow-md</span></div>
+          <div class="col gap-6" style="align-items:center">
+            <div style="width:74px;height:56px;background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);box-shadow:var(--shadow-card)"></div>
+            <span class="t-small muted">shadow-card</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ KOMPONENTY ══════════════ -->
+  <section class="ds" data-od-id="komponenty">
+    <h2>Komponenty</h2>
+    <p class="ds-note">Wszystkie warianty pochodzą z symboli w pliku. Elementy interaktywne
+      reagują na wskaźnik i kliknięcie — te stany dodałem w kodzie, bo w Figmie ich nie ma.</p>
+
+    <h3 class="ds-sub-h">Powiadomienie · Type = Success / Info / Warning / Error</h3>
+    <div class="col gap-12" data-od-id="komponent-notification" style="max-width:393px">
+      <div class="notif">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg></span>
+        <div class="notif-body">
+          <h4 class="t-label">System grzewczy działa prawidłowo</h4>
+          <p class="t-body muted" style="font-size:var(--fs-11)">OLTE monitoruje Twój system grzewczy i nie wykrył żadnych nieprawidłowości.</p>
+          <a class="notif-link t-link" href="#">Więcej informacji <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+        </div>
+      </div>
+      <div class="notif notif--info">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-info"/></svg></span>
+        <div class="notif-body">
+          <h4 class="t-label">Aktualizacja systemu dostępna</h4>
+          <p class="t-body muted" style="font-size:var(--fs-11)">Dostępna jest nowa wersja oprogramowania dla Twojego systemu grzewczego OLTE.</p>
+          <a class="notif-link t-link" href="#">Więcej informacji <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+        </div>
+      </div>
+      <div class="notif notif--warning">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-circle-alert"/></svg></span>
+        <div class="notif-body">
+          <h4 class="t-label">Wymagana konserwacja</h4>
+          <p class="t-body muted" style="font-size:var(--fs-11)">OLTE zaleca przeprowadzenie przeglądu technicznego systemu grzewczego w ciągu 7 dni.</p>
+          <a class="notif-link t-link" href="#">Więcej informacji <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+        </div>
+      </div>
+      <div class="notif notif--error">
+        <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg></span>
+        <div class="notif-body">
+          <h4 class="t-label">Wykryto usterkę systemu</h4>
+          <p class="t-body muted" style="font-size:var(--fs-11)">OLTE wykrył nieprawidłowość w działaniu systemu grzewczego. Wymagana interwencja serwisowa.</p>
+          <a class="notif-link t-link" href="#">Więcej informacji <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="ds-sub-h">Pozostałe komponenty</h3>
+    <div class="examples">
+
+      <div class="demo" data-od-id="komponent-status-dot">
+        <div class="demo-label">Status dot · State = OK / Active / Info / Alert / Off</div>
+        <div class="demo-body" style="gap:10px">
+          <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
+          <span class="rr-status"><i class="dot dot--mid"></i>Dogrzewanie w toku</span>
+          <span class="rr-status"><i class="dot dot--info"></i>Program poranny</span>
+          <span class="rr-status"><i class="dot dot--low"></i>Poza zakresem</span>
+          <span class="rr-status"><i class="dot dot--off"></i>Czujnik nieaktywny</span>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-room-row">
+        <div class="demo-label">Room List Item</div>
+        <div class="demo-body" style="padding:8px 20px">
+          <a class="roomrow" href="screens/room-sypialnia-aj-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Sypialnia AJ</span>
+              <span class="rr-status"><i class="dot"></i>Komfort idealny</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num">23,0°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-lazienka-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Łazienka</span>
+              <span class="rr-status"><i class="dot dot--info"></i>Program poranny</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp rr-temp--warm t-num">24,2°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>55%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-rr-sched">
+        <div class="demo-label">Room List Item · pill stanu harmonogramu</div>
+        <div class="demo-body" style="padding:8px 20px;gap:0">
+          <a class="roomrow" href="screens/room-salon-aj-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Salon AJ</span>
+              <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
+              <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num">23,4°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-gabinet-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Gabinet</span>
+              <span class="rr-status"><i class="dot dot--low"></i>Tryb eco · poza strefą komfortu</span>
+              <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num" style="color:var(--on-error)">20,8°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>43%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-kotlownia-glowny.html">
+            <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Kotłownia</span>
+              <span class="rr-status"><i class="dot dot--off"></i>Brak danych od 3 h</span>
+              <span class="rr-sched rr-sched--off"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Stała temperatura</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num rr-temp--off">—</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>—</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+        </div>
+        <p class="t-small muted" style="padding:0 20px 16px">Trzy stany: <code>.rr-sched</code>
+          domyślny (niebieski, <code>Harmonogram bazowy</code>) — pomieszczenie dziedziczy bez
+          zmian; <code>.rr-sched--own</code> (żółty) — świadome odejście od bazowego, edytowalne
+          niezależnie; <code>.rr-sched--off</code> (wyciszony) — harmonogram nieaktywny, jedna
+          stała temperatura. Widoczny pod <code>.rr-status</code> w <a href="screens/11-pomieszczenia.html"
+          style="color:var(--accent);font-weight:600">hubie pomieszczeń</a> i pod tarczą na
+          każdym <code>room-&lt;slug&gt;-glowny.html</code>.</p>
+      </div>
+
+      <div class="demo" data-od-id="komponent-rr-climate">
+        <div class="demo-label">Room List Item · kierunek regulacji temperatury</div>
+        <div class="demo-body" style="padding:8px 20px;gap:0">
+          <a class="roomrow" href="screens/room-kuchnia-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Kuchnia</span>
+              <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+              <span class="rr-climate rr-climate--heat" title="Temperatura regulowana w górę — trwa dogrzewanie">
+                <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>Dogrzewanie</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num">22,6°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>52%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-lazienka-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Łazienka</span>
+              <span class="rr-sched rr-sched--own"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
+              <span class="rr-climate rr-climate--cool" title="Temperatura regulowana w dół — grzanie wstrzymane do 22,0°">
+                <svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg>Chłodzenie</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp rr-temp--warm t-num">24,2°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>55%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-sypialnia-aj-glowny.html">
+            <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Sypialnia AJ</span>
+              <span class="rr-sched"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+              <span class="rr-climate" title="Bez regulacji — temperatura utrzymywana">
+                <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Utrzymanie</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num">23,0°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>47%</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow is-offline" href="screens/room-kotlownia-glowny.html">
+            <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Kotłownia</span>
+              <span class="rr-sched rr-sched--off"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Stała temperatura</span>
+              <span class="rr-climate rr-climate--none" title="Brak odczytu — kierunek regulacji nieznany">
+                <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg>Brak danych</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num rr-temp--off">—</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>—</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+        </div>
+        <p class="t-small muted" style="padding:0 20px 16px">Czwarta mikro-linia wiersza, pod
+          <code>.rr-sched</code> — odpowiada na pytanie „w którą stronę idzie temperatura”.
+          <code>.rr-climate--heat</code> (<code>flame</code>, <code>--on-temp</code>) — regulacja
+          w górę; <code>.rr-climate--cool</code> (<code>snowflake</code>, <code>--on-hum</code>) —
+          regulacja w dół; klasa bazowa bez modyfikatora (<code>minus</code>, <code>--muted</code>) —
+          brak regulacji, temperatura utrzymywana; <code>.rr-climate--none</code>
+          (<code>--status-off</code>) — brak odczytu, kierunek nieznany, nigdy nie zgaduj kierunku
+          bez danych. Kierunek zawsze dublowany w <code>title</code> — kolor nie jest jedynym
+          nośnikiem informacji. Wdrożone w <a href="screens/11-pomieszczenia.html"
+          style="color:var(--accent);font-weight:600">hubie pomieszczeń</a> (7/7 wierszy).</p>
+      </div>
+
+      <div class="demo" data-od-id="komponent-stan-harmonogramu">
+        <div class="demo-label">Schedule state · pill + skrót do ustawień</div>
+        <div class="demo-body" style="align-items:center">
+          <div class="row" style="justify-content:center;gap:8px">
+            <span class="tagpill tagpill--info">
+              <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+            <a class="iconbtn" href="screens/07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+               title="Ustawienia harmonogramu"
+               aria-label="Ustawienia harmonogramu — zmień na własny harmonogram lub stałą temperaturę">
+              <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
+          </div>
+          <div class="row" style="justify-content:center;gap:8px">
+            <span class="tagpill tagpill--warning">
+              <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Własny harmonogram</span>
+            <a class="iconbtn" href="screens/07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+               title="Ustawienia harmonogramu"
+               aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub stałą temperaturę">
+              <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
+          </div>
+        </div>
+        <p class="t-small muted" style="padding:0 20px 16px">Wiersz pod tarczą temperatury
+          (<code>data-od-id="stan-harmonogramu"</code>) na każdym <code>room-&lt;slug&gt;-glowny.html</code>:
+          plakietka stanu plus <code>.iconbtn</code> z ikoną <code>settings</code> prowadzący
+          bezpośrednio do <code>07-edycja-pomieszczenia.html#segment-tryb-harmonogramu</code> —
+          zmiana trybu na własny lub stałą temperaturę bez przechodzenia przez pełną edycję.
+          Plakietka jest statusem (nie klikalna), zębatka jest jedynym elementem interaktywnym;
+          cel dotykowy <code>.iconbtn</code> to 40×40 px. <code>aria-label</code> nazywa docelowe
+          tryby, a nie samą ikonę. Wdrożone w 6/6 ogrzewanych pomieszczeniach (Kotłownia bez
+          harmonogramu — bez skrótu).</p>
+      </div>
+
+      <div class="demo" data-od-id="komponent-segment">
+        <div class="demo-label">Metric toggle · Active = Temperatura / Wilgotność</div>
+        <div class="demo-body">
+          <div class="segment" id="demo-segment" role="tablist" aria-label="Metryka">
+            <button type="button" class="is-temp" role="tab" data-metric="temperatura" aria-selected="true">
+              <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>Temperatura</button>
+            <button type="button" class="is-hum" role="tab" data-metric="wilgotnosc" aria-selected="false">
+              <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>Wilgotność</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-week-calendar">
+        <div class="demo-label">Week Calendar</div>
+        <div class="demo-body">
+          <div class="weekcal" id="demo-weekcal" role="group" aria-label="Wybór dnia">
+            <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Pon</span><span class="dc-num t-num">06</span></button>
+            <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Wt</span><span class="dc-num t-num">07</span></button>
+            <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Śr</span><span class="dc-num t-num">08</span></button>
+            <button class="daycell" type="button" aria-pressed="true"><span class="dc-dow">Czw</span><span class="dc-num t-num">09</span></button>
+            <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Pt</span><span class="dc-num t-num">10</span></button>
+            <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Sob</span><span class="dc-num t-num">11</span></button>
+            <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Nd</span><span class="dc-num t-num">12</span></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-pigulki">
+        <div class="demo-label">Pigułki odczytu i znaczniki</div>
+        <div class="demo-body is-row" style="gap:8px">
+          <span class="pill pill--temp t-num"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>20,8 °C</span>
+          <span class="pill pill--hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>52 %</span>
+          <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg>Działa dobrze</span>
+          <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-trending-down"/></svg>
+            <span class="t-num" style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-13)">−16%</span></span>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-pill-tarczy">
+        <div class="demo-label">Pill statusu tarczy (Card Hero) · State = Idealny / Dobry / Podwyższony / Wymaga uwagi / Alarm</div>
+        <div class="demo-body is-row" style="gap:8px;flex-wrap:wrap">
+          <span class="dial-pill tagpill" style="background:var(--accent);color:var(--n-0);font-weight:700">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:none;color:var(--n-0)"><use href="#i-circle-check"/></svg>Idealny</span>
+          <span class="dial-pill tagpill" style="background:var(--app-4);color:var(--n-0);font-weight:700">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:none;color:var(--n-0)"><use href="#i-gauge"/></svg>Dobry</span>
+          <span class="dial-pill tagpill" style="background:var(--app-2);color:var(--n-0);font-weight:700">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:none;color:var(--n-0)"><use href="#i-triangle-alert"/></svg>Podwyższony</span>
+          <span class="dial-pill tagpill tagpill--warning" style="font-weight:700">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:none"><use href="#i-triangle-alert"/></svg>Wymaga uwagi</span>
+          <span class="dial-pill tagpill tagpill--error" style="font-weight:700">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:none"><use href="#i-circle-alert"/></svg>Alarm</span>
+        </div>
+        <p class="ds-note" style="margin-top:8px">Ten sam znacznik <code>.tagpill</code> co pigułki odczytu, użyty na tle akcentu wewnątrz tarczy — na tłach pełnokolorowych (Idealny/Dobry/Podwyższony) ikona i tekst muszą dostać jawny <code>color:var(--n-0)</code> inline, inaczej domyślna reguła <code>.tagpill svg{color:var(--accent)}</code> zlewa ikonę z tłem. „Wymaga uwagi” (pomarańczowy, wyciszone tło <code>--surf-warning</code>) i „Alarm” (czerwony, <code>--surf-error</code>) korzystają wprost z <code>.tagpill--warning</code>/<code>.tagpill--error</code> — bez nadpisania koloru. „Podwyższony” to pomarańczowy ton <code>--app-2</code> pełnym tłem (jak Idealny/Dobry), dla stanu pośredniego między „Dobry” i alarmowym „Wymaga uwagi”/„Alarm”.</p>
+      </div>
+
+      <div class="demo" data-od-id="komponent-tarcza-tony">
+        <div class="demo-label">Tarcza pomieszczenia · łuk koduje wynik 0–100, nie temperaturę · animacja wejścia</div>
+        <table class="ds-table" style="margin-bottom:12px">
+          <thead><tr><th>Wynik</th><th>Ton</th><th>Token łuku</th><th>Pill</th></tr></thead>
+          <tbody>
+            <tr><td>90–100</td><td>Idealny</td><td><code>--gauge-excellent</code></td><td>solid: bg <code>--accent</code>, tekst <code>--n-0</code></td></tr>
+            <tr><td>75–89</td><td>Dobry</td><td><code>--gauge-high</code></td><td>solid: bg <code>--app-4</code>, tekst <code>--n-0</code></td></tr>
+            <tr><td>50–74</td><td>Podwyższony</td><td><code>--gauge-low</code></td><td>solid: bg <code>--app-2</code>, tekst <code>--n-0</code></td></tr>
+            <tr><td>25–49</td><td>Wymaga uwagi</td><td><code>--gauge-danger</code></td><td><code>.tagpill--warning</code></td></tr>
+            <tr><td>0–24</td><td>Alarm</td><td><code>--gauge-danger</code></td><td><code>.tagpill--error</code></td></tr>
+          </tbody>
+        </table>
+        <div class="demo-body is-row" style="gap:28px;flex-wrap:wrap;justify-content:center;padding:28px 20px 12px" id="tarcza-tony-row">
+          <div class="col" style="align-items:center;gap:8px;text-align:center">
+            <div class="dial" data-tone-dial style="width:132px;height:132px;--dial-len:744;--dial-offset:37.2" data-enter>
+              <svg viewBox="0 0 320 320" width="132" height="132" aria-hidden="true">
+                <path d="M124.2 285A130 130 0 1 1 195.8 285" style="fill:none;stroke:color-mix(in oklch, var(--gauge-excellent) 12%, transparent);stroke-width:27;stroke-linecap:round"/>
+                <path class="dial-arc-fill" d="M124.2 285A130 130 0 1 1 195.8 285" stroke-dasharray="744" stroke-dashoffset="744" style="fill:none;stroke:var(--gauge-excellent);stroke-width:27;stroke-linecap:round"/>
+                <circle class="dial-arc-dot" cx="229.7" cy="269.8" r="7" style="fill:var(--surface);transform-origin:229.7px 269.8px"/>
+              </svg>
+              <div class="dial-center">
+                <p class="dial-value t-num" data-count-to="95" data-suffix="" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-26);line-height:30px;color:var(--gauge-excellent)">0</p>
+              </div>
+            </div>
+            <span class="t-small muted"><code>--gauge-excellent</code> · 90–100 Idealny</span>
+          </div>
+          <div class="col" style="align-items:center;gap:8px;text-align:center">
+            <div class="dial" data-tone-dial style="width:132px;height:132px;--dial-len:744;--dial-offset:297.6" data-enter>
+              <svg viewBox="0 0 320 320" width="132" height="132" aria-hidden="true">
+                <path d="M124.2 285A130 130 0 1 1 195.8 285" style="fill:none;stroke:color-mix(in oklch, var(--gauge-high) 12%, transparent);stroke-width:27;stroke-linecap:round"/>
+                <path class="dial-arc-fill" d="M124.2 285A130 130 0 1 1 195.8 285" stroke-dasharray="744" stroke-dashoffset="744" style="fill:none;stroke:var(--gauge-high);stroke-width:27;stroke-linecap:round"/>
+                <circle class="dial-arc-dot" cx="230.4" cy="50.7" r="7" style="fill:var(--surface);transform-origin:230.4px 50.7px"/>
+              </svg>
+              <div class="dial-center">
+                <p class="dial-value t-num" data-count-to="80" data-suffix="" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-26);line-height:30px;color:var(--gauge-high)">0</p>
+              </div>
+            </div>
+            <span class="t-small muted"><code>--gauge-high</code> · 75–89 Dobry</span>
+          </div>
+          <div class="col" style="align-items:center;gap:8px;text-align:center">
+            <div class="dial" data-tone-dial style="width:132px;height:132px;--dial-len:744;--dial-offset:223.2" data-enter>
+              <svg viewBox="0 0 320 320" width="132" height="132" aria-hidden="true">
+                <path d="M124.2 285A130 130 0 1 1 195.8 285" style="fill:none;stroke:color-mix(in oklch, var(--gauge-low) 12%, transparent);stroke-width:27;stroke-linecap:round"/>
+                <path class="dial-arc-fill" d="M124.2 285A130 130 0 1 1 195.8 285" stroke-dasharray="744" stroke-dashoffset="744" style="fill:none;stroke:var(--gauge-low);stroke-width:27;stroke-linecap:round"/>
+                <circle class="dial-arc-dot" cx="278.3" cy="106.1" r="7" style="fill:var(--surface);transform-origin:278.3px 106.1px"/>
+              </svg>
+              <div class="dial-center">
+                <p class="dial-value t-num" data-count-to="58" data-suffix="" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-26);line-height:30px;color:var(--gauge-low)">0</p>
+              </div>
+            </div>
+            <span class="t-small muted"><code>--gauge-low</code> · 50–74 Podwyższony</span>
+          </div>
+          <div class="col" style="align-items:center;gap:8px;text-align:center">
+            <div class="dial" data-tone-dial style="width:132px;height:132px;--dial-len:744;--dial-offset:446.4" data-enter>
+              <svg viewBox="0 0 320 320" width="132" height="132" aria-hidden="true">
+                <path d="M124.2 285A130 130 0 1 1 195.8 285" style="fill:none;stroke:color-mix(in oklch, var(--gauge-danger) 12%, transparent);stroke-width:27;stroke-linecap:round"/>
+                <path class="dial-arc-fill" d="M124.2 285A130 130 0 1 1 195.8 285" stroke-dasharray="744" stroke-dashoffset="744" style="fill:none;stroke:var(--gauge-danger);stroke-width:27;stroke-linecap:round"/>
+                <circle class="dial-arc-dot" cx="89.5" cy="50.8" r="7" style="fill:var(--surface);transform-origin:89.5px 50.8px"/>
+              </svg>
+              <div class="dial-center">
+                <p class="dial-value t-num" data-count-to="40" data-suffix="" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-26);line-height:30px;color:var(--gauge-danger)">0</p>
+              </div>
+            </div>
+            <span class="t-small muted"><code>--gauge-danger</code> · 0–49 Wymaga uwagi / Alarm</span>
+          </div>
+        </div>
+        <div class="demo-body" style="padding-top:0">
+          <button type="button" class="btn btn--ghost" id="btn-replay-dial" style="align-self:flex-start">
+            <svg viewBox="0 0 24 24"><use href="#i-refresh-cw"/></svg>Odtwórz animację ponownie</button>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-chipy">
+        <div class="demo-label">Chip metryki (Card Hero) · State = Dobry / Średni / Alarmowy</div>
+        <div class="demo-body">
+          <div class="hero-chips">
+            <div class="chipmetric"><svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--accent)">89/100</span><span class="cm-lab">Komfort</span></span></div>
+            <div class="chipmetric"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--accent)">22,4°</span><span class="cm-lab">Śr. w budynku</span></span></div>
+            <div class="chipmetric"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--accent)">6,2 kWh</span><span class="cm-lab">Oszczędność</span></span></div>
+          </div>
+          <div class="hero-chips" style="margin-top:8px">
+            <div class="chipmetric"><svg viewBox="0 0 24 24" style="color:var(--on-warning)"><use href="#i-gauge"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--on-warning)">62/100</span><span class="cm-lab">Komfort</span></span></div>
+            <div class="chipmetric"><svg viewBox="0 0 24 24" style="color:var(--on-warning)"><use href="#i-thermometer"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--on-warning)">24,2°</span><span class="cm-lab">Śr. w budynku</span></span></div>
+            <div class="chipmetric"><svg viewBox="0 0 24 24" style="color:var(--on-warning)"><use href="#i-leaf"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--on-warning)">3,1 kWh</span><span class="cm-lab">Oszczędność</span></span></div>
+          </div>
+          <div class="hero-chips" style="margin-top:8px">
+            <div class="chipmetric"><svg viewBox="0 0 24 24" style="color:var(--on-error)"><use href="#i-gauge"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--on-error)">34/100</span><span class="cm-lab">Komfort</span></span></div>
+            <div class="chipmetric"><svg viewBox="0 0 24 24" style="color:var(--on-error)"><use href="#i-thermometer"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--on-error)">27,8°</span><span class="cm-lab">Śr. w budynku</span></span></div>
+            <div class="chipmetric"><svg viewBox="0 0 24 24" style="color:var(--on-error)"><use href="#i-leaf"/></svg>
+              <span class="col"><span class="cm-val t-num" style="color:var(--on-error)">0,0 kWh</span><span class="cm-lab">Oszczędność</span></span></div>
+          </div>
+          <p class="ds-note" style="margin-top:8px">Chipy zawsze występują trójką w jednym rzędzie (<code>.chipmetric</code> ma <code>flex:1</code> — pojedynczy chip w rzędzie rozciąga się na całą szerokość zamiast dzielić ją z sąsiadami). Wartość i ikona przechodzą razem na jeden z trzech tonów: <code>var(--accent)</code> (zielony, dobry), <code>var(--on-warning)</code> (żółty, średni — ten sam ton co <code>.tagpill--warning</code>) albo <code>var(--on-error)</code> (czerwony, alarmowy — ten sam ton co <code>.tagpill--error</code>). Etykieta (<code>.cm-lab</code>) zostaje zawsze wyciszona, niezależnie od stanu wartości.</p>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-paski">
+        <div class="demo-label">Paski postępu</div>
+        <div class="demo-body">
+          <div class="bar"><span style="width:90%"></span></div>
+          <div class="bar bar--thin"><span style="width:60%;background:var(--status-info)"></span></div>
+          <div class="bar bar--track"><span style="width:87%;background:var(--brand-ceglany)"></span></div>
+          <div class="bar bar--track"><span style="width:100%;background:var(--app-1a)"></span></div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="komponent-linkcard">
+        <div class="demo-label">Karta-link</div>
+        <div class="demo-body">
+          <a class="linkcard" href="screens/room-sypialnia-aj-podsumowanie.html">
+            <span class="iconbox iconbox--36 iconbox--good"><svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg></span>
+            <span class="lc-body col gap-2">
+              <span class="t-value">Podsumowanie pomieszczenia</span>
+              <span class="t-body-lg muted">Co dzieje się w pomieszczeniu — opis słowny</span></span>
+            <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <h3 class="ds-sub-h">Room Icon — 19 wariantów Lucide dla pomieszczeń</h3>
+    <div class="demo" data-od-id="komponent-room-icons">
+      <div class="demo-label">Wybrane ikony pomieszczeń</div>
+      <div class="demo-body">
+        <div class="roomicons">
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span><span>sypialnia</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg></span><span>pokój gościnny</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-baby"/></svg></span><span>pokój dziecka</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span><span>salon</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span><span>łazienka</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-shower-head"/></svg></span><span>prysznic / WC</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span><span>kuchnia</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-utensils"/></svg></span><span>jadalnia</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span><span>gabinet</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-piano"/></svg></span><span>pokój muzyczny</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-hammer"/></svg></span><span>warsztat</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-server"/></svg></span><span>serwerownia</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-flower-2"/></svg></span><span>ogród zimowy</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span><span>kotłownia</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></span><span>przedpokój</span></span>
+          <span class="roomicon"><span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-house"/></svg></span><span>cały dom</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- ══════════════ IKONOGRAFIA ══════════════ -->
+  <section class="ds" data-od-id="ikonografia">
+    <h2>Ikonografia</h2>
+    <p class="ds-note">Jedno źródło ikon: <strong>Lucide</strong>, pakiet
+      <code>lucide-static@1.27.0</code>, geometria wklejona 1:1 — żadna ikona w tym projekcie
+      nie jest rysowana odręcznie. Sprite <code>assets/icons.js</code> ma 73 symboli, a każde
+      <code>id</code> jest dokładną nazwą ikony w Lucide, więc <code>#i-thermometer</code> to
+      <code>thermometer</code> z biblioteki i nic innego. Dodanie ikony = pobranie jej z Lucide
+      i dopisanie wpisu do sprite'u; nowy rysunek albo ikona z innego zestawu nie wchodzą.</p>
+
+    <dl class="specimen" data-od-id="ikony-zasady">
+      <dt><span class="sp-name">Rozmiary</span><span class="sp-spec">siatka 24</span></dt>
+      <dd>17 px pasek statusu · 18 px w przycisku i wierszu · 20 px nagłówek · 22 px ikona pomieszczenia w kontenerze 44 px · 38 px powiadomienie</dd>
+      <dt><span class="sp-name">Obrys</span><span class="sp-spec">stroke-width 2</span></dt>
+      <dd>Stała grubość niezależnie od rozmiaru — ikony nie są skalowane wraz z obrysem; zakończenia i połączenia zaokrąglone.</dd>
+      <dt><span class="sp-name">Kolor</span><span class="sp-spec">currentColor</span></dt>
+      <dd>Ikona dziedziczy kolor tekstu rodzica i nigdy nie ma własnego hexa.</dd>
+      <dt><span class="sp-name">Wypełnienie</span><span class="sp-spec">fill: none</span></dt>
+      <dd>Lucide jest zestawem konturowym — wersji wypełnionych nie dorabiamy.</dd>
+      <dt><span class="sp-name">Zmiany nazw</span><span class="sp-spec">migracja</span></dt>
+      <dd><code>alert-triangle</code> → <code>triangle-alert</code>, <code>alert-circle</code> → <code>circle-alert</code>,
+        <code>more-horizontal</code> → <code>ellipsis</code>, <code>sliders</code> → <code>sliders-vertical</code>.
+        Pasek statusu korzysta z <code>signal</code>, <code>wifi</code> i <code>battery-full</code> w miejsce
+        dawnych własnych rysunków <code>sb-*</code>.</dd>
+    </dl>
+
+    <h3 class="ds-sub-h">Pełny sprite — 73 ikon</h3>
+    <div class="examples examples--wide" style="margin-top:24px">
+      <div class="demo" data-od-id="ikony-nawigacja">
+        <div class="demo-label">nawigacja i chrome · 15</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></span><code>arrow-left</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></span><code>arrow-right</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-chevron-left"/></svg></span><code>chevron-left</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span><code>chevron-right</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg></span><code>chevron-down</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-chevrons-down"/></svg></span><code>chevrons-down</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></span><code>square-pen</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-ellipsis"/></svg></span><code>ellipsis</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-menu"/></svg></span><code>menu</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-share-2"/></svg></span><code>share-2</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-info"/></svg></span><code>info</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-heart"/></svg></span><code>heart</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-house"/></svg></span><code>house</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></span><code>door-open</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg></span><code>cpu</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-pomiary">
+        <div class="demo-label">pomiary · 9</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg></span><code>thermometer</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg></span><code>droplet</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg></span><code>droplets</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg></span><code>gauge</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-activity"/></svg></span><code>activity</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-trending-down"/></svg></span><code>trending-down</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-trending-up"/></svg></span><code>trending-up</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-zap"/></svg></span><code>zap</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg></span><code>leaf</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-pogoda">
+        <div class="demo-label">pogoda · 6</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-sun"/></svg></span><code>sun</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-cloud"/></svg></span><code>cloud</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-cloud-sun"/></svg></span><code>cloud-sun</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg></span><code>snowflake</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-wind"/></svg></span><code>wind</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span><code>flame</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-status">
+        <div class="demo-label">status · 11</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg></span><code>circle-check</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg></span><code>shield-check</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg></span><code>triangle-alert</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-circle-alert"/></svg></span><code>circle-alert</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-circle-x"/></svg></span><code>circle-x</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-lightbulb"/></svg></span><code>lightbulb</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-clock"/></svg></span><code>clock</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-calendar"/></svg></span><code>calendar</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></span><code>calendar-clock</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-refresh-cw"/></svg></span><code>refresh-cw</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-eye"/></svg></span><code>eye</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-pomieszczenia">
+        <div class="demo-label">pomieszczenia · 19</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span><code>bed</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg></span><code>bed-double</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-baby"/></svg></span><code>baby</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span><code>sofa</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span><code>bath</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-shower-head"/></svg></span><code>shower-head</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span><code>cooking-pot</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-utensils"/></svg></span><code>utensils</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span><code>monitor</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-washing-machine"/></svg></span><code>washing-machine</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-dumbbell"/></svg></span><code>dumbbell</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-hammer"/></svg></span><code>hammer</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-server"/></svg></span><code>server</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-piano"/></svg></span><code>piano</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-flower-2"/></svg></span><code>flower-2</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-car"/></svg></span><code>car</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-tv"/></svg></span><code>tv</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-book-open"/></svg></span><code>book-open</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-warehouse"/></svg></span><code>warehouse</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-centralny">
+        <div class="demo-label">centralny · 6</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-fan"/></svg></span><code>fan</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-power"/></svg></span><code>power</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-waves"/></svg></span><code>waves</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-wrench"/></svg></span><code>wrench</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-timer"/></svg></span><code>timer</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-sliders-vertical"/></svg></span><code>sliders-vertical</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-akcje">
+        <div class="demo-label">akcje i stany · 12</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></span><code>plus</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></span><code>minus</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span><code>check</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></span><code>x</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></span><code>trash-2</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-settings-2"/></svg></span><code>settings-2</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></span><code>settings</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-bell"/></svg></span><code>bell</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-copy"/></svg></span><code>copy</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg></span><code>wifi-off</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-cloud-off"/></svg></span><code>cloud-off</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-moon"/></svg></span><code>moon</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-sun-dim"/></svg></span><code>sun-dim</code></span>
+          </div>
+        </div>
+      </div>
+      <div class="demo" data-od-id="ikony-pasek">
+        <div class="demo-label">pasek statusu · 3</div>
+        <div class="demo-body">
+          <div class="icongrid">
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-signal"/></svg></span><code>signal</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg></span><code>wifi</code></span>
+            <span class="iconcell"><span class="iconbox iconbox--38"><svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg></span><code>battery-full</code></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ STANY INTERAKTYWNE ══════════════ -->
+  <section class="ds" data-od-id="stany-interaktywne">
+    <h2>Stany interaktywne</h2>
+    <p class="ds-note">Każdy element sterujący ma cztery stany: spoczynek, hover, wciśnięcie
+      i niedostępność, plus wspólny <code>:focus-visible</code> — obwódka w kolorze akcentu
+      z odstępem 2 px. Wciśnięcie to przesunięcie o 1 px lub skala 0,94 w zależności od typu
+      kontrolki, nigdy zmiana koloru na losowy odcień.</p>
+
+    <div class="examples" style="margin-top:32px">
+      <div class="demo" data-od-id="stany-przyciski">
+        <div class="demo-label">Przyciski · najedź i przytrzymaj</div>
+        <div class="demo-body is-row" style="gap:10px">
+          <button class="btn" type="button">Zapisz harmonogram</button>
+          <button class="btn btn--ghost" type="button">Anuluj</button>
+          <button class="btn btn--quiet" type="button">Historia</button>
+          <button class="btn btn--danger" type="button">
+            <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg>Usuń</button>
+          <button class="btn" type="button" disabled>Zapisz</button>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stany-przyciski-ikonowe">
+        <div class="demo-label">Przyciski ikonowe i segment</div>
+        <div class="demo-body" style="gap:16px">
+          <div class="row gap-8">
+            <button class="iconbtn" type="button" aria-label="Wstecz">
+              <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></button>
+            <button class="iconbtn" type="button" aria-label="Edytuj">
+              <svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></button>
+            <button class="iconbtn" type="button" aria-label="Więcej">
+              <svg viewBox="0 0 24 24"><use href="#i-ellipsis"/></svg></button>
+            <button class="iconbtn" type="button" aria-label="Usuń" disabled>
+              <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></button>
+            <span class="t-small muted">ostatni: niedostępny</span>
+          </div>
+          <div class="segment segment--block" id="demo-segment-tryb" role="tablist" aria-label="Tryb pracy">
+            <button type="button" role="tab" aria-selected="true">Auto</button>
+            <button type="button" role="tab" aria-selected="false">Komfort</button>
+            <button type="button" role="tab" aria-selected="false">Eko</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stany-wykres-dobowy">
+        <div class="demo-label">Wykres dobowy · najedź / dotknij / klawiatura</div>
+        <div class="demo-body" style="gap:10px">
+          <p class="t-small" style="line-height:19px">25 punktów godzinowych (00–24) ma
+            niewidoczny hit-target <code>r=9</code>. <strong style="color:var(--fg)">Najechanie</strong>
+            pokazuje bąbel z wartością i godziną, z łącznikiem do punktu na krzywej —
+            nad punktem, a gdy zbyt blisko górnej krawędzi, automatycznie pod nim, żeby
+            nigdy nie wyjść poza <code>viewBox</code>. <strong style="color:var(--fg)">Dotknięcie/klik</strong>
+            „przypina” bąbel (nie znika po zjechaniu kursorem) — na telefonie to jedyny
+            sposób, by przejrzeć kilka punktów bez ciągłego przytrzymywania. Drugi klik na
+            tym samym punkcie odpina. <strong style="color:var(--fg)">Strzałki ←/→</strong> po
+            fokusie klawiaturą przesuwają się punkt po punkcie; <code>aria-live="polite"</code>
+            region (<code>#chart-live</code>, wizualnie ukryty <code>.sr-only</code>) ogłasza
+            wartość czytnikowi ekranu przy każdej zmianie. Znacznik maksimum doby jest
+            wizualnie stały, ale ma ten sam hit-target co każdy inny punkt — klik na nim
+            działa identycznie.</p>
+          <p class="t-small muted">Mechanizm żyje w jednym miejscu — <code>assets/history.js</code>
+            — więc obowiązuje naraz na wszystkich 12 aktywnych ekranach historii (temperatura
+            + wilgotność × 7 pomieszczeń). Zobacz w ruchu:
+            <a href="screens/room-sypialnia-aj-historia-temp.html" style="color:var(--accent);font-weight:600">Historia temperatury</a>.</p>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stany-pola">
+        <div class="demo-label">Pole tekstowe · cztery stany</div>
+        <div class="demo-body" style="gap:14px">
+          <div class="field">
+            <label for="st-1">Spoczynek</label>
+            <input class="input" id="st-1" type="text" value="Sypialnia">
+          </div>
+          <div class="field">
+            <label for="st-2">Fokus — kliknij pole</label>
+            <input class="input" id="st-2" type="text" placeholder="Nazwa pomieszczenia">
+          </div>
+          <div class="field">
+            <label for="st-3">Błąd walidacji</label>
+            <input class="input" id="st-3" type="text" value="Sypialnia" aria-invalid="true"
+                   aria-describedby="st-3-err">
+            <p class="f-error" id="st-3-err">
+              <svg viewBox="0 0 24 24"><use href="#i-circle-alert"/></svg>
+              Pomieszczenie o tej nazwie już istnieje</p>
+          </div>
+          <div class="field">
+            <label for="st-4">Niedostępne</label>
+            <input class="input" id="st-4" type="text" value="OLTE-S2 4f21" disabled>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stany-przelacznik">
+        <div class="demo-label">Przełącznik · wyłączony · włączony · zablokowany</div>
+        <div class="demo-body" style="gap:0">
+          <div class="listrow">
+            <span class="lr-text"><span class="lr-name">Powiadomienia o wilgotności</span>
+              <span class="lr-sub">Alert powyżej 65 % przez ponad 2 h</span></span>
+            <label class="switch"><input type="checkbox" aria-label="Powiadomienia o wilgotności">
+              <span class="sw-track"></span></label>
+          </div>
+          <div class="listrow">
+            <span class="lr-text"><span class="lr-name">Wykrywanie otwartego okna</span>
+              <span class="lr-sub">Wstrzymuje grzanie przy spadku temperatury</span></span>
+            <label class="switch"><input type="checkbox" checked aria-label="Wykrywanie otwartego okna">
+              <span class="sw-track"></span></label>
+          </div>
+          <div class="listrow">
+            <span class="lr-text"><span class="lr-name">Priorytet w rozdziale ciepła</span>
+              <span class="lr-sub">Wymaga trybu Komfort na jednostce</span></span>
+            <label class="switch"><input type="checkbox" disabled aria-label="Priorytet w rozdziale ciepła">
+              <span class="sw-track"></span></label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ STANY DANYCH ══════════════ -->
+  <section class="ds" data-od-id="stany-danych">
+    <h2>Stany danych</h2>
+    <p class="ds-note">Aplikacja żyje z telemetrii, więc brak danych jest stanem normalnym,
+      nie awarią interfejsu. Cztery przypadki: ładowanie, pusto, błąd pobrania, czujnik offline.
+      Piąty — dane nieaktualne — nie blokuje ekranu, tylko zapowiada wiek odczytu.
+      Wszystkie działają na ekranie
+      <a href="screens/09-stany-danych.html" style="color:var(--accent);font-weight:600">Diagnostyka</a>.</p>
+
+    <div class="examples" style="margin-top:32px">
+      <div class="demo" data-od-id="stan-ladowanie">
+        <div class="demo-label">Ładowanie — szkielet listy</div>
+        <div class="demo-body" style="gap:16px">
+          <div class="row gap-12">
+            <span class="skeleton skeleton--box" style="width:44px;height:44px"></span>
+            <span class="col gap-6 grow">
+              <span class="skeleton" style="width:52%;height:14px"></span>
+              <span class="skeleton" style="width:34%;height:11px"></span></span>
+            <span class="skeleton" style="width:44px;height:20px"></span>
+          </div>
+          <div class="row gap-12">
+            <span class="skeleton skeleton--box" style="width:44px;height:44px"></span>
+            <span class="col gap-6 grow">
+              <span class="skeleton" style="width:40%;height:14px"></span>
+              <span class="skeleton" style="width:46%;height:11px"></span></span>
+            <span class="skeleton" style="width:44px;height:20px"></span>
+          </div>
+          <span class="skeleton skeleton--tile" style="width:100%;height:56px"></span>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stan-pusty">
+        <div class="demo-label">Stan pusty — z jedną akcją wyjścia</div>
+        <div class="demo-body">
+          <div class="emptystate">
+            <span class="es-mark"><svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></span>
+            <p class="es-title">Brak dodanych pomieszczeń</p>
+            <p class="es-text">Dodaj pierwsze pomieszczenie, żeby OLTE zaczął zbierać odczyty
+              temperatury i wilgotności.</p>
+            <div class="es-actions">
+              <button class="btn btn--sm" type="button">
+                <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg>Dodaj pomieszczenie</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stan-blad">
+        <div class="demo-label">Błąd pobrania — z ponowieniem</div>
+        <div class="demo-body">
+          <div class="emptystate emptystate--error">
+            <span class="es-mark"><svg viewBox="0 0 24 24"><use href="#i-cloud-off"/></svg></span>
+            <p class="es-title">Nie udało się pobrać danych</p>
+            <p class="es-text">Jednostka centralna odpowiedziała bez rekordów licznika energii.
+              Ostatni kompletny odczyt: wczoraj 23:50.</p>
+            <div class="es-actions">
+              <button class="btn btn--sm" type="button">
+                <svg viewBox="0 0 24 24"><use href="#i-refresh-cw"/></svg>Ponów próbę</button>
+              <button class="btn btn--quiet btn--sm" type="button">Zgłoś</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stan-offline">
+        <div class="demo-label">Czujnik offline — wiersz zostaje klikalny</div>
+        <div class="demo-body" style="padding:8px 20px">
+          <div class="roomrow is-offline">
+            <span class="iconbox iconbox--44 iconbox--off">
+              <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Kotłownia</span>
+              <span class="rr-status"><i class="dot dot--off"></i>Brak danych od 2 h 14 min</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num rr-temp--off">—</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>—</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </div>
+          <div class="roomrow">
+            <span class="iconbox iconbox--44 iconbox--amber">
+              <svg viewBox="0 0 24 24"><use href="#i-car"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Garaż</span>
+              <span class="rr-status"><i class="dot dot--mid"></i>Bateria 8 % · odczyty rzadsze</span></span>
+            <span class="rr-right">
+              <span class="rr-vals">
+                <span class="rr-temp t-num" style="color:var(--on-warning)">12,8°</span>
+                <span class="rr-hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplet"/></svg>67 %</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="stan-nieaktualne">
+        <div class="demo-label">Dane nieaktualne — pasek nad treścią</div>
+        <div class="demo-body" style="gap:10px">
+          <div class="stalebar">
+            <svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg>
+            <span>Ostatnia synchronizacja 2 h temu</span>
+            <button class="sb-act" type="button">Synchronizuj</button>
+          </div>
+          <div class="stalebar stalebar--error">
+            <svg viewBox="0 0 24 24"><use href="#i-circle-x"/></svg>
+            <span>Jednostka centralna nie odpowiada</span>
+            <button class="sb-act" type="button">Ponów</button>
+          </div>
+          <div class="stalebar stalebar--off">
+            <svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg>
+            <span>Tryb offline — pokazujemy ostatni zapis lokalny</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ FORMULARZE ══════════════ -->
+  <section class="ds" data-od-id="formularze">
+    <h2>Formularze i edycja</h2>
+    <p class="ds-note">Wszystkie kontrolki mają cel dotyku co najmniej 44 px. Wartości liczbowe
+      edytuje się dwiema drogami równocześnie — stepperem dla precyzji i suwakiem dla zakresu —
+      bo na telefonie każda z nich wygrywa w innej sytuacji. Pełny formularz:
+      <a href="screens/07-edycja-pomieszczenia.html" style="color:var(--accent);font-weight:600">Edycja pomieszczenia</a>.</p>
+
+    <div class="examples" style="margin-top:32px">
+      <div class="demo" data-od-id="form-temperatura">
+        <div class="demo-label">Temperatura docelowa · stepper + suwak</div>
+        <div class="demo-body" style="gap:16px">
+          <div class="stepper">
+            <button type="button" aria-label="Obniż"><svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+            <span class="row gap-4" style="align-items:baseline">
+              <span class="st-val">21,0</span><span class="st-unit">°C</span></span>
+            <button type="button" aria-label="Podnieś"><svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+          </div>
+          <div class="slider" data-demo-slider>
+            <input type="range" min="15" max="26" step="0.5" value="21" aria-label="Temperatura docelowa">
+            <div class="slider-scale"><span>15 °C</span><span>20 °C</span><span>26 °C</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="form-ikona">
+        <div class="demo-label">Wybór ikony pomieszczenia · 21 ikon, siatka 7 kolumn</div>
+        <div class="demo-body">
+          <div class="iconpick" id="demo-iconpick" role="group" aria-label="Ikona pomieszczenia"
+               style="grid-template-columns:repeat(7,1fr)">
+            <button type="button" aria-pressed="true"  aria-label="Sypialnia"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Pokój gościnny"><svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Pokój dziecka"><svg viewBox="0 0 24 24"><use href="#i-baby"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Salon"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Salon TV"><svg viewBox="0 0 24 24"><use href="#i-tv"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Gabinet"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Biblioteka"><svg viewBox="0 0 24 24"><use href="#i-book-open"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Jadalnia"><svg viewBox="0 0 24 24"><use href="#i-utensils"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Kuchnia"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Łazienka"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Prysznic lub WC"><svg viewBox="0 0 24 24"><use href="#i-shower-head"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Pralnia"><svg viewBox="0 0 24 24"><use href="#i-washing-machine"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Przedpokój"><svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Pokój muzyczny"><svg viewBox="0 0 24 24"><use href="#i-piano"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Siłownia"><svg viewBox="0 0 24 24"><use href="#i-dumbbell"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Warsztat"><svg viewBox="0 0 24 24"><use href="#i-hammer"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Serwerownia"><svg viewBox="0 0 24 24"><use href="#i-server"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Kotłownia"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Garaż"><svg viewBox="0 0 24 24"><use href="#i-car"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Strych"><svg viewBox="0 0 24 24"><use href="#i-warehouse"/></svg></button>
+            <button type="button" aria-pressed="false" aria-label="Ogród zimowy"><svg viewBox="0 0 24 24"><use href="#i-flower-2"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="form-select">
+        <div class="demo-label">Lista rozwijana · wybór kondygnacji</div>
+        <div class="demo-body" style="gap:16px">
+          <div class="field">
+            <label for="demo-sel-kondygnacja">Kondygnacja</label>
+            <div class="select-wrap">
+              <select class="select" id="demo-sel-kondygnacja" aria-describedby="demo-hint-kondygnacja">
+                <option value="parter" selected>Parter</option>
+                <option value="pietro">Piętro</option>
+                <option value="poddasze">Poddasze</option>
+                <option value="piwnica">Piwnica / kotłownia</option>
+              </select>
+              <svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg>
+            </div>
+            <p class="f-hint" id="demo-hint-kondygnacja">Wpływa na grupowanie na ekranie głównym.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="form-zakres-godzin">
+        <div class="demo-label">Zakres godzin i wybór dni</div>
+        <div class="demo-body" style="gap:16px">
+          <div class="row gap-12">
+            <div class="field grow">
+              <label for="dm-od">Od</label>
+              <input class="input t-num" id="dm-od" type="time" value="15:30" step="900">
+            </div>
+            <div class="field grow">
+              <label for="dm-do">Do</label>
+              <input class="input t-num" id="dm-do" type="time" value="22:00" step="900">
+            </div>
+          </div>
+          <div class="iconpick" id="demo-daypick" style="grid-template-columns:repeat(7,1fr)"
+               role="group" aria-label="Dni tygodnia">
+            <button type="button" aria-pressed="true"  class="t-caption">Pn</button>
+            <button type="button" aria-pressed="true"  class="t-caption">Wt</button>
+            <button type="button" aria-pressed="true"  class="t-caption">Śr</button>
+            <button type="button" aria-pressed="true"  class="t-caption">Cz</button>
+            <button type="button" aria-pressed="true"  class="t-caption">Pt</button>
+            <button type="button" aria-pressed="false" class="t-caption">Sb</button>
+            <button type="button" aria-pressed="false" class="t-caption">Nd</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="form-wiersze">
+        <div class="demo-label">Wiersz ustawień z wartością i pasek akcji</div>
+        <div class="demo-body" style="gap:0">
+          <div class="listrow">
+            <span class="lr-text"><span class="lr-name">Harmonogram</span>
+              <span class="lr-sub">Dzień roboczy · 4 bloki</span></span>
+            <span class="lr-val">Bazowy</span>
+            <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </div>
+          <div class="listrow">
+            <span class="lr-text"><span class="lr-name">Czujnik</span>
+              <span class="lr-sub">Bateria 84 % · sygnał dobry</span></span>
+            <span class="lr-val">OLTE-S2 4f21</span>
+            <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+          </div>
+          <div class="formbar" style="margin:16px -20px -20px;padding:14px 20px">
+            <button class="btn btn--ghost" type="button">Anuluj</button>
+            <button class="btn" type="button">Zapisz zmiany</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ NAKŁADKI ══════════════ -->
+  <section class="ds" data-od-id="nakladki">
+    <h2>Warstwa nakładek</h2>
+    <p class="ds-note">Trzy poziomy: arkusz dolny na wybór i edycję w kontekście, dialog wyłącznie
+      na decyzje nieodwracalne, toast na potwierdzenie tego, co już się stało. Nakładki są
+      pozycjonowane wewnątrz ekranu 393 × 852, nie w oknie przeglądarki — dlatego działają
+      w kadrze telefonu. Podglądy poniżej są statyczne; w ruchu:
+      <a href="screens/08-harmonogram.html" style="color:var(--accent);font-weight:600">Harmonogram</a>.</p>
+
+    <div class="examples" style="margin-top:32px">
+      <div class="demo" data-od-id="nakladka-arkusz">
+        <div class="demo-label">Arkusz dolny</div>
+        <div class="demo-body" style="padding:0">
+          <div class="overlaybox">
+            <div class="ob-bg">
+              <span class="skeleton skeleton--box" style="width:60%;height:16px"></span>
+              <span class="skeleton skeleton--tile" style="width:100%;height:44px"></span>
+            </div>
+            <div class="scrim is-open"></div>
+            <section class="sheet is-open" style="padding:10px 18px 18px">
+              <span class="sh-handle"></span>
+              <div class="sh-head">
+                <span class="grow">
+                  <span class="sh-title">Sypialnia</span>
+                  <span class="sh-sub">Parter · czujnik OLTE-S2 4f21</span></span>
+                <span class="iconbtn"><svg viewBox="0 0 24 24"><use href="#i-x"/></svg></span>
+              </div>
+              <div class="sh-body">
+                <div class="col">
+                  <div class="listrow" style="min-height:44px">
+                    <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></span>
+                    <span class="lr-text"><span class="lr-name">Edytuj pomieszczenie</span></span>
+                    <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+                  </div>
+                  <div class="listrow" style="min-height:44px">
+                    <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></span>
+                    <span class="lr-text"><span class="lr-name">Harmonogram</span></span>
+                    <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="nakladka-dialog">
+        <div class="demo-label">Dialog potwierdzenia — tylko decyzje nieodwracalne</div>
+        <div class="demo-body" style="padding:0">
+          <div class="overlaybox">
+            <div class="ob-bg">
+              <span class="skeleton skeleton--box" style="width:44%;height:16px"></span>
+              <span class="skeleton skeleton--tile" style="width:100%;height:44px"></span>
+            </div>
+            <div class="scrim is-open"></div>
+            <div class="dialog is-open" style="left:18px;right:18px">
+              <span class="dg-mark"><svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></span>
+              <p class="dg-title">Usunąć „Sypialnię”?</p>
+              <p class="dg-text">Historia odczytów z 14 miesięcy zostanie skasowana bez możliwości
+                przywrócenia.</p>
+              <div class="dg-actions">
+                <span class="btn btn--ghost">Zostaw</span>
+                <span class="btn btn--danger">Usuń</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="nakladka-dialog-sukces">
+        <div class="demo-label">Dialog potwierdzenia — pozytywne zamknięcie akcji</div>
+        <div class="demo-body" style="padding:0">
+          <div class="overlaybox">
+            <div class="ob-bg">
+              <span class="skeleton skeleton--box" style="width:44%;height:16px"></span>
+              <span class="skeleton skeleton--tile" style="width:100%;height:44px"></span>
+            </div>
+            <div class="scrim is-open"></div>
+            <div class="dialog is-open" style="left:18px;right:18px">
+              <span class="dg-mark dg-mark--success"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg></span>
+              <p class="dg-title">Pomieszczenie dodane</p>
+              <p class="dg-text">„Pokój gościnny” jest już widoczny na ekranie głównym. Czujnik
+                sparujesz po zapisaniu.</p>
+              <div class="dg-actions">
+                <span class="btn">Gotowe</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="demo" data-od-id="nakladka-toast">
+        <div class="demo-label">Toast — potwierdzenie i błąd</div>
+        <div class="demo-body">
+          <div class="toast is-open">
+            <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+            Harmonogram sypialni zapisany
+          </div>
+          <div class="toast toast--error is-open">
+            <svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg>
+            Nie udało się pobrać odczytów
+          </div>
+          <p class="t-small muted">Toast siedzi 97 px nad dolną krawędzią ekranu — nad nawigacją,
+            nigdy pod nią. Znika po 2,6 s, nie wymaga zamknięcia.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════ TRYB CIEMNY ══════════════ -->
+  <section class="ds" data-od-id="tryb-ciemny">
+    <h2>Tryb ciemny</h2>
+    <p class="ds-note">Motyw ciemny to wyłącznie nadpisanie tokenów w <code>[data-theme='dark']</code> —
+      żaden komponent nie ma własnej reguły dla ciemnego tła. Skala neutralna jest zielono-podbarwiona,
+      więc odwrócenie nie wprowadza nowych barw, tylko przesuwa jasność; akcent podnosi się
+      z <code>#478675</code> na <code>#7ab1a0</code>, żeby utrzymać kontrast na ciemnym tle.
+      Przełącznik w nagłówku tej strony zmienia motyw też w podglądach ekranów na stronie przeglądu.</p>
+
+    <div class="demo" style="margin-top:32px" data-od-id="porownanie-motywow">
+      <div class="demo-label">Te same komponenty, dwa zestawy tokenów</div>
+      <div class="themepair">
+        <div class="themepane" data-theme="light">
+          <span class="tp-name">Jasny</span>
+          <div class="card col gap-12" style="padding:14px 16px">
+            <div class="row-between">
+              <span class="t-value">Sypialnia</span>
+              <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>Idealny</span>
+            </div>
+            <div class="row gap-8">
+              <span class="pill pill--temp t-num"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>20,8 °C</span>
+              <span class="pill pill--hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>52 %</span>
+            </div>
+            <span class="bar"><span style="width:80%"></span></span>
+          </div>
+          <div class="notif notif--warning" style="padding:12px 14px">
+            <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-wrench"/></svg></span>
+            <div class="notif-body"><p class="t-label">Filtr do wymiany za 12 dni</p></div>
+          </div>
+          <div class="row gap-8">
+            <button class="btn btn--sm" type="button">Zapisz</button>
+            <button class="btn btn--ghost btn--sm" type="button">Anuluj</button>
+          </div>
+        </div>
+
+        <div class="themepane" data-theme="dark">
+          <span class="tp-name">Ciemny</span>
+          <div class="card col gap-12" style="padding:14px 16px">
+            <div class="row-between">
+              <span class="t-value">Sypialnia</span>
+              <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>Idealny</span>
+            </div>
+            <div class="row gap-8">
+              <span class="pill pill--temp t-num"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>20,8 °C</span>
+              <span class="pill pill--hum t-num"><svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>52 %</span>
+            </div>
+            <span class="bar"><span style="width:80%"></span></span>
+          </div>
+          <div class="notif notif--warning" style="padding:12px 14px">
+            <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-wrench"/></svg></span>
+            <div class="notif-body"><p class="t-label">Filtr do wymiany za 12 dni</p></div>
+          </div>
+          <div class="row gap-8">
+            <button class="btn btn--sm" type="button">Zapisz</button>
+            <button class="btn btn--ghost btn--sm" type="button">Anuluj</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="ds" data-od-id="stopka">
+    <p class="ds-note">Źródło: <code>OLTE-App.fig</code> · 2206 węzłów · 6 ekranów · 66 komponentów ·
+      23 style koloru · 8 styli tekstowych · 10 zmiennych brandowych.
+      Pełny opis w pliku <a href="DESIGN.md" style="color:var(--accent);font-weight:600">DESIGN.md</a>.</p>
+  </footer>
+</div>
+
+<script>
+  // demonstracje interaktywne na stronie DS
+  OLTETheme.bind(document.getElementById('btn-motyw'));
+
+  /* ── count-up + replay tarcz w specimenie "Tarcza temperatury · tony" ──
+     ta sama logika co na żywych ekranach room-<slug>-glowny.html, tylko
+     obsługuje trzy tarcze naraz i da się odtworzyć ponownie przyciskiem. */
+  function playToneDials() {
+    document.querySelectorAll('[data-od-id="komponent-tarcza-tony"] .dial-value[data-count-to]').forEach(function (dialVal) {
+      var target = parseFloat(dialVal.getAttribute('data-count-to').replace(',', '.'));
+      var suffix = dialVal.getAttribute('data-suffix') || '';
+      var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      dialVal.textContent = '0°';
+      if (reduceMotion) {
+        dialVal.textContent = target.toFixed(1).replace('.', ',') + suffix;
+      } else {
+        var start = null, dur = 650;
+        function tick(ts) {
+          if (start === null) start = ts;
+          var p = Math.min(1, (ts - start) / dur);
+          var eased = 1 - Math.pow(1 - p, 3);
+          dialVal.textContent = (eased * target).toFixed(1).replace('.', ',') + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        setTimeout(function () { requestAnimationFrame(tick); }, 550);
+      }
+    });
+  }
+  playToneDials();
+  var btnReplayDial = document.getElementById('btn-replay-dial');
+  if (btnReplayDial) {
+    btnReplayDial.addEventListener('click', function () {
+      document.querySelectorAll('[data-tone-dial]').forEach(function (dial) {
+        dial.removeAttribute('data-enter');
+      });
+      // wymuś reflow, żeby przeglądarka zarejestrowała stan "bez data-enter"
+      // przed jego przywróceniem — inaczej animacja CSS nie odtworzy się od zera
+      void document.body.offsetHeight;
+      requestAnimationFrame(function () {
+        document.querySelectorAll('[data-tone-dial]').forEach(function (dial) {
+          dial.setAttribute('data-enter', '');
+        });
+        playToneDials();
+      });
+    });
+  }
+
+  document.querySelectorAll('#demo-segment button, #demo-segment-tryb button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      b.parentNode.querySelectorAll('button').forEach(function (x) {
+        x.setAttribute('aria-selected', String(x === b));
+      });
+    });
+  });
+  document.querySelectorAll('#demo-weekcal .daycell').forEach(function (c) {
+    c.addEventListener('click', function () {
+      c.parentNode.querySelectorAll('.daycell').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === c));
+      });
+    });
+  });
+
+  // wybór jednokrotny (ikona) i wielokrotny (dni)
+  document.querySelectorAll('#demo-iconpick button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      b.parentNode.querySelectorAll('button').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+    });
+  });
+  document.querySelectorAll('#demo-daypick button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+    });
+  });
+
+  // wypełnienie toru suwaka
+  document.querySelectorAll('[data-demo-slider] input[type=range]').forEach(function (r) {
+    var sync = function () {
+      var pct = (r.value - r.min) / (r.max - r.min) * 100;
+      r.style.setProperty('--fill', pct + '%');
+      var val = r.closest('.demo-body').querySelector('.st-val');
+      if (val) val.textContent = parseFloat(r.value).toFixed(1).replace('.', ',');
+    };
+    r.addEventListener('input', sync);
+    sync();
+  });
+
+  // stepper w dokumentacji zmienia wartość i suwak
+  document.querySelectorAll('[data-od-id="form-temperatura"] .stepper button').forEach(function (b, i) {
+    b.addEventListener('click', function () {
+      var r = document.querySelector('[data-demo-slider] input[type=range]');
+      r.value = (parseFloat(r.value) + (i === 0 ? -0.5 : 0.5)).toFixed(1);
+      r.dispatchEvent(new Event('input'));
+    });
+  });
+</script>
+</body>
+</html>

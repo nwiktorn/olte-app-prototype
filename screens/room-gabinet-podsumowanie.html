@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Gabinet — podsumowanie</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="room-podsumowanie">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="room-gabinet-glowny.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title"><h1 class="t-title">Podsumowanie</h1></div>
+    <button class="iconbtn" type="button" aria-label="Udostępnij">
+      <svg viewBox="0 0 24 24"><use href="#i-share-2"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── identyfikacja pomieszczenia ───────────────────────────── -->
+    <div class="row-between" data-od-id="naglowek-pomieszczenia">
+      <div class="col">
+        <span class="muted" style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-11);line-height:15px">Pomieszczenie</span>
+        <span style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-19);line-height:26px">Gabinet</span>
+      </div>
+      <!-- tagpill error: tryb eco / niedogrzanie -->
+      <span class="tagpill tagpill--error">
+        <svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg>Działa źle
+      </span>
+    </div>
+
+    <!-- ── metryka główna ─────────────────────────────────────────── -->
+    <section class="metricbox" data-od-id="metryka-harmonogram"
+             style="background:var(--surf-error);border-color:var(--surf-error-line)">
+      <p class="t-link muted" style="font-size:var(--fs-11)">Co dzieje się w pomieszczeniu</p>
+      <p class="t-metric-xl t-num" style="color:var(--on-error);margin-top:4px">40%</p>
+      <p class="t-body muted" style="font-size:var(--fs-11)">zgodnie z harmonogramem</p>
+      <div class="bar" style="margin-top:20px" role="img"
+           aria-label="40% czasu zgodnie z harmonogramem">
+        <span style="width:40%;background:var(--status-low)"></span>
+      </div>
+      <p class="row gap-6 muted t-body-lg" style="margin-top:12px">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px"><use href="#i-calendar-clock"/></svg>
+        Ostatnie 24 godziny
+      </p>
+    </section>
+
+    <!-- ── wniosek 1: tryb ekonomiczny ───────────────────────────── -->
+    <section class="card row" data-od-id="wniosek-tryb-eco" style="align-items:flex-start;gap:14px">
+      <span class="iconbox iconbox--44 iconbox--amber">
+        <svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
+      <div class="col gap-6 grow">
+        <p class="t-value" style="font-size:var(--fs-15);line-height:21px">Tryb ekonomiczny utrzymuje temperaturę poniżej strefy komfortu przez większość dnia.</p>
+      </div>
+    </section>
+
+    <!-- ── wniosek 2: oszczędność energii ────────────────────────── -->
+    <section class="card row" data-od-id="wniosek-oszczednosc" style="align-items:flex-start;gap:14px">
+      <span class="iconbox iconbox--44 iconbox--good">
+        <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg></span>
+      <div class="col gap-6 grow">
+        <p class="t-value" style="font-size:var(--fs-15);line-height:21px">Oszczędność energii w tym pomieszczeniu jest najwyższa w budynku — 34% mniej niż średnia.</p>
+        <div class="bar bar--thin" style="margin-top:6px" role="img"
+             aria-label="Oszczędność energii 66% powyżej średniej">
+          <span style="width:66%;background:var(--accent)"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── przejście do szczegółów ───────────────────────────────── -->
+    <a class="linkcard" href="room-gabinet-historia-temp.html" data-od-id="link-historia">
+      <span class="iconbox iconbox--36 iconbox--temp">
+        <svg viewBox="0 0 24 24"><use href="#i-activity"/></svg></span>
+      <span class="lc-body col gap-2">
+        <span class="t-value">Zobacz wykres dobowy</span>
+        <span class="t-body-lg muted">Pełna historia temperatury i wilgotności za te 24 h</span>
+      </span>
+      <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+    </a>
+
+    <p class="row gap-6 muted center" data-od-id="stopka-aktualizacja"
+       style="justify-content:center;font-size:var(--fs-12)">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px"><use href="#i-refresh-cw"/></svg>
+      Zaktualizowano dziś o 09:30
+    </p>
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+</div>
+</body>
+</html>

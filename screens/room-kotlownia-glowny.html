@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE - Kotlownia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="room-kotlownia-glowny">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="11-pomieszczenia.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title"><h1 class="t-title">Kotlownia</h1></div>
+    <a class="iconbtn" href="07-edycja-pomieszczenia.html" aria-label="Edytuj pomieszczenie">
+      <svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></a>
+    <button class="iconbtn" type="button" id="btn-opcje" aria-label="Więcej opcji"
+            aria-haspopup="dialog" aria-expanded="false">
+      <svg viewBox="0 0 24 24"><use href="#i-ellipsis"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── pasek nieaktualne dane ─────────────────────────────────── -->
+    <div class="stalebar" id="pasek-nieaktualne" data-od-id="pasek-nieaktualne">
+      <svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg>
+      <span id="stalebar-text">Brak odczytu od 3 godzin</span>
+      <button class="sb-act" type="button" id="btn-sync">Synchronizuj</button>
+    </div>
+
+    <!-- ── stan pusty — czujnik offline ──────────────────────────── -->
+    <div class="emptystate" data-od-id="stan-pusty">
+      <span class="es-mark">
+        <svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg>
+      </span>
+      <p class="es-title">Brak danych z czujnika</p>
+      <p class="es-text">Ostatni znany odczyt: 18,2 C, 3 godziny temu. Kotlownia nie bierze obecnie udzialu w sterowaniu.</p>
+      <div class="es-actions">
+        <a class="btn btn--sm" href="10-zgloszenie-usterki.html">Zglos usterke</a>
+        <a class="btn btn--ghost btn--sm" href="09-stany-danych.html">Diagnostyka</a>
+      </div>
+    </div>
+
+    <!-- ── ostatni znany odczyt ───────────────────────────────────── -->
+    <div class="col gap-8" data-od-id="ostatni-odczyt">
+      <span class="muted" style="font-size:var(--fs-11)">Ostatni znany odczyt - 3 godz. temu</span>
+      <div class="row" style="gap:8px">
+        <span class="pill pill--off t-num">
+          <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>18,2 C</span>
+        <span class="pill pill--off t-num">
+          <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>61 %</span>
+      </div>
+    </div>
+
+    <!-- ── historia i diagnostyka ─────────────────────────────────── -->
+    <div class="col gap-12" data-od-id="linki">
+      <a class="linkcard" href="09-stany-danych.html" data-od-id="link-diagnostyka">
+        <span class="iconbox iconbox--36 iconbox--off">
+          <svg viewBox="0 0 24 24"><use href="#i-activity"/></svg></span>
+        <span class="lc-body col gap-2">
+          <span class="t-value">Historia i diagnostyka</span>
+          <span class="t-body-lg muted">Pełny przebieg dostepny w diagnostyce czujnikow</span>
+        </span>
+        <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </a>
+    </div>
+
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html" aria-current="page">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+
+  <!-- ── warstwa nakładek ────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <section class="sheet" id="sheet-opcje" role="dialog" aria-modal="true"
+           aria-labelledby="opcje-tytul" hidden data-od-id="arkusz-opcji">
+    <span class="sh-handle"></span>
+    <div class="sh-head">
+      <span class="grow">
+        <span class="sh-title" id="opcje-tytul">Kotlownia</span>
+        <span class="sh-sub">Piwnica - czujnik OLTE-S2 6e90 - offline</span>
+      </span>
+      <button class="iconbtn" type="button" id="btn-zamknij-opcje" aria-label="Zamknij">
+        <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="sh-body">
+      <div class="col" data-od-id="opcje-lista">
+        <a class="listrow" href="07-edycja-pomieszczenia.html">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Edytuj pomieszczenie</span>
+            <span class="lr-sub">Nazwa, ikona, temperatura docelowa</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </a>
+        <a class="listrow" href="09-stany-danych.html">
+          <span class="iconbox iconbox--36 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Stan czujnika</span>
+            <span class="lr-sub">Brak danych od 3 h · czujnik offline</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </a>
+        <a class="listrow" href="10-zgloszenie-usterki.html">
+          <span class="iconbox iconbox--36 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg></span>
+          <span class="lr-text"><span class="lr-name">Zgłoś usterkę</span>
+            <span class="lr-sub">Czujnik OLTE-S2 6e90 · Kotlownia</span></span>
+          <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <div class="toastwrap" data-od-id="toasty">
+    <div class="toast toast--error" id="toast" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-triangle-alert"/></svg>
+      <span id="toast-text">Kotlownia nadal nie odpowiada</span>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  (function () {
+    /* ── arkusz „Więcej opcji" ── */
+    var scrim = document.getElementById('scrim');
+    var sheet = document.getElementById('sheet-opcje');
+    var opcje = document.getElementById('btn-opcje');
+
+    function otworz() {
+      scrim.hidden = false; sheet.hidden = false;
+      opcje.setAttribute('aria-expanded', 'true');
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); sheet.classList.add('is-open');
+      });
+    }
+    function zamknij() {
+      scrim.classList.remove('is-open'); sheet.classList.remove('is-open');
+      opcje.setAttribute('aria-expanded', 'false');
+      setTimeout(function () { scrim.hidden = true; sheet.hidden = true; }, 280);
+    }
+    opcje.addEventListener('click', otworz);
+    scrim.addEventListener('click', zamknij);
+    document.getElementById('btn-zamknij-opcje').addEventListener('click', zamknij);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !sheet.hidden) zamknij();
+    });
+
+    /* ── toast synchronizacji ── */
+    var toast = document.getElementById('toast');
+    var timer;
+
+    function pokazToast() {
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    }
+
+    document.getElementById('btn-sync').addEventListener('click', function () {
+      var stalebarText = document.getElementById('stalebar-text');
+      stalebarText.textContent = 'Synchronizacja w toku\u2026';
+      setTimeout(function () {
+        stalebarText.textContent = 'Brak odczytu od 3 godzin';
+        pokazToast();
+      }, 1200);
+    });
+  })();
+</script>
+</body>
+</html>

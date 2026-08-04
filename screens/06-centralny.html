@@ -1,0 +1,272 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Centralny</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="centralny">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <span class="iconbox iconbox--38 iconbox--good"><svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg></span>
+    <div class="appbar-title" style="text-align:left">
+      <h1 class="t-title">Centralny</h1>
+      <span class="ab-sub">Pompa ciepła · OLTE HP-12</span>
+    </div>
+    <button class="iconbtn" type="button" id="btn-motyw" aria-pressed="false" aria-label="Przełącz tryb ciemny">
+      <svg viewBox="0 0 24 24"><use href="#i-sun-dim"/></svg></button>
+    <a class="iconbtn" href="08-harmonogram.html" aria-label="Harmonogram bazowy">
+      <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></a>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── stan jednostki ────────────────────────────────────────── -->
+    <section class="hero" data-od-id="stan-jednostki" style="padding:18px 14px 14px">
+      <p class="hero-eyebrow">Pracuje · grzanie</p>
+      <div class="row" style="justify-content:center;align-items:flex-end;gap:8px;margin-top:12px">
+        <span class="t-num" style="font-family:var(--font-display);font-weight:800;font-size:var(--fs-56);line-height:60px;letter-spacing:-.03em">4,3</span>
+        <span class="col gap-2" style="padding-bottom:10px;text-align:left">
+          <span class="t-label">COP</span>
+          <span class="t-small muted">chwilowy</span>
+        </span>
+      </div>
+      <p class="t-body-lg n700" style="margin-top:4px">Sprężarka 42 % · 2,4 kW mocy grzewczej</p>
+
+      <div class="hero-chips" style="margin-top:16px">
+        <div class="chipmetric">
+          <svg viewBox="0 0 24 24" style="color:var(--accent)"><use href="#i-thermometer"/></svg>
+          <span class="col"><span class="cm-val t-num">34 °C</span><span class="cm-lab">Zasilanie</span></span>
+        </div>
+        <div class="chipmetric">
+          <svg viewBox="0 0 24 24" style="color:var(--accent)"><use href="#i-thermometer"/></svg>
+          <span class="col"><span class="cm-val t-num">29 °C</span><span class="cm-lab">Powrót</span></span>
+        </div>
+        <div class="chipmetric">
+          <svg viewBox="0 0 24 24" style="color:var(--accent)"><use href="#i-zap"/></svg>
+          <span class="col"><span class="cm-val t-num">0,56 kW</span><span class="cm-lab">Pobór</span></span>
+        </div>
+      </div>
+
+      <div class="hero-summary">
+        <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
+        <span>Przy dzisiejszej temperaturze zewnętrznej −2 °C jednostka pracuje w zakresie
+          najwyższej sprawności. Grzałka wspomagająca nie była załączona od 6 dni.</span>
+      </div>
+    </section>
+
+    <!-- ── tryb pracy ────────────────────────────────────────────── -->
+    <section class="col gap-8" data-od-id="tryb-pracy">
+      <div class="row-between">
+        <h2 class="t-h3">Tryb pracy</h2>
+        <span class="t-small muted" id="tryb-info">Sterowanie nadrzędne</span>
+      </div>
+      <div class="segment segment--block" role="tablist" id="segment-tryb" aria-label="Tryb pracy jednostki">
+        <button type="button" role="tab" aria-selected="true" data-tryb="Auto">
+          <svg viewBox="0 0 24 24"><use href="#i-activity"/></svg>Auto</button>
+        <button type="button" role="tab" aria-selected="false" data-tryb="Komfort">
+          <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg>Komfort</button>
+        <button type="button" role="tab" aria-selected="false" data-tryb="Eko">
+          <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>Eko</button>
+        <button type="button" role="tab" aria-selected="false" data-tryb="Postój">
+          <svg viewBox="0 0 24 24"><use href="#i-power"/></svg>Postój</button>
+      </div>
+    </section>
+
+    <!-- ── obiegi ────────────────────────────────────────────────── -->
+    <section class="card col gap-16" data-od-id="obiegi">
+      <div class="row-between">
+        <h2 class="t-h2">Obiegi</h2>
+        <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>Wszystkie sprawne</span>
+      </div>
+
+      <div class="row" data-od-id="obieg-bufor">
+        <span class="iconbox iconbox--42 iconbox--temp"><svg viewBox="0 0 24 24"><use href="#i-waves"/></svg></span>
+        <span class="col gap-4 grow">
+          <span class="row-between">
+            <span class="t-value">Bufor CO</span>
+            <span class="t-value t-num">33,4 °C</span>
+          </span>
+          <span class="bar bar--track" role="img" aria-label="Bufor CO — 33,4 °C w zakresie 25–45 °C">
+            <span style="width:42%;background:var(--brand-ceglany)"></span></span>
+          <span class="t-small muted">Zakres pracy 25–45 °C · żądanie 34 °C</span>
+        </span>
+      </div>
+
+      <div class="row" data-od-id="obieg-cwu">
+        <span class="iconbox iconbox--42 iconbox--hum"><svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg></span>
+        <span class="col gap-4 grow">
+          <span class="row-between">
+            <span class="t-value">Ciepła woda</span>
+            <span class="t-value t-num">48,1 °C</span>
+          </span>
+          <span class="bar bar--track" role="img" aria-label="Ciepła woda — 48,1 °C, cel 50 °C">
+            <span style="width:88%;background:var(--status-info)"></span></span>
+          <span class="t-small muted">Cel 50 °C · dogrzewanie o 22:00 w taryfie nocnej</span>
+        </span>
+      </div>
+
+      <div class="row" data-od-id="obieg-wentylacja">
+        <span class="iconbox iconbox--42 iconbox--good"><svg viewBox="0 0 24 24"><use href="#i-fan"/></svg></span>
+        <span class="col gap-4 grow">
+          <span class="row-between">
+            <span class="t-value">Rekuperacja</span>
+            <span class="t-value t-num">Bieg 2</span>
+          </span>
+          <span class="bar bar--track" role="img" aria-label="Rekuperacja — bieg 2 z 4">
+            <span style="width:50%"></span></span>
+          <span class="t-small muted">Odzysk 84 % · filtr zużyty w 71 %</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- ── zapotrzebowanie pomieszczeń ───────────────────────────── -->
+    <section class="card col gap-12" data-od-id="zapotrzebowanie">
+      <div class="row-between">
+        <h2 class="t-h2">Kto teraz pobiera ciepło</h2>
+        <a class="t-link" href="05-ekran-startowy.html" style="color:var(--accent)">Wszystkie</a>
+      </div>
+
+      <div class="col gap-12">
+        <div class="row gap-12" data-od-id="pobor-salon">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
+          <span class="col gap-4 grow">
+            <span class="row-between"><span class="t-body-lg">Salon</span>
+              <span class="t-caption t-num muted">38 %</span></span>
+            <span class="bar bar--thin"><span style="width:38%"></span></span>
+          </span>
+        </div>
+        <div class="row gap-12" data-od-id="pobor-lazienka">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+          <span class="col gap-4 grow">
+            <span class="row-between"><span class="t-body-lg">Łazienka</span>
+              <span class="t-caption t-num muted">31 %</span></span>
+            <span class="bar bar--thin"><span style="width:31%"></span></span>
+          </span>
+        </div>
+        <div class="row gap-12" data-od-id="pobor-sypialnia">
+          <span class="iconbox iconbox--36"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+          <span class="col gap-4 grow">
+            <span class="row-between"><span class="t-body-lg">Sypialnia</span>
+              <span class="t-caption t-num muted">18 %</span></span>
+            <span class="bar bar--thin"><span style="width:18%"></span></span>
+          </span>
+        </div>
+      </div>
+      <p class="t-small muted">Pozostałe 13 % przypada na hall i pokój gościnny.</p>
+    </section>
+
+    <!-- ── przejścia ─────────────────────────────────────────────── -->
+    <a class="linkcard" href="08-harmonogram.html" data-od-id="link-harmonogram">
+      <span class="iconbox iconbox--36 iconbox--good">
+        <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></span>
+      <span class="lc-body col gap-2">
+        <span class="t-value">Harmonogram bazowy</span>
+        <span class="t-body-lg muted">Cztery bloki dobowe · obowiązuje w 6 pomieszczeniach</span>
+      </span>
+      <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+    </a>
+
+    <a class="linkcard" href="09-stany-danych.html" data-od-id="link-diagnostyka">
+      <span class="iconbox iconbox--36 iconbox--amber">
+        <svg viewBox="0 0 24 24"><use href="#i-wrench"/></svg></span>
+      <span class="lc-body col gap-2">
+        <span class="t-value">Diagnostyka czujników</span>
+        <span class="t-body-lg muted">1 czujnik bez danych od 2 h</span>
+      </span>
+      <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+    </a>
+
+    <!-- ── powiadomienie serwisowe ───────────────────────────────── -->
+    <div class="notif notif--warning" data-od-id="powiadomienie-serwis">
+      <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-wrench"/></svg></span>
+      <div class="notif-body">
+        <p class="t-label">Filtr rekuperatora do wymiany za 12 dni</p>
+        <p class="t-body-lg n700">Przy obecnym zużyciu 71 % zapas wystarczy do 8 sierpnia.</p>
+        <a class="notif-link t-link" href="#">Zamów filtr
+          <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
+      </div>
+    </div>
+
+    <p class="row gap-6 muted center" data-od-id="stopka-aktualizacja"
+       style="justify-content:center;font-size:var(--fs-12)">
+      <svg viewBox="0 0 24 24" style="width:14px;height:14px"><use href="#i-refresh-cw"/></svg>
+      Odczyt z jednostki 12 s temu
+    </p>
+  </main>
+
+  <!-- ── toast (warstwa nakładek) ────────────────────────────────── -->
+  <div class="toastwrap" data-od-id="toasty">
+    <div class="toast" id="toast-tryb" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+      <span id="toast-tryb-text">Tryb zmieniony</span>
+    </div>
+  </div>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html" aria-current="page">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+</div>
+
+<script>
+  (function () {
+    OLTETheme.bind(document.getElementById('btn-motyw'));
+
+    var toast = document.getElementById('toast-tryb');
+    var toastText = document.getElementById('toast-tryb-text');
+    var timer;
+
+    function pokazToast(tekst) {
+      toastText.textContent = tekst;
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    }
+
+    var opisy = {
+      'Auto': 'Sterowanie nadrzędne',
+      'Komfort': 'Priorytet temperatury',
+      'Eko': 'Priorytet zużycia energii',
+      'Postój': 'Tylko ochrona przeciwzamrożeniowa'
+    };
+
+    document.querySelectorAll('#segment-tryb button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('#segment-tryb button').forEach(function (x) {
+          x.setAttribute('aria-selected', String(x === b));
+        });
+        var tryb = b.dataset.tryb;
+        document.getElementById('tryb-info').textContent = opisy[tryb];
+        pokazToast('Tryb pracy: ' + tryb);
+      });
+    });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Zgłoszenie usterki</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="zgloszenie-usterki">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="09-stany-danych.html" aria-label="Zamknij bez zapisywania">
+      <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-title">Zgłoś usterkę</h1>
+      <span class="ab-sub">Serwis OLTE</span>
+    </div>
+    <span class="iconbtn" style="visibility:hidden" aria-hidden="true"></span>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── kontekst ──────────────────────────────────────────────── -->
+    <div class="notif notif--info" data-od-id="powiadomienie-kontekst">
+      <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-info"/></svg></span>
+      <div class="notif-body">
+        <p class="t-label">Zgłoszenie trafi do serwisu OLTE</p>
+        <p class="t-body muted" style="font-size:var(--fs-11)">Zwykły czas odpowiedzi to 1–2 dni robocze.
+          W nagłym wypadku (np. brak ogrzewania w mrozie) zadzwoń na infolinię.</p>
+      </div>
+    </div>
+
+    <!-- ── czego dotyczy ─────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-urzadzenie">
+      <label id="lab-urzadzenie" for="sel-urzadzenie">Czego dotyczy zgłoszenie</label>
+      <div class="select-wrap">
+        <select class="select" id="sel-urzadzenie" aria-describedby="hint-urzadzenie">
+          <option value="kotlownia" selected>Czujnik — Kotłownia (offline od 2 h 14 min)</option>
+          <option value="garaz">Czujnik — Garaż (bateria 8 %)</option>
+          <option value="jednostka">Jednostka centralna — OLTE HP-12</option>
+          <option value="rekuperacja">Rekuperacja</option>
+          <option value="inne">Inne</option>
+        </select>
+        <svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg>
+      </div>
+      <p class="f-hint" id="hint-urzadzenie">Wybraliśmy czujnik, który obecnie nie raportuje danych.</p>
+    </section>
+
+    <!-- ── rodzaj problemu ───────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-kategoria">
+      <label id="lab-kategoria" for="sel-kategoria">Rodzaj problemu</label>
+      <div class="select-wrap">
+        <select class="select" id="sel-kategoria">
+          <option value="" selected disabled>Wybierz kategorię</option>
+          <option value="brak-danych">Brak danych z czujnika</option>
+          <option value="bledny-odczyt">Odczyt wygląda błędnie</option>
+          <option value="bateria">Problem z baterią</option>
+          <option value="haluk">Dźwięk lub wibracje z jednostki</option>
+          <option value="inne">Coś innego</option>
+        </select>
+        <svg viewBox="0 0 24 24"><use href="#i-chevron-down"/></svg>
+      </div>
+    </section>
+
+    <!-- ── opis ──────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-opis">
+      <label for="txt-opis">Opis zgłoszenia</label>
+      <textarea class="textarea" id="txt-opis" maxlength="500"
+        placeholder="Od kiedy trwa problem, co zauważyłeś, czy coś pomaga…"
+        aria-describedby="hint-opis"></textarea>
+      <p class="f-hint" id="hint-opis"><span id="licznik-znakow">0</span> / 500 znaków</p>
+    </section>
+
+    <!-- ── kontakt zwrotny ───────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-kontakt">
+      <label for="in-kontakt">Telefon lub e-mail do kontaktu</label>
+      <input class="input" id="in-kontakt" type="text" placeholder="np. 600 000 000"
+             autocomplete="off" aria-describedby="hint-kontakt">
+      <p class="f-hint" id="hint-kontakt">Serwis odezwie się tą drogą, jeśli będzie potrzebować więcej informacji.</p>
+    </section>
+
+    <!-- ── podgląd diagnostyki (dołączany automatycznie) ─────────── -->
+    <section class="card col gap-8" data-od-id="dane-diagnostyczne" style="padding:14px 16px">
+      <div class="row-between">
+        <span class="t-value" style="font-size:var(--fs-13)">Dane diagnostyczne</span>
+        <label class="switch">
+          <input type="checkbox" checked aria-label="Dołącz dane diagnostyczne">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+      <p class="t-small muted">Ostatnie 48 h odczytów czujnika i log połączenia — pomaga serwisowi
+        szybciej zdiagnozować przyczynę bez dodatkowych pytań.</p>
+    </section>
+  </main>
+
+  <!-- ── pasek akcji ─────────────────────────────────────────────── -->
+  <div class="formbar" data-od-id="pasek-akcji">
+    <a class="btn btn--ghost" href="09-stany-danych.html">Anuluj</a>
+    <button class="btn" type="button" id="btn-wyslij" disabled>Wyślij zgłoszenie</button>
+  </div>
+
+  <!-- ── nakładki ────────────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <div class="dialog" id="dialog-wyslano" role="dialog" aria-modal="true"
+       aria-labelledby="dialog-tytul" hidden data-od-id="dialog-potwierdzenia">
+    <span class="dg-mark"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg></span>
+    <p class="dg-title" id="dialog-tytul">Zgłoszenie wysłane</p>
+    <p class="dg-text">Numer zgłoszenia <strong>OLTE-24601</strong>. Serwis odpowie na podany kontakt
+      w ciągu 1–2 dni roboczych. Status możesz sprawdzić w diagnostyce czujników.</p>
+    <div class="dg-actions">
+      <button class="btn btn--ghost" type="button" id="btn-zamknij-dialog">Zostań tutaj</button>
+      <a class="btn" href="09-stany-danych.html" id="btn-wroc-diagnostyka">Wróć do diagnostyki</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var wyslij = document.getElementById('btn-wyslij');
+    var opis = document.getElementById('txt-opis');
+    var licznik = document.getElementById('licznik-znakow');
+    var kontakt = document.getElementById('in-kontakt');
+    var kategoria = document.getElementById('sel-kategoria');
+
+    function walidacja() {
+      var ok = opis.value.trim().length > 0 &&
+               kontakt.value.trim().length > 0 &&
+               kategoria.value !== '';
+      wyslij.disabled = !ok;
+    }
+
+    opis.addEventListener('input', function () {
+      licznik.textContent = String(opis.value.length);
+      walidacja();
+    });
+    kontakt.addEventListener('input', walidacja);
+    kategoria.addEventListener('change', walidacja);
+    document.getElementById('sel-urzadzenie').addEventListener('change', walidacja);
+
+    /* ── dialog potwierdzenia ── */
+    var scrim = document.getElementById('scrim');
+    var dialog = document.getElementById('dialog-wyslano');
+
+    function otworz() {
+      scrim.hidden = false; dialog.hidden = false;
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); dialog.classList.add('is-open');
+      });
+      document.getElementById('btn-zamknij-dialog').focus();
+    }
+    function zamknij() {
+      scrim.classList.remove('is-open'); dialog.classList.remove('is-open');
+      setTimeout(function () { scrim.hidden = true; dialog.hidden = true; }, 220);
+    }
+
+    wyslij.addEventListener('click', function () {
+      wyslij.disabled = true;
+      otworz();
+    });
+    document.getElementById('btn-zamknij-dialog').addEventListener('click', zamknij);
+    scrim.addEventListener('click', zamknij);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !dialog.hidden) zamknij();
+    });
+  })();
+</script>
+</body>
+</html>

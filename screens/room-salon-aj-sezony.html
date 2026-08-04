@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Salon AJ — porównanie zapotrzebowania</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="room-porownanie-sezonow">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar" style="padding-bottom:14px">
+    <a class="iconbtn" href="room-salon-aj-glowny.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-h2" style="max-width:16ch;margin:0 auto">Porównanie zapotrzebowania</h1>
+    </div>
+    <button class="iconbtn" type="button" aria-label="Jak liczymy zapotrzebowanie">
+      <svg viewBox="0 0 24 24"><use href="#i-info"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ══ sezon grzewczy ══════════════════════════════════════════ -->
+    <section class="card" data-od-id="sezon-grzewczy" style="padding:19px">
+
+      <div class="row" style="gap:11px">
+        <span class="iconbox iconbox--38 iconbox--temp">
+          <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+        <span class="col">
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-16);line-height:22px">Sezon grzewczy</h2>
+          <span class="muted" style="font-size:var(--fs-11);line-height:15.5px">Miesięczne zapotrzebowanie na ciepło — Salon AJ</span>
+        </span>
+      </div>
+
+      <div class="row" style="gap:16px;margin-top:14px" data-od-id="legenda-grzewczy">
+        <span class="row gap-6">
+          <i class="swatch-key" style="background:var(--brand-ceglany)"></i>
+          <span class="muted" style="font-size:var(--fs-11)">Bieżący (2025/26)</span></span>
+        <span class="row gap-6">
+          <i class="swatch-key" style="background:var(--app-1a)"></i>
+          <span class="muted" style="font-size:var(--fs-11)">Poprzedni (2024/25)</span></span>
+      </div>
+
+      <!-- Heating data: current 340 SD, previous 385 SD (-12%)
+           Monthly distribution (current / previous):
+           09: 5 / 6    10: 22 / 25   11: 40 / 45   12: 75 / 85
+           01: 90 / 102  02: 72 / 82   03: 28 / 32   04: 6 / 7   05: 2 / 1
+           Max current = 90, max previous = 102 → scale to 100% = 102 -->
+      <div style="margin-top:8px" data-od-id="slupki-grzewczy">
+        <div class="monthrow"><span class="mr-label t-num">09</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:4.9%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">5</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:5.9%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">6</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">10</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:21.6%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">22</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:24.5%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">25</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">11</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:39.2%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">40</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:44.1%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">45</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">12</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:73.5%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">75</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:83.3%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">85</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">01</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:88.2%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">90</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:100%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">102</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">02</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:70.6%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">72</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:80.4%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">82</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">03</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:27.5%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">28</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:31.4%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">32</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">04</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:5.9%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">6</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:6.9%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">7</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">05</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:2.0%;background:var(--brand-ceglany)"></span></span><span class="mr-num t-num">2</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:1.0%;background:var(--app-1a)"></span></span><span class="mr-num t-num muted">1</span></span>
+        </span></div>
+      </div>
+
+      <div class="row-between" data-od-id="suma-grzewczy"
+           style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <div class="col">
+          <span class="t-body-lg muted">Suma sezonu grzewczego</span>
+          <p class="row" style="align-items:baseline;gap:8px">
+            <span class="t-metric t-num" style="color:var(--brand-ceglany)">340</span>
+            <span class="t-link muted"><abbr title="stopniodni" style="text-decoration:none">SD</abbr></span>
+            <span class="muted t-num" style="font-size:var(--fs-14)">385</span>
+          </p>
+        </div>
+        <span class="tagpill">
+          <svg viewBox="0 0 24 24"><use href="#i-trending-down"/></svg>
+          <span class="t-num" style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-13)">−12%</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- ══ sezon chłodniczy ════════════════════════════════════════ -->
+    <section class="card" data-od-id="sezon-chlodniczy" style="padding:19px">
+
+      <div class="row" style="gap:11px">
+        <span class="iconbox iconbox--38 iconbox--hum">
+          <svg viewBox="0 0 24 24"><use href="#i-snowflake"/></svg></span>
+        <span class="col">
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-16);line-height:22px">Sezon chłodniczy</h2>
+          <span class="muted" style="font-size:var(--fs-11);line-height:15.5px">Miesięczne zapotrzebowanie na chłód</span>
+        </span>
+      </div>
+
+      <div class="row" style="gap:16px;margin-top:14px" data-od-id="legenda-chlodniczy">
+        <span class="row gap-6">
+          <i class="swatch-key" style="background:var(--gauge-info-light)"></i>
+          <span class="muted" style="font-size:var(--fs-11)">Bieżący (2025)</span></span>
+        <span class="row gap-6">
+          <i class="swatch-key" style="background:var(--app-5a)"></i>
+          <span class="muted" style="font-size:var(--fs-11)">Poprzedni (2024)</span></span>
+      </div>
+
+      <!-- Cooling data: current 68 SD, previous 80 SD (-15%)
+           Monthly distribution (current / previous):
+           06: 10 / 12   07: 24 / 28   08: 28 / 33   09: 6 / 7
+           Max previous = 33 → scale to 100% = 33 -->
+      <div style="margin-top:8px" data-od-id="slupki-chlodniczy">
+        <div class="monthrow"><span class="mr-label t-num">06</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:30.3%;background:var(--gauge-info-light)"></span></span><span class="mr-num t-num">10</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:36.4%;background:var(--app-5a)"></span></span><span class="mr-num t-num muted">12</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">07</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:72.7%;background:var(--gauge-info-light)"></span></span><span class="mr-num t-num">24</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:84.8%;background:var(--app-5a)"></span></span><span class="mr-num t-num muted">28</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">08</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:84.8%;background:var(--gauge-info-light)"></span></span><span class="mr-num t-num">28</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:100%;background:var(--app-5a)"></span></span><span class="mr-num t-num muted">33</span></span>
+        </span></div>
+        <div class="monthrow"><span class="mr-label t-num">09</span><span class="mr-bars">
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:18.2%;background:var(--gauge-info-light)"></span></span><span class="mr-num t-num">6</span></span>
+          <span class="mr-line"><span class="mr-track bar bar--track"><span style="width:21.2%;background:var(--app-5a)"></span></span><span class="mr-num t-num muted">7</span></span>
+        </span></div>
+      </div>
+
+      <div class="row-between" data-od-id="suma-chlodniczy"
+           style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border)">
+        <div class="col">
+          <span class="t-body-lg muted">Suma sezonu chłodniczego</span>
+          <p class="row" style="align-items:baseline;gap:8px">
+            <span class="t-metric t-num" style="color:var(--gauge-info-light)">68</span>
+            <span class="t-link muted"><abbr title="stopniodni" style="text-decoration:none">SD</abbr></span>
+            <span class="muted t-num" style="font-size:var(--fs-14)">80</span>
+          </p>
+        </div>
+        <span class="tagpill">
+          <svg viewBox="0 0 24 24"><use href="#i-trending-down"/></svg>
+          <span class="t-num" style="font-family:var(--font-display);font-weight:700;font-size:var(--fs-13)">−15%</span>
+        </span>
+      </div>
+    </section>
+
+    <!-- ── przejście ─────────────────────────────────────────────── -->
+    <a class="linkcard" href="08-harmonogram.html" data-od-id="link-harmonogram">
+      <span class="iconbox iconbox--36 iconbox--good">
+        <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg></span>
+      <span class="lc-body col gap-2">
+        <span class="t-value">Dostosuj harmonogram</span>
+        <span class="t-body-lg muted">Obniż temperaturę w blokach dziennych, żeby zejść z sezonowego zapotrzebowania</span>
+      </span>
+      <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+    </a>
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+</div>
+</body>
+</html>

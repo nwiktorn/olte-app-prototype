@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Sypialnia Ala — historia temperatury</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="room-historia-temperatura">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="room-sypialnia-ala-glowny.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title"><h1 class="t-title">Sypialnia Ala</h1></div>
+    <a class="iconbtn" href="07-edycja-pomieszczenia.html" aria-label="Edytuj pomieszczenie">
+      <svg viewBox="0 0 24 24"><use href="#i-square-pen"/></svg></a>
+    <button class="iconbtn" type="button" aria-label="Menu">
+      <svg viewBox="0 0 24 24"><use href="#i-menu"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── kalendarz tygodnia ────────────────────────────────────── -->
+    <div class="weekcal" data-od-id="kalendarz-tygodnia" role="group" aria-label="Wybór dnia">
+      <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Pon</span><span class="dc-num t-num">21</span></button>
+      <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Wt</span><span class="dc-num t-num">22</span></button>
+      <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Śr</span><span class="dc-num t-num">23</span></button>
+      <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Czw</span><span class="dc-num t-num">24</span></button>
+      <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Pt</span><span class="dc-num t-num">25</span></button>
+      <button class="daycell" type="button" aria-pressed="false"><span class="dc-dow">Sob</span><span class="dc-num t-num">26</span></button>
+      <button class="daycell" type="button" aria-pressed="true"><span class="dc-dow">Nd</span><span class="dc-num t-num">27</span></button>
+    </div>
+
+    <!-- ── przełącznik metryki + średnia doby ────────────────────── -->
+    <div class="row-between" data-od-id="przelacznik-metryki">
+      <div class="segment" role="tablist" aria-label="Metryka">
+        <button type="button" class="is-temp" role="tab" data-metric="temperatura" aria-selected="true">
+          <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>Temperatura</button>
+        <button type="button" class="is-hum" role="tab" data-metric="wilgotnosc" aria-selected="false">
+          <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>Wilgotność</button>
+      </div>
+      <p class="row" style="align-items:baseline;gap:5px">
+        <span class="t-metric t-num" id="avg-val">22,6</span>
+        <span class="t-link muted" id="avg-unit">°C śr.</span>
+      </p>
+    </div>
+
+    <!-- ── karta wykresu ─────────────────────────────────────────── -->
+    <section class="card" data-od-id="karta-wykres" style="padding:20px 18px 18px">
+
+      <div class="row" data-od-id="prognoza-zewnetrzna" style="justify-content:space-between;gap:0">
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--muted)"><use href="#i-cloud"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">16°</span></span>
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--muted)"><use href="#i-cloud"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">16°</span></span>
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--app-2)"><use href="#i-cloud-sun"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">20°</span></span>
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--app-2)"><use href="#i-sun"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">26°</span></span>
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--app-2)"><use href="#i-sun"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">27°</span></span>
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--muted)"><use href="#i-cloud"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">22°</span></span>
+        <span class="col center gap-2" style="align-items:center">
+          <svg viewBox="0 0 24 24" style="width:18px;height:18px;color:var(--muted)"><use href="#i-cloud"/></svg>
+          <span class="muted t-num" style="font-size:var(--fs-10);line-height:13px">18°</span></span>
+      </div>
+
+      <svg id="chart" viewBox="0 0 295 130" preserveAspectRatio="none" role="img"
+           style="width:100%;height:130px;margin-top:8px"></svg>
+      <span id="chart-live" class="sr-only" aria-live="polite"></span>
+
+      <div class="row" data-od-id="os-godzin"
+           style="justify-content:space-between;margin-top:2px">
+        <span class="t-small muted t-num">00</span><span class="t-small muted t-num">04</span>
+        <span class="t-small muted t-num">08</span><span class="t-small muted t-num">12</span>
+        <span class="t-small muted t-num">16</span><span class="t-small muted t-num">20</span>
+        <span class="t-small muted t-num">24</span>
+      </div>
+
+      <div class="row gap-8" data-od-id="legenda"
+           style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border)">
+        <i id="legend-dot" style="width:9px;height:9px;border-radius:var(--r-pill);flex:none"></i>
+        <span class="t-body muted" id="legend-label">Temperatura</span>
+        <span class="t-link t-num" id="legend-range">min 21,4° · max 23,3°</span>
+      </div>
+    </section>
+
+    <!-- ── metryki dnia ──────────────────────────────────────────── -->
+    <div class="row gap-12" data-od-id="metryki-dnia">
+      <section class="card card--tight row grow" style="gap:12px">
+        <span class="iconbox iconbox--42 iconbox--sun">
+          <svg viewBox="0 0 24 24"><use href="#i-sun"/></svg></span>
+        <span class="col">
+          <span class="t-num" style="font-family:var(--font-display);font-weight:800;font-size:var(--fs-20);line-height:27px;color:var(--app-1)">+1,1 °C</span>
+          <span class="muted" style="font-size:var(--fs-11);line-height:15px">Dzienny zysk słoneczny</span>
+        </span>
+      </section>
+      <section class="card card--tight row grow" style="gap:12px">
+        <span class="iconbox iconbox--42 iconbox--good">
+          <svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+        <span class="col">
+          <span class="t-num" style="font-family:var(--font-display);font-weight:800;font-size:var(--fs-20);line-height:27px;color:var(--accent)">1 h 30</span>
+          <span class="muted" style="font-size:var(--fs-11);line-height:15px">Krótsze ogrzewanie</span>
+        </span>
+      </section>
+    </div>
+
+    <!-- ── interpretacja ─────────────────────────────────────────── -->
+    <p class="notebox" data-od-id="interpretacja">
+      <svg viewBox="0 0 24 24"><use href="#i-info"/></svg>
+      Stabilna temperatura nocna przez cały tydzień.
+    </p>
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+  </nav>
+</div>
+
+<script>window.OLTE_ROOM = 'sypialnia-ala'; window.OLTE_METRIC = 'temperatura';</script>
+<script src="../assets/history.js"></script>
+</body>
+</html>

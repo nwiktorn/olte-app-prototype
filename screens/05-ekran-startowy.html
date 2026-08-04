@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Ekran startowy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="ekran-startowy">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <main class="content content--tight" data-od-id="tresc">
+
+    <!-- ── Card Hero · Status = High ─────────────────────────────── -->
+    <section class="hero col gap-12" data-od-id="card-hero">
+      <p class="hero-eyebrow">Podsumowanie budynku</p>
+      <h1 class="hero-title">Budynek działa optymalnie</h1>
+
+      <div class="dial" style="width:236px;height:236px;margin:0 auto;--dial-len:457;--dial-offset:36.6" data-od-id="tarcza-balansu" data-enter>
+        <svg viewBox="0 0 236 236" width="236" height="236" aria-hidden="true">
+          <defs>
+            <linearGradient id="dialGood" x1="0" y1="1" x2="1" y2="0">
+              <stop offset="0"   style="stop-color:var(--app-4a)"/>
+              <stop offset=".55" style="stop-color:var(--app-4)"/>
+              <stop offset="1"   style="stop-color:var(--primary-500)"/>
+            </linearGradient>
+          </defs>
+          <path d="M49.4 186.6A97 97 0 1 1 186.6 186.6"
+                style="fill:none;stroke:var(--primary-50);stroke-width:19;stroke-linecap:round"/>
+          <path class="dial-arc-fill" d="M49.4 186.6A97 97 0 1 1 186.6 186.6"
+                stroke-dasharray="457" stroke-dashoffset="457"
+                style="fill:none;stroke:url(#dialGood);stroke-width:19;stroke-linecap:round"/>
+          <circle class="dial-arc-dot" cx="207" cy="156.5" r="14"
+                  style="fill:var(--surface);stroke:var(--primary-500);stroke-width:3;transform-origin:207px 156.5px"/>
+        </svg>
+        <div class="dial-center">
+          <span class="t-link muted" style="font-size:var(--fs-13)">Balans budynku</span>
+          <span class="dial-value t-num" data-count-to="92" style="font-family:var(--font-display);font-weight:800;font-size:var(--fs-42);line-height:50px;letter-spacing:-.03em">0<span style="font-size:var(--fs-23);color:var(--muted)">/100</span></span>
+          <span class="dial-pill tagpill" style="background:var(--accent);color:var(--n-0);font-weight:700;padding:5px 12px;margin-top:4px;transform-origin:center">
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;flex:none;color:var(--n-0)"><use href="#i-circle-check"/></svg>Idealny
+          </span>
+        </div>
+      </div>
+
+      <div class="hero-chips" data-od-id="chipy-metryk" data-enter>
+        <div class="chipmetric">
+          <svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg>
+          <span class="col">
+            <span class="cm-val t-num" style="color:var(--accent)">89/100</span>
+            <span class="cm-lab">Komfort</span>
+          </span>
+        </div>
+        <div class="chipmetric">
+          <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>
+          <span class="col">
+            <span class="cm-val t-num" style="color:var(--accent)">22,4°</span>
+            <span class="cm-lab">Śr. w budynku</span>
+          </span>
+        </div>
+        <div class="chipmetric">
+          <svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>
+          <span class="col">
+            <span class="cm-val t-num" style="color:var(--accent)">6,2 kWh</span>
+            <span class="cm-lab">Oszczędność</span>
+          </span>
+        </div>
+      </div>
+
+      <p class="hero-summary">
+        <svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg>
+        Wszystkie pomieszczenia w normie, a dzięki nasłonecznieniu ogrzewanie ruszyło
+        później — budynek pracuje oszczędnie.
+      </p>
+    </section>
+
+    <!-- ── Notification · Type = Success ─────────────────────────── -->
+    <section class="notif" data-od-id="powiadomienie-system">
+      <span class="notif-icon"><svg viewBox="0 0 24 24"><use href="#i-shield-check"/></svg></span>
+      <div class="notif-body">
+        <h2 class="t-label">System grzewczy działa prawidłowo</h2>
+        <p class="t-body muted" style="font-size:var(--fs-11)">OLTE monitoruje Twój system grzewczy
+          i nie wykrył żadnych nieprawidłowości w jego działaniu.</p>
+        <a class="notif-link t-link" href="#">Więcej informacji
+          <svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></a>
+      </div>
+    </section>
+
+    <!-- ── Przejście do huba pomieszczeń ─────────────────────────── -->
+    <a class="linkcard" href="11-pomieszczenia.html" data-od-id="link-pomieszczenia">
+      <span class="iconbox iconbox--36 iconbox--good">
+        <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></span>
+      <span class="lc-body col gap-2">
+        <span class="t-value">Wszystkie pomieszczenia</span>
+        <span class="t-body-lg muted">7 aktywnych · 2 wymaga uwagi</span>
+      </span>
+      <span class="lc-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+    </a>
+
+  </main>
+
+  <nav class="tabbar" data-od-id="tabbar" aria-label="Nawigacja główna">
+    <a class="tab" href="05-ekran-startowy.html" aria-current="page">
+      <svg viewBox="0 0 24 24"><use href="#i-house"/></svg>Główny</a>
+    <a class="tab" href="11-pomieszczenia.html">
+      <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Pomieszczenia</a>
+    <a class="tab" href="06-centralny.html">
+      <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Centralny</a>
+</nav>
+</div>
+
+<script>
+  // Count-up "92" w tarczy balansu, zsynchronizowany z animacją CSS łuku
+  // (start po wypełnieniu łuku, ok. 550ms — patrz @keyframes dial-value-in).
+  (function () {
+    var el = document.querySelector('[data-count-to]');
+    if (!el) return;
+    var target = parseInt(el.getAttribute('data-count-to'), 10);
+    var suffix = el.querySelector('span');
+    var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) { el.textContent = target; if (suffix) el.appendChild(suffix); return; }
+    var start = null, dur = 650;
+    function tick(ts) {
+      if (start === null) start = ts;
+      var p = Math.min(1, (ts - start) / dur);
+      var eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(eased * target);
+      if (suffix) el.appendChild(suffix);
+      if (p < 1) requestAnimationFrame(tick);
+    }
+    setTimeout(function () { requestAnimationFrame(tick); }, 550);
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Edycja pomieszczenia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="edycja-pomieszczenia">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="room-sypialnia-aj-glowny.html" aria-label="Zamknij bez zapisywania">
+      <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-title">Edytuj pomieszczenie</h1>
+      <span class="ab-sub">Sypialnia · czujnik OLTE-S2 4f21</span>
+    </div>
+    <button class="iconbtn" type="button" id="btn-usun" aria-label="Usuń pomieszczenie">
+      <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── nazwa ─────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-nazwa">
+      <label for="in-nazwa">Nazwa pomieszczenia</label>
+      <input class="input" id="in-nazwa" type="text" value="Sypialnia" maxlength="24"
+             autocomplete="off" aria-describedby="hint-nazwa">
+      <p class="f-hint" id="hint-nazwa">Widoczna na liście, w powiadomieniach i w historii odczytów.</p>
+    </section>
+
+    <!-- ── ikona ─────────────────────────────────────────────────── -->
+    <section class="field" data-od-id="pole-ikona">
+      <label id="lab-ikona">Ikona</label>
+      <div class="iconpick" role="group" aria-labelledby="lab-ikona" id="wybor-ikony"
+           style="grid-template-columns:repeat(7,1fr)">
+        <button type="button" aria-pressed="true"  aria-label="Sypialnia"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pokój gościnny"><svg viewBox="0 0 24 24"><use href="#i-bed-double"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pokój dziecka"><svg viewBox="0 0 24 24"><use href="#i-baby"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Salon"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Salon TV"><svg viewBox="0 0 24 24"><use href="#i-tv"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Gabinet"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Biblioteka"><svg viewBox="0 0 24 24"><use href="#i-book-open"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Jadalnia"><svg viewBox="0 0 24 24"><use href="#i-utensils"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Kuchnia"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Łazienka"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Prysznic lub WC"><svg viewBox="0 0 24 24"><use href="#i-shower-head"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pralnia"><svg viewBox="0 0 24 24"><use href="#i-washing-machine"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Przedpokój"><svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Pokój muzyczny"><svg viewBox="0 0 24 24"><use href="#i-piano"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Siłownia"><svg viewBox="0 0 24 24"><use href="#i-dumbbell"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Warsztat"><svg viewBox="0 0 24 24"><use href="#i-hammer"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Serwerownia"><svg viewBox="0 0 24 24"><use href="#i-server"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Kotłownia"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Garaż"><svg viewBox="0 0 24 24"><use href="#i-car"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Strych"><svg viewBox="0 0 24 24"><use href="#i-warehouse"/></svg></button>
+        <button type="button" aria-pressed="false" aria-label="Ogród zimowy"><svg viewBox="0 0 24 24"><use href="#i-flower-2"/></svg></button>
+      </div>
+    </section>
+
+    <!-- ── harmonogram ───────────────────────────────────────────── -->
+    <section class="card col gap-12" data-od-id="pole-harmonogram">
+      <span class="col gap-2">
+        <span class="t-label">Sterowanie harmonogramem</span>
+        <span class="t-small muted">Wybierz, co ustala temperaturę w tym pomieszczeniu</span>
+      </span>
+
+      <div class="segment segment--block" role="tablist" id="segment-tryb-harmonogramu" aria-label="Tryb harmonogramu" data-od-id="segment-harmonogram">
+        <button type="button" role="tab" aria-selected="true" data-tryb="budynkowy">Harmonogram bazowy</button>
+        <button type="button" role="tab" aria-selected="false" data-tryb="staly">Stała temperatura</button>
+        <button type="button" role="tab" aria-selected="false" data-tryb="wlasny">Własny harmonogram</button>
+      </div>
+
+      <p class="f-hint" id="opis-tryb-budynkowy" data-od-id="opis-tryb-budynkowy">
+        Pomieszczenie dziedziczy bloki dobowe harmonogramu bazowego — bez dodatkowej konfiguracji.
+      </p>
+      <p class="f-hint" id="opis-tryb-staly" data-od-id="opis-tryb-staly" hidden>
+        Harmonogram jest ignorowany — pomieszczenie utrzymuje jedną temperaturę docelową ze steppera poniżej.
+      </p>
+      <p class="f-hint" id="opis-tryb-wlasny" data-od-id="opis-tryb-wlasny" hidden>
+        Pomieszczenie ma własną kopię harmonogramu, edytowalną niezależnie od bazowego.
+      </p>
+    </section>
+
+    <!-- ── temperatura docelowa ──────────────────────────────────── -->
+    <section class="card col gap-16" data-od-id="pole-temperatura" id="blok-temperatura-stala" hidden>
+      <div class="row-between">
+        <span class="col gap-2">
+          <span class="t-label">Temperatura docelowa</span>
+          <span class="t-small muted">Stała, poza harmonogramem</span>
+        </span>
+        <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-leaf"/></svg>Ekonomiczna</span>
+      </div>
+
+      <div class="stepper" data-od-id="stepper-temperatura">
+        <button type="button" id="btn-minus" aria-label="Obniż o 0,5 °C">
+          <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+        <span class="row gap-4" style="align-items:baseline">
+          <span class="st-val" id="wartosc-temp">21,0</span>
+          <span class="st-unit">°C</span>
+        </span>
+        <button type="button" id="btn-plus" aria-label="Podnieś o 0,5 °C">
+          <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+      </div>
+
+      <div class="slider" data-od-id="suwak-temperatura">
+        <input type="range" id="suwak-temp" min="15" max="26" step="0.5" value="21"
+               aria-label="Temperatura docelowa" aria-valuetext="21,0 °C">
+        <div class="slider-scale">
+          <span>15 °C</span><span>20 °C</span><span>26 °C</span>
+        </div>
+      </div>
+
+      <p class="notebox">
+        <svg viewBox="0 0 24 24"><use href="#i-lightbulb"/></svg>
+        <span>Obniżenie o 1 °C zmniejsza zapotrzebowanie tego pomieszczenia o około 6 %
+          w sezonie grzewczym.</span>
+      </p>
+    </section>
+
+    <!-- ── zachowanie ────────────────────────────────────────────── -->
+    <section class="card" data-od-id="pole-zachowanie" style="padding:6px 18px">
+      <div class="listrow" data-od-id="opcja-okno">
+        <span class="lr-text">
+          <span class="lr-name">Wykrywanie otwartego okna</span>
+          <span class="lr-sub">Wstrzymuje grzanie przy nagłym spadku temperatury</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" checked aria-label="Wykrywanie otwartego okna">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+
+      <div class="listrow" data-od-id="opcja-powiadomienia">
+        <span class="lr-text">
+          <span class="lr-name">Powiadomienia o wilgotności</span>
+          <span class="lr-sub">Alert powyżej 65 % przez ponad 2 h</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" aria-label="Powiadomienia o wilgotności">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+
+      <div class="listrow" data-od-id="opcja-priorytet">
+        <span class="lr-text">
+          <span class="lr-name">Priorytet w rozdziale ciepła</span>
+          <span class="lr-sub">Wymaga trybu Komfort na jednostce centralnej</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" disabled aria-label="Priorytet w rozdziale ciepła (niedostępne w trybie Auto)">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ── przypisania ───────────────────────────────────────────── -->
+    <section class="card" data-od-id="pole-przypisania" style="padding:6px 18px">
+      <a class="listrow" href="08-harmonogram.html" data-od-id="wiersz-harmonogram" id="wiersz-harmonogram">
+        <span class="lr-text">
+          <span class="lr-name">Harmonogram</span>
+          <span class="lr-sub" id="wiersz-harmonogram-sub">Dzień roboczy · 4 bloki</span>
+        </span>
+        <span class="lr-val" id="wiersz-harmonogram-val">Bazowy</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </a>
+      <button class="listrow" type="button" data-od-id="wiersz-czujnik">
+        <span class="lr-text">
+          <span class="lr-name">Czujnik</span>
+          <span class="lr-sub">Bateria 84 % · sygnał dobry</span>
+        </span>
+        <span class="lr-val">OLTE-S2 4f21</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </button>
+      <button class="listrow" type="button" data-od-id="wiersz-piętro">
+        <span class="lr-text">
+          <span class="lr-name">Kondygnacja</span>
+          <span class="lr-sub">Wpływa na grupowanie na ekranie głównym</span>
+        </span>
+        <span class="lr-val">Parter</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </button>
+    </section>
+
+    <button class="btn btn--danger-quiet btn--block" type="button" id="btn-usun-dol"
+            data-od-id="przycisk-usun">
+      <svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg>Usuń pomieszczenie
+    </button>
+  </main>
+
+  <!-- ── pasek akcji ─────────────────────────────────────────────── -->
+  <div class="formbar" data-od-id="pasek-akcji">
+    <a class="btn btn--ghost" href="room-sypialnia-aj-glowny.html">Anuluj</a>
+    <button class="btn" type="button" id="btn-zapisz" disabled>Zapisz zmiany</button>
+  </div>
+
+  <!-- ── nakładki ────────────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <div class="dialog" id="dialog-usun" role="dialog" aria-modal="true"
+       aria-labelledby="dialog-tytul" hidden data-od-id="dialog-usuniecia">
+    <span class="dg-mark"><svg viewBox="0 0 24 24"><use href="#i-trash-2"/></svg></span>
+    <p class="dg-title" id="dialog-tytul">Usunąć „Sypialnię”?</p>
+    <p class="dg-text">Historia odczytów z 14 miesięcy zostanie skasowana bez możliwości
+      przywrócenia. Czujnik pozostanie sparowany z instalacją.</p>
+    <div class="dg-actions">
+      <button class="btn btn--ghost" type="button" id="btn-anuluj-usun">Zostaw</button>
+      <button class="btn btn--danger" type="button" id="btn-potwierdz-usun">Usuń</button>
+    </div>
+  </div>
+
+  <div class="toastwrap" style="bottom:92px" data-od-id="toasty">
+    <div class="toast" id="toast" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+      <span id="toast-text">Zapisano</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    /* ── suwak, stepper i wartość liczbowa trzymane w jednym stanie ── */
+    var suwak = document.getElementById('suwak-temp');
+    var wartosc = document.getElementById('wartosc-temp');
+    var minus = document.getElementById('btn-minus');
+    var plus = document.getElementById('btn-plus');
+    var zapisz = document.getElementById('btn-zapisz');
+
+    function format(v) { return v.toFixed(1).replace('.', ','); }
+
+    function render() {
+      var v = parseFloat(suwak.value);
+      wartosc.textContent = format(v);
+      suwak.setAttribute('aria-valuetext', format(v) + ' °C');
+      var pct = (v - suwak.min) / (suwak.max - suwak.min) * 100;
+      suwak.style.setProperty('--fill', pct + '%');
+      minus.disabled = v <= parseFloat(suwak.min);
+      plus.disabled = v >= parseFloat(suwak.max);
+    }
+
+    function zmien(delta) {
+      suwak.value = (parseFloat(suwak.value) + delta).toFixed(1);
+      render();
+      brudny();
+    }
+
+    function brudny() { zapisz.disabled = false; }
+
+    suwak.addEventListener('input', function () { render(); brudny(); });
+    minus.addEventListener('click', function () { zmien(-0.5); });
+    plus.addEventListener('click', function () { zmien(0.5); });
+    render();
+
+    /* ── segment trybu harmonogramu ── */
+    var segment = document.getElementById('segment-tryb-harmonogramu');
+    var blokStala = document.getElementById('blok-temperatura-stala');
+    var opisy = {
+      budynkowy: document.getElementById('opis-tryb-budynkowy'),
+      staly: document.getElementById('opis-tryb-staly'),
+      wlasny: document.getElementById('opis-tryb-wlasny')
+    };
+    var wiersz = document.getElementById('wiersz-harmonogram');
+    var wierszSub = document.getElementById('wiersz-harmonogram-sub');
+    var wierszVal = document.getElementById('wiersz-harmonogram-val');
+
+    function ustawTryb(tryb) {
+      segment.querySelectorAll('button').forEach(function (b) {
+        b.setAttribute('aria-selected', String(b.dataset.tryb === tryb));
+      });
+      Object.keys(opisy).forEach(function (k) { opisy[k].hidden = k !== tryb; });
+      blokStala.hidden = tryb !== 'staly';
+
+      if (tryb === 'budynkowy') {
+        wiersz.hidden = false;
+        wiersz.setAttribute('href', '08-harmonogram.html');
+        wierszSub.textContent = 'Dzień roboczy · 4 bloki';
+        wierszVal.textContent = 'Bazowy';
+      } else if (tryb === 'wlasny') {
+        wiersz.hidden = false;
+        wiersz.setAttribute('href', 'room-sypialnia-aj-harmonogram.html');
+        wierszSub.textContent = 'Kopia bazowego · edytowalna niezależnie';
+        wierszVal.textContent = 'Własny';
+      } else {
+        wiersz.hidden = true;
+      }
+    }
+
+    segment.querySelectorAll('button').forEach(function (b) {
+      b.addEventListener('click', function () { ustawTryb(b.dataset.tryb); brudny(); });
+    });
+    ustawTryb('budynkowy');
+
+    document.getElementById('in-nazwa').addEventListener('input', brudny);
+    document.querySelectorAll('.switch input:not([disabled])').forEach(function (i) {
+      i.addEventListener('change', brudny);
+    });
+
+    /* ── wybór ikony ── */
+    document.querySelectorAll('#wybor-ikony button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('#wybor-ikony button').forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        brudny();
+      });
+    });
+
+    /* ── toast ── */
+    var toast = document.getElementById('toast');
+    var toastText = document.getElementById('toast-text');
+    var timer;
+    function pokazToast(tekst, blad) {
+      toastText.textContent = tekst;
+      toast.classList.toggle('toast--error', !!blad);
+      toast.querySelector('use').setAttribute('href', blad ? '#i-triangle-alert' : '#i-circle-check');
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    }
+
+    zapisz.addEventListener('click', function () {
+      zapisz.disabled = true;
+      pokazToast('Zmiany w „' + document.getElementById('in-nazwa').value + '” zapisane');
+    });
+
+    /* ── dialog usunięcia ── */
+    var scrim = document.getElementById('scrim');
+    var dialog = document.getElementById('dialog-usun');
+    function otworz() {
+      scrim.hidden = false; dialog.hidden = false;
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); dialog.classList.add('is-open');
+      });
+      document.getElementById('btn-anuluj-usun').focus();
+    }
+    function zamknij() {
+      scrim.classList.remove('is-open'); dialog.classList.remove('is-open');
+      setTimeout(function () { scrim.hidden = true; dialog.hidden = true; }, 220);
+    }
+    document.getElementById('btn-usun').addEventListener('click', otworz);
+    document.getElementById('btn-usun-dol').addEventListener('click', otworz);
+    document.getElementById('btn-anuluj-usun').addEventListener('click', zamknij);
+    scrim.addEventListener('click', zamknij);
+    document.getElementById('btn-potwierdz-usun').addEventListener('click', function () {
+      zamknij();
+      pokazToast('Nie udało się usunąć — czujnik nadal raportuje', true);
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && !dialog.hidden) zamknij();
+    });
+  })();
+</script>
+</body>
+</html>

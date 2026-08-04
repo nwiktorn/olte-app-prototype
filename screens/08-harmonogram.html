@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=393, initial-scale=1">
+<title>OLTE · Harmonogram</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/olte.css">
+<script src="../assets/theme.js"></script>
+</head>
+<body class="standalone">
+<script src="../assets/icons.js"></script>
+
+<div class="screen" data-od-id="harmonogram">
+
+  <div class="statusbar" data-od-id="statusbar">
+    <span class="t-num">09:41</span>
+    <span class="sb-icons">
+      <svg viewBox="0 0 24 24"><use href="#i-signal"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-wifi"/></svg>
+      <svg viewBox="0 0 24 24"><use href="#i-battery-full"/></svg>
+    </span>
+  </div>
+
+  <header class="appbar" data-od-id="appbar">
+    <a class="iconbtn" href="06-centralny.html" aria-label="Wstecz">
+      <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg></a>
+    <div class="appbar-title">
+      <h1 class="t-title">Harmonogram</h1>
+      <span class="ab-sub">Bazowy · 6 pomieszczeń</span>
+    </div>
+    <button class="iconbtn" type="button" id="btn-kopiuj" aria-label="Skopiuj na inne dni">
+      <svg viewBox="0 0 24 24"><use href="#i-copy"/></svg></button>
+    <button class="iconbtn" type="button" id="btn-dodaj" aria-label="Dodaj blok">
+      <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+  </header>
+
+  <main class="content" data-od-id="tresc">
+
+    <!-- ── typ dnia ──────────────────────────────────────────────── -->
+    <div class="segment segment--block" role="tablist" id="segment-dzien" aria-label="Typ dnia">
+      <button type="button" role="tab" aria-selected="true">Dzień roboczy</button>
+      <button type="button" role="tab" aria-selected="false">Weekend</button>
+      <button type="button" role="tab" aria-selected="false">Nieobecność</button>
+    </div>
+
+    <!-- ── pasek dobowy ──────────────────────────────────────────── -->
+    <section class="card col gap-12" data-od-id="pasek-dobowy">
+      <div class="row-between">
+        <span class="col gap-2">
+          <span class="t-label">Doba w skrócie</span>
+          <span class="t-small muted">Cztery bloki · średnia 20,3 °C</span>
+        </span>
+        <span class="tagpill"><svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>Aktywny</span>
+      </div>
+
+      <div>
+        <div class="daystrip" role="img"
+             aria-label="Doba: 00:00–05:30 noc 19 °C, 05:30–08:00 poranek 21,5 °C, 08:00–15:30 dzień 19,5 °C, 15:30–22:00 wieczór 22 °C, 22:00–24:00 noc 19 °C">
+          <span style="width:22.9%;background:color-mix(in oklch, var(--status-info) 42%, var(--track))"></span>
+          <span style="width:10.4%;background:color-mix(in oklch, var(--brand-ceglany) 72%, var(--track))"></span>
+          <span style="width:31.3%;background:color-mix(in oklch, var(--primary-300) 62%, var(--track))"></span>
+          <span style="width:27.1%;background:var(--brand-ceglany)"></span>
+          <span style="width:8.3%;background:color-mix(in oklch, var(--status-info) 42%, var(--track))"></span>
+        </div>
+        <div class="daystrip-axis">
+          <span>00</span><span>06</span><span>12</span><span>18</span><span>24</span>
+        </div>
+      </div>
+
+      <div class="row gap-12" style="flex-wrap:wrap">
+        <span class="row gap-6 t-small muted">
+          <i class="swatch-key" style="background:var(--brand-ceglany)"></i>Komfort</span>
+        <span class="row gap-6 t-small muted">
+          <i class="swatch-key" style="background:color-mix(in oklch, var(--primary-300) 62%, var(--track))"></i>Ekonomia</span>
+        <span class="row gap-6 t-small muted">
+          <i class="swatch-key" style="background:color-mix(in oklch, var(--status-info) 42%, var(--track))"></i>Noc</span>
+      </div>
+    </section>
+
+    <!-- ── bloki ─────────────────────────────────────────────────── -->
+    <section class="card" data-od-id="lista-blokow" style="padding:6px 18px">
+      <button class="slotrow" type="button" data-blok="Noc" data-od="22:00" data-do="05:30" data-temp="19"
+              data-od-id="blok-noc">
+        <span class="sr-text">
+          <span class="sr-time">22:00 – 05:30</span>
+          <span class="sr-name">Noc · obniżenie nocne</span>
+        </span>
+        <span class="sr-temp t-num" style="color:var(--status-info)">19,0 °C</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </button>
+
+      <button class="slotrow" type="button" data-blok="Poranek" data-od="05:30" data-do="08:00" data-temp="21.5"
+              data-od-id="blok-poranek">
+        <span class="sr-text">
+          <span class="sr-time">05:30 – 08:00</span>
+          <span class="sr-name">Poranek · dogrzanie przed wstaniem</span>
+        </span>
+        <span class="sr-temp t-num" style="color:var(--brand-ceglany)">21,5 °C</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </button>
+
+      <button class="slotrow" type="button" data-blok="Dzień" data-od="08:00" data-do="15:30" data-temp="19.5"
+              data-od-id="blok-dzien">
+        <span class="sr-text">
+          <span class="sr-time">08:00 – 15:30</span>
+          <span class="sr-name">Dzień · budynek stoi pusty</span>
+        </span>
+        <span class="sr-temp t-num" style="color:var(--accent)">19,5 °C</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </button>
+
+      <button class="slotrow" type="button" data-blok="Wieczór" data-od="15:30" data-do="22:00" data-temp="22"
+              data-od-id="blok-wieczor">
+        <span class="sr-text">
+          <span class="sr-time">15:30 – 22:00</span>
+          <span class="sr-name">Wieczór · pełny komfort</span>
+        </span>
+        <span class="sr-temp t-num" style="color:var(--brand-ceglany)">22,0 °C</span>
+        <span class="lr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span>
+      </button>
+
+      <div class="slotrow is-off" data-od-id="blok-wietrzenie">
+        <span class="sr-text">
+          <span class="sr-time">07:00 – 07:15</span>
+          <span class="sr-name">Wietrzenie · wyłączone na sezon grzewczy</span>
+        </span>
+        <label class="switch">
+          <input type="checkbox" aria-label="Włącz blok wietrzenia">
+          <span class="sw-track"></span>
+        </label>
+      </div>
+    </section>
+
+    <!-- ── wpływ ─────────────────────────────────────────────────── -->
+    <section class="metricbox" data-od-id="wplyw-harmonogramu">
+      <p class="t-link muted" style="font-size:var(--fs-12)">Szacowany wpływ na sezon</p>
+      <p class="t-metric t-num" style="color:var(--accent);margin-top:2px">−8,4 %</p>
+      <p class="t-body-lg n700">zapotrzebowania w porównaniu ze stałą temperaturą 21 °C</p>
+      <p class="row gap-6 muted t-body-lg" style="margin-top:12px">
+        <svg viewBox="0 0 24 24" style="width:15px;height:15px"><use href="#i-info"/></svg>
+        Wyliczone z ostatnich 30 dni pracy instalacji
+      </p>
+    </section>
+
+    <p class="t-small muted center" data-od-id="stopka-informacja">
+      To harmonogram bazowy — obowiązuje domyślnie każde pomieszczenie, które nie ma
+      własnego nadpisania. Pomieszczenie może zamiast niego mieć stałą temperaturę
+      albo własny harmonogram edytowany niezależnie od tego.
+    </p>
+  </main>
+
+  <div class="formbar" data-od-id="pasek-akcji">
+    <a class="btn btn--ghost" href="06-centralny.html">Wróć</a>
+    <button class="btn" type="button" id="btn-zapisz" disabled>Zapisz dobę</button>
+  </div>
+
+  <!-- ── nakładki ────────────────────────────────────────────────── -->
+  <div class="scrim" id="scrim" hidden data-od-id="przyciemnienie"></div>
+
+  <!-- arkusz dolny: edycja bloku -->
+  <section class="sheet" id="sheet-blok" role="dialog" aria-modal="true"
+           aria-labelledby="sheet-tytul" hidden data-od-id="arkusz-edycji-bloku">
+    <span class="sh-handle"></span>
+    <div class="sh-head">
+      <span class="grow">
+        <span class="sh-title" id="sheet-tytul">Wieczór</span>
+        <span class="sh-sub" id="sheet-podtytul">Blok komfortowy · dzień roboczy</span>
+      </span>
+      <button class="iconbtn" type="button" id="btn-zamknij-arkusz" aria-label="Zamknij">
+        <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    </div>
+
+    <div class="sh-body">
+      <div class="row gap-12">
+        <div class="field grow">
+          <label for="in-od">Od</label>
+          <input class="input t-num" id="in-od" type="time" value="15:30" step="900">
+        </div>
+        <div class="field grow">
+          <label for="in-do">Do</label>
+          <input class="input t-num" id="in-do" type="time" value="22:00" step="900">
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="lab-temp-blok">Temperatura bloku</label>
+        <div class="stepper" role="group" aria-labelledby="lab-temp-blok">
+          <button type="button" id="btn-minus" aria-label="Obniż o 0,5 °C">
+            <svg viewBox="0 0 24 24"><use href="#i-minus"/></svg></button>
+          <span class="row gap-4" style="align-items:baseline">
+            <span class="st-val" id="wartosc-temp">22,0</span>
+            <span class="st-unit">°C</span>
+          </span>
+          <button type="button" id="btn-plus" aria-label="Podnieś o 0,5 °C">
+            <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg></button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label id="lab-dni">Dni</label>
+        <div class="iconpick" role="group" aria-labelledby="lab-dni" id="wybor-dni"
+             style="grid-template-columns:repeat(7,1fr)">
+          <button type="button" aria-pressed="true"  class="t-caption">Pn</button>
+          <button type="button" aria-pressed="true"  class="t-caption">Wt</button>
+          <button type="button" aria-pressed="true"  class="t-caption">Śr</button>
+          <button type="button" aria-pressed="true"  class="t-caption">Cz</button>
+          <button type="button" aria-pressed="true"  class="t-caption">Pt</button>
+          <button type="button" aria-pressed="false" class="t-caption">Sb</button>
+          <button type="button" aria-pressed="false" class="t-caption">Nd</button>
+        </div>
+        <p class="f-hint">Dni zaznaczone poza typem „Dzień roboczy” utworzą osobny wariant bloku.</p>
+      </div>
+
+      <p class="notebox">
+        <svg viewBox="0 0 24 24"><use href="#i-clock"/></svg>
+        <span>Bloki nie mogą się nakładać. Wydłużenie tego bloku w dół skróci blok „Dzień”.</span>
+      </p>
+    </div>
+
+    <div class="sh-actions">
+      <button class="btn btn--danger-quiet" type="button" id="btn-usun-blok">Usuń blok</button>
+      <button class="btn" type="button" id="btn-zapisz-blok">Gotowe</button>
+    </div>
+  </section>
+
+  <!-- arkusz dolny: kopiowanie na inne dni -->
+  <section class="sheet" id="sheet-kopiuj" role="dialog" aria-modal="true"
+           aria-labelledby="kopiuj-tytul" hidden data-od-id="arkusz-kopiowania">
+    <span class="sh-handle"></span>
+    <div class="sh-head">
+      <span class="grow">
+        <span class="sh-title" id="kopiuj-tytul">Skopiuj harmonogram</span>
+        <span class="sh-sub">Cztery bloki z dnia roboczego</span>
+      </span>
+      <button class="iconbtn" type="button" id="btn-zamknij-kopiuj" aria-label="Zamknij">
+        <svg viewBox="0 0 24 24"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="sh-body">
+      <div class="col" data-od-id="cele-kopiowania">
+        <div class="listrow">
+          <span class="lr-text"><span class="lr-name">Weekend</span>
+            <span class="lr-sub">Nadpisze 3 istniejące bloki</span></span>
+          <label class="switch"><input type="checkbox" checked aria-label="Kopiuj na weekend">
+            <span class="sw-track"></span></label>
+        </div>
+        <div class="listrow">
+          <span class="lr-text"><span class="lr-name">Nieobecność</span>
+            <span class="lr-sub">Obecnie stała temperatura 16 °C</span></span>
+          <label class="switch"><input type="checkbox" aria-label="Kopiuj na nieobecność">
+            <span class="sw-track"></span></label>
+        </div>
+      </div>
+    </div>
+    <div class="sh-actions">
+      <button class="btn btn--ghost" type="button" id="btn-anuluj-kopiuj">Anuluj</button>
+      <button class="btn" type="button" id="btn-potwierdz-kopiuj">Skopiuj</button>
+    </div>
+  </section>
+
+  <div class="toastwrap" style="bottom:92px" data-od-id="toasty">
+    <div class="toast" id="toast" role="status" hidden>
+      <svg viewBox="0 0 24 24"><use href="#i-circle-check"/></svg>
+      <span id="toast-text">Zapisano</span>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var scrim = document.getElementById('scrim');
+    var sheetBlok = document.getElementById('sheet-blok');
+    var sheetKopiuj = document.getElementById('sheet-kopiuj');
+    var zapisz = document.getElementById('btn-zapisz');
+    var aktywnyArkusz = null;
+
+    function otworz(sheet) {
+      aktywnyArkusz = sheet;
+      scrim.hidden = false; sheet.hidden = false;
+      requestAnimationFrame(function () {
+        scrim.classList.add('is-open'); sheet.classList.add('is-open');
+      });
+    }
+    function zamknij() {
+      if (!aktywnyArkusz) return;
+      var sheet = aktywnyArkusz;
+      aktywnyArkusz = null;
+      scrim.classList.remove('is-open'); sheet.classList.remove('is-open');
+      setTimeout(function () { scrim.hidden = true; sheet.hidden = true; }, 280);
+    }
+    scrim.addEventListener('click', zamknij);
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') zamknij(); });
+    document.getElementById('btn-zamknij-arkusz').addEventListener('click', zamknij);
+    document.getElementById('btn-zamknij-kopiuj').addEventListener('click', zamknij);
+    document.getElementById('btn-anuluj-kopiuj').addEventListener('click', zamknij);
+
+    /* ── otwarcie arkusza z danymi klikniętego bloku ── */
+    var wartosc = document.getElementById('wartosc-temp');
+    function format(v) { return v.toFixed(1).replace('.', ','); }
+    var temp = 22;
+
+    function renderTemp() {
+      wartosc.textContent = format(temp);
+      document.getElementById('btn-minus').disabled = temp <= 15;
+      document.getElementById('btn-plus').disabled = temp >= 26;
+    }
+
+    document.querySelectorAll('.slotrow[data-blok]').forEach(function (r) {
+      r.addEventListener('click', function () {
+        document.getElementById('sheet-tytul').textContent = r.dataset.blok;
+        document.getElementById('sheet-podtytul').textContent =
+          parseFloat(r.dataset.temp) >= 21 ? 'Blok komfortowy · dzień roboczy'
+                                           : 'Blok ekonomiczny · dzień roboczy';
+        document.getElementById('in-od').value = r.dataset.od;
+        document.getElementById('in-do').value = r.dataset.do;
+        temp = parseFloat(r.dataset.temp);
+        renderTemp();
+        otworz(sheetBlok);
+      });
+    });
+
+    document.getElementById('btn-minus').addEventListener('click', function () {
+      temp = Math.max(15, temp - 0.5); renderTemp();
+    });
+    document.getElementById('btn-plus').addEventListener('click', function () {
+      temp = Math.min(26, temp + 0.5); renderTemp();
+    });
+    renderTemp();
+
+    document.querySelectorAll('#wybor-dni button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        b.setAttribute('aria-pressed', String(b.getAttribute('aria-pressed') !== 'true'));
+      });
+    });
+
+    /* ── toast ── */
+    var toast = document.getElementById('toast');
+    var toastText = document.getElementById('toast-text');
+    var timer;
+    function pokazToast(tekst) {
+      toastText.textContent = tekst;
+      toast.hidden = false;
+      requestAnimationFrame(function () { toast.classList.add('is-open'); });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        toast.classList.remove('is-open');
+        setTimeout(function () { toast.hidden = true; }, 240);
+      }, 2600);
+    }
+
+    /* ── zapis bloku aktualizuje wiersz i pasek dobowy ── */
+    document.getElementById('btn-zapisz-blok').addEventListener('click', function () {
+      var nazwa = document.getElementById('sheet-tytul').textContent;
+      document.querySelectorAll('.slotrow[data-blok]').forEach(function (r) {
+        if (r.dataset.blok !== nazwa) return;
+        r.dataset.temp = String(temp);
+        r.dataset.od = document.getElementById('in-od').value;
+        r.dataset.do = document.getElementById('in-do').value;
+        r.querySelector('.sr-time').textContent = r.dataset.od + ' – ' + r.dataset.do;
+        r.querySelector('.sr-temp').textContent = format(temp) + ' °C';
+      });
+      zapisz.disabled = false;
+      zamknij();
+      pokazToast('Blok „' + nazwa + '” zaktualizowany');
+    });
+
+    document.getElementById('btn-usun-blok').addEventListener('click', function () {
+      zapisz.disabled = false;
+      zamknij();
+      pokazToast('Blok usunięty — doba domknięta blokiem sąsiednim');
+    });
+
+    document.getElementById('btn-kopiuj').addEventListener('click', function () { otworz(sheetKopiuj); });
+    document.getElementById('btn-dodaj').addEventListener('click', function () {
+      document.getElementById('sheet-tytul').textContent = 'Nowy blok';
+      document.getElementById('sheet-podtytul').textContent = 'Wstawiony w wolne okno doby';
+      document.getElementById('in-od').value = '12:00';
+      document.getElementById('in-do').value = '14:00';
+      temp = 21; renderTemp();
+      otworz(sheetBlok);
+    });
+    document.getElementById('btn-potwierdz-kopiuj').addEventListener('click', function () {
+      zamknij();
+      zapisz.disabled = false;
+      pokazToast('Skopiowano na weekend');
+    });
+
+    document.querySelectorAll('#segment-dzien button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        document.querySelectorAll('#segment-dzien button').forEach(function (x) {
+          x.setAttribute('aria-selected', String(x === b));
+        });
+      });
+    });
+
+    document.querySelectorAll('.slotrow .switch input').forEach(function (i) {
+      i.addEventListener('change', function () {
+        i.closest('.slotrow').classList.toggle('is-off', !i.checked);
+        zapisz.disabled = false;
+      });
+    });
+
+    zapisz.addEventListener('click', function () {
+      zapisz.disabled = true;
+      pokazToast('Harmonogram bazowy zapisany');
+    });
+  })();
+</script>
+</body>
+</html>
