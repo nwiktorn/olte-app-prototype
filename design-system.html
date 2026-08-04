@@ -258,8 +258,115 @@
         <div class="sw-meta"><span class="sw-name">Gauge/Info-Dark</span><span class="sw-hex">#5c7eed</span></div></div>
     </div>
 
-    <h3 class="ds-sub-h">Powierzchnie sygnalizacyjne — nazwane jako Surface/*</h3>
-    <div class="swatches" data-od-id="kolory-powierzchnie">
+    <h3 class="ds-sub-h">Kolory pomieszczeń — zamknięty zbiór dziesięciu tożsamości</h3>
+    <p class="ds-note">Kolor pomieszczenia to <strong>etykieta, nie status</strong>. Nie mówi nic
+      o temperaturze, jakości odczytu ani o poprawności czegokolwiek — służy wyłącznie rozpoznaniu
+      pomieszczenia. Dlatego nie wchodzi w miejsca zajęte przez Gauge/* i Status/*: pojawia się na
+      tle i glifie ikony pomieszczenia, na rampie tarczy nastawy i w podświetleniu nazwy na liście.
+      Każda pozycja wywodzi się z tokenu już obecnego w palecie i przechodzi 3:1 na powierzchni
+      karty w obu motywach (minimum 3,12:1 jasny, 3,92:1 ciemny), więc może nieść 27-punktową
+      kreskę tarczy bez korekty per motyw. Cztery pozycje są <strong>stonowane</strong> wobec
+      swojego źródła. Indygo (z Gauge/Info-Dark) i Koral (z App/1) to tokeny o roli sygnałowej —
+      w pełnym nasyceniu na kresce tarczy krzyczały głośniej niż cokolwiek innego na ekranie
+      i kolidowały znaczeniem. Amber (z On/Warning) i Ceglany (z Brand/Ceglany) zostały dodatkowo
+      wytrącone z nasycenia o 30 % i 38 %, bo jako jedyne ciepłe pozycje palety ciążyły całemu
+      ekranowi pomieszczenia — hue i (przy Ceglanym) jasność zostają bez zmian, więc to ta sama
+      barwa o mniejszym natężeniu, nie inny kolor. Zbiór jest skończony — dziesięć
+      pozycji to granica, przy której lista pozostaje czytelna, a kolor nigdy nie jest jedynym
+      nośnikiem znaczenia: towarzyszy mu ikona i nazwa.</p>
+    <div class="swatches" data-od-id="kolory-pomieszczen">
+      <div class="sw"><div class="sw-chip" style="background:var(--room-zielen)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Zieleń</span><span class="sw-hex">#478675 · z Accent · 4,26:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-szalwia)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Szałwia</span><span class="sw-hex">#689c8c · z App/4 · 3,12:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-szmaragd)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Szmaragd</span><span class="sw-hex">#41a083 · z Gauge/High · 3,19:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-morski)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Morski</span><span class="sw-hex">#3f9c97 · korekta Gauge/Excellent · 3,27:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-blekit)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Błękit</span><span class="sw-hex">#6790d0 · z Brand/Błękit · 3,24:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-indygo)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Indygo</span><span class="sw-hex">#667fc6 · Gauge/Info-Dark stonowany · 3,88:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-grafit)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Grafit</span><span class="sw-hex">#737e79 · z Neutral/500 · 4,21:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-amber)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Amber</span><span class="sw-hex">#937949 · On/Warning przygaszony · 4,14:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-koral)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Koral</span><span class="sw-hex">#cb705c · App/1 stonowany · 3,49:1</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:var(--room-ceglany)"></div>
+        <div class="sw-meta"><span class="sw-name">Room/Ceglany</span><span class="sw-hex">#ac6656 · Brand/Ceglany przygaszony · 4,38:1</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Zakres barwowy — chłodny ↔ ciepły koniec każdej tożsamości</h3>
+    <p class="ds-note">Łuk nastawy na tarczy nie jest jednym kolorem: każda tożsamość ma
+      <strong>zakres dwóch końców</strong>. Chłodny nosi łuk przy 15 °C, ciepły przy 26 °C,
+      a tożsamość leży w środku zakresu — przy nastawie ok. 20,5 °C łuk czyta się dokładnie
+      jako kolor pomieszczenia. Przeciąganie kropki przeprowadza barwę przez ten zakres
+      płynnie, bo interpolacja idzie przez <code>color-mix(in oklch, …)</code>.</p>
+    <p class="ds-note">Końce są wyprowadzone z tożsamości jedną regułą, nie doborem na oko:
+      hue obrócony o <strong>24°</strong> w stronę osi chłodnej (240°) i ciepłej (50°),
+      kierunkiem krótszego łuku — dzięki temu „chłodniej” znaczy to samo dla zieleni, błękitu
+      i cegły. Jasność ±0,035, chroma ×0,92 na chłodnym i ×1,06 na ciepłym końcu. Cały zakres
+      obejmuje 48° hue, czyli wciąż jedną rodzinę: teal ↔ oliwka dla zieleni, nie zieleń ↔
+      czerwień. Jasność chłodnego końca jest dodatkowo ograniczona progiem 3,05:1 wobec
+      <code>Surface/Track</code>, więc sześć pozycji ma go niżej niż +0,035 — inaczej
+      najjaśniejsze tożsamości gubiłyby krawędź łuku na jasnym tle. Zmierzone na całym
+      przebiegu: łuk min 3,05:1 jasny / 3,12:1 ciemny, biały uchwyt wobec łuku 3,45:1 / 3,41:1,
+      dystans percepcyjny między końcami 0,051–0,106 Oklab.</p>
+    <p class="ds-note">Zakresy sąsiednich tożsamości mogą na siebie zachodzić — chłodny Szmaragd
+      leży 0,016 Oklab od Morskiego, przy 0,036 dystansu między samymi tożsamościami. W produkcie
+      to nie koliduje: zakres pojawia się na jednej tarczy naraz, a tożsamość niesie ikona i nazwa.</p>
+    <div class="swatches" data-od-id="zakresy-pomieszczen">
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-zielen-cool), var(--room-zielen), var(--room-zielen-warm));background:linear-gradient(90deg in oklch, var(--room-zielen-cool), var(--room-zielen), var(--room-zielen-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Zieleń · zakres</span><span class="sw-hex">#4f8f91 → #4d7a57 · teal → oliwka</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-szalwia-cool), var(--room-szalwia), var(--room-szalwia-warm));background:linear-gradient(90deg in oklch, var(--room-szalwia-cool), var(--room-szalwia), var(--room-szalwia-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Szałwia · zakres</span><span class="sw-hex">#5f9394 → #6a9070 · L ograniczona progiem</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-szmaragd-cool), var(--room-szmaragd), var(--room-szmaragd-warm));background:linear-gradient(90deg in oklch, var(--room-szmaragd-cool), var(--room-szmaragd), var(--room-szmaragd-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Szmaragd · zakres</span><span class="sw-hex">#319897 → #55935a</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-morski-cool), var(--room-morski), var(--room-morski-warm));background:linear-gradient(90deg in oklch, var(--room-morski-cool), var(--room-morski), var(--room-morski-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Morski · zakres</span><span class="sw-hex">#4694a6 → #419274</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-blekit-cool), var(--room-blekit), var(--room-blekit-warm));background:linear-gradient(90deg in oklch, var(--room-blekit-cool), var(--room-blekit), var(--room-blekit-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Błękit · zakres</span><span class="sw-hex">#4c90be → #7c7bc6 · niebieski → fiołkowy</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-indygo-cool), var(--room-indygo), var(--room-indygo-warm));background:linear-gradient(90deg in oklch, var(--room-indygo-cool), var(--room-indygo), var(--room-indygo-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Indygo · zakres</span><span class="sw-hex">#4e8fc3 → #7b6ab8 · najszerszy: 0,106</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-grafit-cool), var(--room-grafit), var(--room-grafit-warm));background:linear-gradient(90deg in oklch, var(--room-grafit-cool), var(--room-grafit), var(--room-grafit-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Grafit · zakres</span><span class="sw-hex">#718b8a → #677666 · chroma dociągnięta do 0,030</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-amber-cool), var(--room-amber), var(--room-amber-warm));background:linear-gradient(90deg in oklch, var(--room-amber-cool), var(--room-amber), var(--room-amber-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Amber · zakres</span><span class="sw-hex">#8d8a5a → #956744 · khaki → ochra</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-koral-cool), var(--room-koral), var(--room-koral-warm));background:linear-gradient(90deg in oklch, var(--room-koral-cool), var(--room-koral), var(--room-koral-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Koral · zakres</span><span class="sw-hex">#c77080 → #be6935</span></div></div>
+      <div class="sw"><div class="sw-chip" style="background:linear-gradient(90deg, var(--room-ceglany-cool), var(--room-ceglany), var(--room-ceglany-warm));background:linear-gradient(90deg in oklch, var(--room-ceglany-cool), var(--room-ceglany), var(--room-ceglany-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Ceglany · zakres</span><span class="sw-hex">#b3707a → #9f5f38</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Role wyprowadzone z koloru pomieszczenia</h3>
+    <p class="ds-note">Wariantów nie ma jako tokenów — token rozwiązałby <code>var(--room)</code>
+      raz na <code>:root</code> i przestał reagować na nadpisanie niżej w drzewie. Zamiast tego
+      każda rola jest liczona <code>color-mix()</code> w regule komponentu, więc wystarczy ustawić
+      <code>--room</code> na <code>.screen</code> albo na <code>.roomrow</code>. Tam, gdzie jest
+      tarcza nastawy, przypisanie idzie klasą <code>.room--&lt;nazwa&gt;</code>, która ustawia
+      całą trójkę naraz — tożsamość i oba końce zakresu — więc nie da się przypisać ekranowi
+      szmaragdowej ikony i morskiego łuku.</p>
+    <div class="swatches" data-od-id="kolory-pomieszczen-role">
+      <div class="sw room--indygo">
+        <div class="sw-chip" style="background:var(--room)"></div>
+        <div class="sw-meta"><span class="sw-name">Tożsamość</span><span class="sw-hex">var(--room) · próbka i glif ikony</span></div></div>
+      <div class="sw room--indygo">
+        <div class="sw-chip" style="background:linear-gradient(90deg, var(--room-cool), var(--room-warm));background:linear-gradient(90deg in oklch, var(--room-cool), var(--room-warm))"></div>
+        <div class="sw-meta"><span class="sw-name">Rampa tarczy</span><span class="sw-hex">room-cool → room-warm · 15 → 26 °C · min 3,05:1</span></div></div>
+      <div class="sw room--indygo">
+        <div class="sw-chip" style="background:color-mix(in oklch, var(--room) 66%, var(--fg))"></div>
+        <div class="sw-meta"><span class="sw-name">Ink</span><span class="sw-hex">66 % room + fg · glif i nazwa · min 5,99:1</span></div></div>
+      <div class="sw room--indygo">
+        <div class="sw-chip" style="background:color-mix(in oklch, var(--room) 14%, var(--surface))"></div>
+        <div class="sw-meta"><span class="sw-name">Tint</span><span class="sw-hex">14 % room + surface · tło ikony</span></div></div>
+      <div class="sw room--indygo">
+        <div class="sw-chip" style="display:grid;place-items:center;background:var(--surface)">
+          <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span></div>
+        <div class="sw-meta"><span class="sw-name">Ikona pomieszczenia</span><span class="sw-hex">glif na tincie · min 5,21:1</span></div></div>
+    </div>
+
+    <h3 class="ds-sub-h">Powierzchnie sygnalizacyjne — nazwane jako Surface/*</h3>    <div class="swatches" data-od-id="kolory-powierzchnie">
       <div class="sw"><div class="sw-chip" style="background:var(--surf-success);border-bottom:1px solid var(--surf-success-line)"></div>
         <div class="sw-meta"><span class="sw-name">Surface/Success</span><span class="sw-hex">#e6f4ec / #cde9d8</span></div></div>
       <div class="sw"><div class="sw-chip" style="background:var(--surf-info);border-bottom:1px solid var(--surf-info-line)"></div>
@@ -566,6 +673,58 @@
           każdym <code>room-&lt;slug&gt;-glowny.html</code>.</p>
       </div>
 
+      <div class="demo" data-od-id="komponent-roomrow-kolor">
+        <div class="demo-label">Room List Item · tożsamość pomieszczenia</div>
+        <div class="demo-body" style="padding:8px 20px;gap:0">
+          <a class="roomrow" href="screens/room-sypialnia-aj-glowny.html" style="--room:var(--room-indygo)">
+            <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Sypialnia AJ</span>
+              <span class="rr-status"><i class="dot"></i>Komfort idealny</span></span>
+            <span class="rr-right">
+              <span class="rr-vals"><span class="rr-temp t-num">23,0°</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-lazienka-glowny.html" style="--room:var(--room-morski)">
+            <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Łazienka</span>
+              <span class="rr-status"><i class="dot dot--info"></i>Program poranny · nad normą</span></span>
+            <span class="rr-right">
+              <span class="rr-vals"><span class="rr-temp rr-temp--warm t-num">24,2°</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow" href="screens/room-kuchnia-glowny.html" style="--room:var(--room-ceglany)">
+            <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Kuchnia</span>
+              <span class="rr-status"><i class="dot" style="background:var(--app-1a)"></i>Komfort idealny</span></span>
+            <span class="rr-right">
+              <span class="rr-vals"><span class="rr-temp t-num">22,6°</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+          <a class="roomrow is-offline" href="screens/room-kotlownia-glowny.html" style="--room:var(--room-grafit)">
+            <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
+            <span class="rr-text">
+              <span class="rr-name">Kotłownia</span>
+              <span class="rr-status"><i class="dot dot--off"></i>Czujnik nieaktywny</span></span>
+            <span class="rr-right">
+              <span class="rr-vals"><span class="rr-temp t-num rr-temp--off">—</span></span>
+              <span class="rr-chev"><svg viewBox="0 0 24 24"><use href="#i-chevron-right"/></svg></span></span>
+          </a>
+        </div>
+        <p class="t-small muted" style="padding:0 20px 16px">Na liście kolor pomieszczenia pojawia
+          się w <strong>jednym miejscu</strong> — na tle i glifie ikony
+          (<code>.iconbox--room</code>) — plus w podświetleniu nazwy przy hover. To celowo mało:
+          wiersz nosi już cztery inne nośniki znaczenia (kropka stanu, harmonogram, kierunek
+          regulacji, odczyt), więc tożsamość musi być rozpoznawalna, a nie krzykliwa. Nie ma
+          kolorowego paska ani obwódki wiersza. <code>--room</code> ustawia się na
+          <code>.roomrow</code>, warianty liczy <code>color-mix()</code>.
+          <strong>Stan offline wygrywa z tożsamością</strong>: Kotłownia zachowuje przypisany kolor
+          w danych, ale ikona zostaje wygaszona (<code>.iconbox--off</code>), bo wiersz bez odczytu
+          nie może wyglądać na aktywny.</p>
+      </div>
+
       <div class="demo" data-od-id="komponent-rr-climate">
         <div class="demo-label">Room List Item · kierunek regulacji temperatury</div>
         <div class="demo-body" style="padding:8px 20px;gap:0">
@@ -653,16 +812,91 @@
                aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub stałą temperaturę">
               <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
           </div>
+          <div class="row" style="justify-content:center;gap:8px">
+            <span class="tagpill tagpill--manual">
+              <svg viewBox="0 0 24 24"><use href="#i-sliders-vertical"/></svg>Ustawiono ręcznie</span>
+            <a class="iconbtn" href="screens/07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
+               title="Ustawienia harmonogramu"
+               aria-label="Ustawienia harmonogramu — zmień na harmonogram bazowy lub własny">
+              <svg viewBox="0 0 24 24"><use href="#i-settings"/></svg></a>
+          </div>
         </div>
         <p class="t-small muted" style="padding:0 20px 16px">Wiersz pod tarczą temperatury
           (<code>data-od-id="stan-harmonogramu"</code>) na każdym <code>room-&lt;slug&gt;-glowny.html</code>:
           plakietka stanu plus <code>.iconbtn</code> z ikoną <code>settings</code> prowadzący
           bezpośrednio do <code>07-edycja-pomieszczenia.html#segment-tryb-harmonogramu</code> —
           zmiana trybu na własny lub stałą temperaturę bez przechodzenia przez pełną edycję.
-          Plakietka jest statusem (nie klikalna), zębatka jest jedynym elementem interaktywnym;
-          cel dotykowy <code>.iconbtn</code> to 40×40 px. <code>aria-label</code> nazywa docelowe
-          tryby, a nie samą ikonę. Wdrożone w 6/6 ogrzewanych pomieszczeniach (Kotłownia bez
-          harmonogramu — bez skrótu).</p>
+          Trzeci stan, <code>.tagpill--manual</code> (tło <code>--track</code>, tekst
+          <code>--n-700</code>, ikona <code>sliders-vertical</code>), nie jest ustawiany z tego
+          ekranu — pojawia się automatycznie, gdy użytkownik przeciągnie kropkę na samej tarczy
+          (patrz specimen „Tarcza · przeciąganie temperatury" niżej); zastępuje wtedy
+          <code>tagpill--info</code>/<code>tagpill--warning</code> i chowa wiersz „najbliższa
+          zmiana", bo harmonogram jest zawieszony. Plakietka jest statusem (nie klikalna),
+          zębatka jest jedynym elementem interaktywnym w tym wierszu; cel dotykowy
+          <code>.iconbtn</code> to 40×40 px. <code>aria-label</code> nazywa docelowe tryby, a nie
+          samą ikonę. Wdrożone w 6/6 ogrzewanych pomieszczeniach (Kotłownia bez harmonogramu —
+          bez skrótu i bez tarczy).</p>
+      </div>
+
+      <div class="demo" data-od-id="komponent-tarcza-interaktywna">
+        <div class="demo-label">Tarcza · nastawa w środku i przeciąganie kropki</div>
+        <div class="demo-body" style="align-items:center;padding:24px 20px">
+          <section class="dial dial--interactive room--indygo" style="width:320px;height:320px;--dial-len:744;--dial-offset:372.0">
+            <svg viewBox="0 0 320 320" width="320" height="320">
+              <defs>
+                <linearGradient id="grad-temperatura-ds" gradientUnits="userSpaceOnUse" x1="60" y1="292" x2="272" y2="64">
+                  <stop class="dial-grad-stop" offset="0%"   style="stop-color:color-mix(in oklch, var(--room-warm) 15.0%, var(--room-cool))"/>
+                  <stop class="dial-grad-stop" offset="100%" style="stop-color:color-mix(in oklch, var(--room-warm) 50.0%, var(--room-cool))"/>
+                </linearGradient>
+              </defs>
+              <path class="dial-arc-basis" d="M124.2 285A130 130 0 1 1 195.8 285"/>
+              <path class="dial-arc-temp" d="M124.2 285A130 130 0 1 1 195.8 285"
+                    stroke-dasharray="744" stroke-dashoffset="372.0"
+                    style="stroke:url(#grad-temperatura-ds)"/>
+              <circle class="dial-arc-dot" cx="160.0" cy="30.0" r="7"
+                      style="fill:var(--surface);stroke:color-mix(in oklch, color-mix(in oklch, var(--room-warm) 50.0%, var(--room-cool)) 78%, var(--fg));stroke-width:2.5;transform-origin:160.0px 30.0px"/>
+            </svg>
+            <div class="dial-center">
+              <p class="t-eyebrow">Nadana temperatura</p>
+              <p class="dial-value t-num t-dial">20,5°</p>
+              <p class="dial-now t-num">
+                <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>20,4°
+                <span class="dial-now-cap">w pomieszczeniu</span>
+              </p>
+              <p class="dial-hum t-num">
+                <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>52 %
+                <span class="dial-hum-cap">wilgotności</span>
+              </p>
+            </div>
+          </section>
+        </div>
+        <p class="t-small muted" style="padding:0 20px 16px">W środku stoi <strong>nastawa</strong>
+          (<code>.dial-value</code>) pod podpisem „Nadana temperatura", a pod nią odczyty:
+          temperatura (<code>.dial-now</code>) i wilgotność (<code>.dial-hum</code>) —
+          <code>45 / 15 / 13 px</code>. Dwa rejestry koloru: <strong>kolor = to, co ustawiasz</strong>,
+          <strong>neutralny = to, co zmierzone</strong>. Nastawa zmienia się przy przeciąganiu,
+          odczyty stoją, więc dystans „nadane vs. rzeczywiste" widać od razu. Tarcza nie schodzi
+          poniżej <code>320×320 px</code> — treść środka nie skaluje się razem z pierścieniem
+          i przy mniejszym rozmiarze podpisy wchodzą na łuk.</p>
+        <p class="t-small muted" style="padding:0 20px 16px">Tarcza to <strong>wypełnienie, nie
+          paleta</strong>: neutralna podstawa (<code>.dial-arc-basis</code>) pokazuje zakres
+          <code>15–26 °C</code>, kolorowy łuk (<code>.dial-arc-temp</code>) rośnie do nastawy.
+          Barwa to ton z <strong>zakresu pomieszczenia</strong> dla bieżącej wartości:
+          <code>--room-cool</code> przy 15 °C, <code>--room-warm</code> przy 26 °C, tożsamość
+          w środku — pomiary w sekcji <strong>Zakres barwowy</strong>. Jeden rejestr od pierwszej
+          klatki, bez przełączania trybów; wynik pomieszczenia mówi plakietka i karta
+          „Podsumowanie pomieszczenia". Rampa wyrażona wyłącznie jako
+          <code>color-mix(in oklch, …)</code> na tokenach — JS podstawia tylko procent, nigdy
+          gotowy <code>rgb()</code>. Uchwyt biały (<code>--surface</code>) z pierścieniem
+          o 22 % głębszym od łuku.</p>
+        <p class="t-small muted" style="padding:0 20px 16px">Drag, klik lub klawiatura na kropce
+          (<code>role="slider"</code>, hit-target r=24 px): strzałki ±0,5 °C,
+          <code>PageUp</code>/<code>PageDown</code> ±2 °C, <code>Home</code>/<code>End</code>
+          skok do 15/26 °C — ten sam zakres i krok co stepper w
+          <a href="screens/07-edycja-pomieszczenia.html" style="color:var(--accent);font-weight:600">edycji
+          pomieszczenia</a>. Po zmianie plakietka stanu przechodzi na
+          <code>tagpill--manual</code> „Ustawiono ręcznie". Wdrożone w 6/6
+          <code>room-&lt;slug&gt;-glowny.html</code> (nie w Kotłowni — offline, bez tarczy).</p>
       </div>
 
       <div class="demo" data-od-id="komponent-segment">
@@ -1331,6 +1565,46 @@
         </div>
       </div>
 
+      <div class="demo" data-od-id="form-kolor">
+        <div class="demo-label">Wybór koloru pomieszczenia · 10 tożsamości, siatka 5 × 2</div>
+        <div class="demo-body">
+          <div class="colorpick" id="demo-colorpick" role="group" aria-label="Kolor pomieszczenia">
+            <button type="button" aria-pressed="false" aria-label="Zieleń" style="--room:var(--room-zielen)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Szałwia" style="--room:var(--room-szalwia)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Szmaragd" style="--room:var(--room-szmaragd)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Morski" style="--room:var(--room-morski)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Błękit" style="--room:var(--room-blekit)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="true"  aria-label="Indygo" style="--room:var(--room-indygo)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Grafit" style="--room:var(--room-grafit)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Amber" style="--room:var(--room-amber)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Koral" style="--room:var(--room-koral)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+            <button type="button" aria-pressed="false" aria-label="Ceglany" style="--room:var(--room-ceglany)">
+              <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+          </div>
+        </div>
+        <p class="t-small muted" style="padding:0 20px 16px">Zbiór jest <strong>zamknięty</strong> —
+          dziesięć pozycji z palety Room/*, bez dowolnego hexa i bez próbnika. Zachowanie grupy
+          radio: dokładnie jedna pozycja wybrana, kliknięcie w wybraną nic nie zmienia. Każdy
+          przycisk dostaje <code>--room</code> inline, więc próbka, pierścień zaznaczenia i znacznik
+          biorą kolor z tego samego źródła co tarcza i lista. Zaznaczenie nie polega na samym
+          kolorze — dochodzi pierścień, powiększenie i znacznik <code>check</code>, a
+          <code>aria-pressed</code> nazywa stan. Pięć kolumn na ekranie 393 px daje przycisk
+          ~66 px, czyli cel dotykowy z zapasem nad 44 px. Wdrożone w
+          <a href="screens/12-dodaj-pomieszczenie.html" style="color:var(--accent);font-weight:600">dodawaniu</a>
+          i <a href="screens/07-edycja-pomieszczenia.html" style="color:var(--accent);font-weight:600">edycji</a>
+          pomieszczenia; nowe pomieszczenie startuje na Room/Zieleń, czyli na tym samym kolorze,
+          który przyjmuje ekran bez przypisania.</p>
+      </div>
+
       <div class="demo" data-od-id="form-select">
         <div class="demo-label">Lista rozwijana · wybór kondygnacji</div>
         <div class="demo-body" style="gap:16px">
@@ -1642,6 +1916,15 @@
   // wybór jednokrotny (ikona) i wielokrotny (dni)
   document.querySelectorAll('#demo-iconpick button').forEach(function (b) {
     b.addEventListener('click', function () {
+      b.parentNode.querySelectorAll('button').forEach(function (x) {
+        x.setAttribute('aria-pressed', String(x === b));
+      });
+    });
+  });
+  // wybór koloru pomieszczenia — zamknięty zbiór, zachowanie grupy radio
+  document.querySelectorAll('#demo-colorpick button').forEach(function (b) {
+    b.addEventListener('click', function () {
+      if (b.getAttribute('aria-pressed') === 'true') return;
       b.parentNode.querySelectorAll('button').forEach(function (x) {
         x.setAttribute('aria-pressed', String(x === b));
       });

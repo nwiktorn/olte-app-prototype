@@ -40,11 +40,13 @@
   }
   .toolbar-brand {
     display: flex; align-items: center; gap: 8px;
-    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-15);
-    color: var(--canvas-fg); letter-spacing: -.01em;
     margin-right: auto;
   }
-  .toolbar-brand svg { width: 18px; height: 18px; color: var(--primary-300); }
+  .toolbar-brand img {
+    display: block; height: 20px; width: auto;
+    /* Logo jest czarnym SVG — na ciemnym tle toolbara rozjaśniony do --canvas-fg. */
+    filter: brightness(0) invert(1);
+  }
   .ds-link {
     display: inline-flex; align-items: center; gap: 7px;
     padding: 9px 16px; border-radius: var(--r-pill);
@@ -155,7 +157,7 @@
 <script src="assets/icons.js"></script>
 
 <div class="toolbar" data-od-id="belka-narzedziowa">
-  <span class="toolbar-brand"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>OLTE</span>
+  <span class="toolbar-brand"><img src="assets/logo-olte.svg" alt="OLTE" width="875" height="299"></span>
   <a class="ds-link" href="screens-overview.html" data-od-id="link-wszystkie-ekrany" aria-label="Wszystkie ekrany">
     <svg viewBox="0 0 24 24"><use href="#i-layout-grid"/></svg><span class="label">Wszystkie ekrany</span></a>
   <a class="ds-link" href="design-system.html" data-od-id="link-design-system" aria-label="Design system">

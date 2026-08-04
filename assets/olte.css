@@ -80,6 +80,86 @@
   --gauge-info-light:#79a1e0;
   --gauge-info-dark: #5c7eed;
 
+  /* ── kolory pomieszczeń — zamknięty zbiór dziesięciu tożsamości ───
+     Kolor pomieszczenia jest etykietą, nie statusem: nie mówi nic
+     o temperaturze, jakości odczytu ani o poprawności czegokolwiek.
+     Dlatego nie wchodzi w miejsca zajęte przez skalę Gauge/* i Status/*
+     — nosi wyłącznie tożsamość: glif ikony, tło ikony, rampę tarczy.
+
+     Każda z dziesięciu wywodzi się z tokenu już obecnego w palecie
+     i przechodzi 3:1 na powierzchni karty w obu motywach (minimum
+     3,12:1 jasny, 3,92:1 ciemny), więc może nieść 27-punktową kreskę
+     tarczy i 22-punktowy glif bez korekty per motyw. Zbiór jest
+     skończony i nie rozszerza się dowolnym hexem — dziesięć pozycji
+     to granica, przy której lista pomieszczeń pozostaje czytelna,
+     a kolor nigdy nie jest jedynym nośnikiem znaczenia (zawsze towarzyszy
+     mu ikona i nazwa). */
+  --room-zielen:   #478675;   /* = --accent */
+  --room-szalwia:  #689c8c;   /* = --app-4 */
+  --room-szmaragd: #41a083;   /* = --gauge-high */
+  --room-morski:   #3f9c97;   /* --gauge-excellent skorygowany: #45a8a3 dawał 2,84:1 */
+  --room-blekit:   #6790d0;   /* = --brand-blekit */
+  --room-indygo:   #667fc6;   /* --gauge-info-dark stonowany: #5c7eed to token
+                                 SYGNAŁOWY — na łuku 27 px krzyczał głośniej niż
+                                 cokolwiek innego na ekranie i kolidował rolą */
+  --room-grafit:   #737e79;   /* = --n-500 */
+  --room-amber:    #937949;   /* --on-warning (#8a6410) rozjaśniony o 0,06 L i wytrącony
+                                 z nasycenia o 30 % — pełna ochra na kresce 27 px ciążyła
+                                 całemu ekranowi pomieszczenia */
+  --room-koral:    #cb705c;   /* --app-1 stonowany: #eb684b zajmuje rolę akcentu
+                                 temperatury, ta sama kolizja co przy indygo */
+  --room-ceglany:  #ac6656;   /* --brand-ceglany (#c55339) wytrącony z nasycenia o 38 %
+                                 przy tej samej jasności i tym samym hue — ta sama cegła,
+                                 spokojniejsza na łuku; hue bez zmian, żeby nie zbliżyć
+                                 się do ambru (dystans Oklab 0,071) */
+
+  /* ── zakres barwowy pomieszczenia — chłodny ↔ ciepły koniec ───────
+     Każda tożsamość ma własny zakres dwóch końców: chłodny nosi łuk
+     nastawy przy 15 °C, ciepły przy 26 °C, a tożsamość leży w środku
+     zakresu, więc przy nastawie ~20,5 °C łuk czyta się dokładnie jako
+     kolor pomieszczenia.
+
+     Końce są wyprowadzone z tożsamości jedną regułą, nie doborem na
+     oko: hue obrócony o 24° w stronę osi chłodnej (240°) i ciepłej
+     (50°) — kierunek liczony krótszym łukiem, więc „chłodniej" znaczy
+     to samo dla zieleni, błękitu i cegły; jasność ±0,035; chroma ×0,92
+     na chłodnym końcu i ×1,06 na ciepłym (ciepło jest nieco gęstsze).
+     24° to połowa rozpiętości: cały zakres obejmuje 48° hue, czyli
+     wciąż jedna rodzina — teal↔oliwka dla zieleni, nie zieleń↔czerwień.
+
+     Jasność chłodnego końca jest dodatkowo ograniczona progiem 3,05:1
+     wobec podstawy --track, więc pięć pozycji (szałwia, szmaragd,
+     morski, błękit, indygo, koral) ma go niżej niż +0,035 — inaczej
+     najjaśniejsze tożsamości gubiłyby krawędź łuku na jasnym tle.
+     Zmierzone: łuk na całym przebiegu min 3,05:1 jasny / 3,12:1 ciemny,
+     biały uchwyt wobec łuku min 3,45:1 / 3,41:1, dystans percepcyjny
+     między końcami 0,051–0,106 w Oklab.
+
+     Zakresy sąsiednich tożsamości mogą na siebie zachodzić (chłodny
+     szmaragd leży 0,016 od morskiego, przy 0,036 dystansu między samymi
+     tożsamościami). To nie koliduje w produkcie: zakres pojawia się na
+     jednej tarczy naraz, a tożsamość niesie ikona i nazwa. */
+  --room-zielen-cool:   #4f8f91;  --room-zielen-warm:   #4d7a57;
+  --room-szalwia-cool:  #5f9394;  --room-szalwia-warm:  #6a9070;
+  --room-szmaragd-cool: #319897;  --room-szmaragd-warm: #55935a;
+  --room-morski-cool:   #4694a6;  --room-morski-warm:   #419274;
+  --room-blekit-cool:   #4c90be;  --room-blekit-warm:   #7c7bc6;
+  --room-indygo-cool:   #4e8fc3;  --room-indygo-warm:   #7b6ab8;
+  --room-grafit-cool:   #718b8a;  --room-grafit-warm:   #677666;
+  --room-amber-cool:    #8d8a5a;  --room-amber-warm:    #956744;
+  --room-koral-cool:    #c77080;  --room-koral-warm:    #be6935;
+  --room-ceglany-cool:  #b3707a;  --room-ceglany-warm:  #9f5f38;
+
+  /* rola „bieżące pomieszczenie" — nadpisywana na .screen albo .roomrow.
+     Bez przypisania sprowadza się do zieleni marki, więc każdy ekran
+     bez koloru wygląda tak jak przed wprowadzeniem palety. Warianty
+     (ink, tint) są liczone color-mix() w regułach komponentów, nie
+     tokenem — token rozwiązałby var(--room) raz na :root i przestał
+     reagować na nadpisanie niżej w drzewie. */
+  --room:      var(--accent);
+  --room-cool: var(--room-zielen-cool);
+  --room-warm: var(--room-zielen-warm);
+
   /* ── powierzchnie sygnalizacyjne — Surface/* (poz. 03) ──────────── */
   --surf-success:      #e6f4ec;   /* Surface/Success */
   --surf-success-line: #cde9d8;   /* Surface/Success-Line */
@@ -433,6 +513,30 @@ p, h1, h2, h3, h4 { margin: 0; }
 .iconbox--amber { background: var(--surf-sun);     color: var(--app-2); }
 .iconbox--off   { background: var(--surf-off);     color: var(--status-off); }
 .iconbox--error { background: var(--surf-error);   color: var(--app-1); }
+/* tożsamość pomieszczenia — jedyne miejsce, w którym kolor pomieszczenia
+   pojawia się na liście. Glif jest pogłębiony w stronę --fg, żeby trzymał
+   kontrast na własnym tle (4,93:1 w najsłabszym przypadku: szałwia). */
+.iconbox--room {
+  background: color-mix(in oklch, var(--room) 14%, var(--surface));
+  color: color-mix(in oklch, var(--room) 66%, var(--fg));
+}
+
+/* ═══ przypisanie koloru pomieszczenia ═══════════════════════════════
+   Klasa ustawia całą trójkę naraz — tożsamość i oba końce zakresu —
+   więc nie da się przypisać ekranowi szmaragdowej ikony i morskiego
+   łuku. Wymagana wszędzie, gdzie jest tarcza nastawy.
+   Konteksty, które niosą wyłącznie tożsamość (wiersz listy, próbka
+   w wyborze koloru), mogą nadal ustawiać samo --room inline. */
+.room--zielen   { --room: var(--room-zielen);   --room-cool: var(--room-zielen-cool);   --room-warm: var(--room-zielen-warm); }
+.room--szalwia  { --room: var(--room-szalwia);  --room-cool: var(--room-szalwia-cool);  --room-warm: var(--room-szalwia-warm); }
+.room--szmaragd { --room: var(--room-szmaragd); --room-cool: var(--room-szmaragd-cool); --room-warm: var(--room-szmaragd-warm); }
+.room--morski   { --room: var(--room-morski);   --room-cool: var(--room-morski-cool);   --room-warm: var(--room-morski-warm); }
+.room--blekit   { --room: var(--room-blekit);   --room-cool: var(--room-blekit-cool);   --room-warm: var(--room-blekit-warm); }
+.room--indygo   { --room: var(--room-indygo);   --room-cool: var(--room-indygo-cool);   --room-warm: var(--room-indygo-warm); }
+.room--grafit   { --room: var(--room-grafit);   --room-cool: var(--room-grafit-cool);   --room-warm: var(--room-grafit-warm); }
+.room--amber    { --room: var(--room-amber);    --room-cool: var(--room-amber-cool);    --room-warm: var(--room-amber-warm); }
+.room--koral    { --room: var(--room-koral);    --room-cool: var(--room-koral-cool);    --room-warm: var(--room-koral-warm); }
+.room--ceglany  { --room: var(--room-ceglany);  --room-cool: var(--room-ceglany-cool);  --room-warm: var(--room-ceglany-warm); }
 
 /* katalog ikonografii w DS: bez tła, sam kontur w kolorze tekstu */
 [data-od-id="ikonografia"] .iconbox--38 { background: none; color: var(--fg); }
@@ -481,6 +585,8 @@ p, h1, h2, h3, h4 { margin: 0; }
 .tagpill--info svg { color: var(--status-info); }
 .tagpill--off     { background: var(--surf-off); color: var(--muted); }
 .tagpill--off svg { color: var(--status-off); }
+.tagpill--manual  { background: var(--track); color: var(--n-700); }
+.tagpill--manual svg { color: var(--n-700); }
 
 .dot { width: 7px; height: 7px; border-radius: var(--r-pill); flex: none; background: var(--status-high); }
 .dot--mid { background: var(--status-mid); }
@@ -637,7 +743,8 @@ p, h1, h2, h3, h4 { margin: 0; }
   transition: opacity .15s ease;
 }
 .roomrow + .roomrow { border-top: 1px solid var(--border); }
-.roomrow:hover .rr-name { color: var(--accent); }
+/* nazwa reaguje kolorem pomieszczenia; bez przypisania --room = --accent */
+.roomrow:hover .rr-name { color: color-mix(in oklch, var(--room) 66%, var(--fg)); }
 .roomrow:active { opacity: .7; }
 .rr-text { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
 .rr-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-15); line-height: 21px; transition: color .15s ease; }
@@ -756,12 +863,152 @@ p, h1, h2, h3, h4 { margin: 0; }
   pointer-events: none;
 }
 
+/* ═══ środek tarczy — nastawa nad odczytami ══════════════════════════
+   Hierarchia w środku, od góry: podpis „Nadana temperatura", wielka
+   liczba NASTAWY, pod nią zmierzona temperatura w pomieszczeniu
+   (.dial-now) i na końcu wilgotność (.dial-hum). Wielka liczba to
+   wartość, którą użytkownik ustawia — zmienia się przy przeciąganiu
+   kropki; odczyty pod nią stoją nieruchomo jako punkt odniesienia,
+   więc dystans „nadane vs. rzeczywiste" widać w jednym rzucie oka.
+
+   Trzy stopnie wielkości (42 / 15 / 13 px) i dwa rejestry koloru:
+   nastawa bierze ton z zakresu pomieszczenia dla bieżącej wartości,
+   pogłębiony w stronę --fg (66 % tonu + --fg — min 6,10:1, bo sam ton
+   zakresu, np. szałwia, nie daje 4,5:1 wymaganego dla tekstu),
+   a odczyty zostają neutralne. Kolor = to, co ustawiasz; neutralny =
+   to, co zmierzone. Wartość domyślna w CSS to środek zakresu, czyli
+   sama tożsamość — JS nadpisuje ją tonem bieżącej nastawy od pierwszej
+   klatki. */
+.dial-now, .dial-hum {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--n-700);
+}
+.dial-now { font-size: var(--fs-15); line-height: 20px; margin-top: 2px; }
+.dial-hum { font-size: var(--fs-13); line-height: 18px; }
+.dial-now svg, .dial-hum svg { width: 15px; height: 15px; flex: none; }
+.dial-now svg { color: var(--muted); }
+.dial-hum svg { color: var(--icon-hum); }
+.dial-now-cap, .dial-hum-cap {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: var(--fs-11);
+  line-height: 15px;
+  color: var(--muted);
+}
+.dial-value { color: color-mix(in oklch, color-mix(in oklch, var(--room-warm) 50%, var(--room-cool)) 66%, var(--fg)); }
+
+/* ═══ tarcza interaktywna — przeciąganie kropki ustawia temperaturę ═══
+   Kropka (.dial-arc-dot) dostaje większy niewidzialny hit-target przez
+   drugi <circle> nałożony w JS (r=24, fill transparent) i staje się
+   przeciągalna wskaźnikiem/dotykiem/klawiaturą (strzałki, PageUp/Down).
+
+   Tryb temperatury działa jak wypełnienie, nie jak paleta: neutralna
+   podstawa (.dial-arc-basis, --track) pokazuje cały zakres 15–26 °C,
+   a kolorowy łuk (.dial-arc-temp) rośnie od początku skali do nastawy.
+   Łuk SIEDZI NA KOLORZE POMIESZCZENIA i ma się tak czytać w każdym
+   stanie — w spoczynku i w trakcie przeciągania.
+
+   Barwa łuku jest tonem z ZAKRESU pomieszczenia dla bieżącej nastawy:
+   --room-cool przy 15 °C, --room-warm przy 26 °C, tożsamość w środku
+   (ok. 20,5 °C). Zakres obejmuje 48° hue, więc ruch kropki prowadzi
+   przez jedną rodzinę barwną — dla zieleni od teal do oliwki, dla
+   błękitu od czystego niebieskiego do fiołkowego — i nigdy nie wchodzi
+   w cudzą rodzinę ani w barwy sygnałowe. Definicja obu końców i pomiary
+   kontrastu są przy tokenach --room-*-cool / --room-*-warm.
+
+   Interpolacja idzie przez color-mix(in oklch, …), więc przejście jest
+   percepcyjnie równe i nie przechodzi przez odbarwiony środek, jak
+   robiłaby to interpolacja w sRGB.
+
+   Rampa jest wyrażona wyłącznie jako color-mix() na tokenach zakresu —
+   JS podstawia tylko procent, nigdy gotowy rgb(). To celowe: wcześniej
+   kolory były liczone w JS z getComputedStyle().color, a silnik
+   serializował wynik color-mix() jako oklch(), więc naiwne czytanie
+   trzech liczb dawało rgb(1, 0, 275) — jaskrawy niebieskofiolet zamiast
+   koloru pomieszczenia. Rampa zostaje po stronie CSS, gdzie var() i
+   color-mix() rozwiązuje przeglądarka.
+
+   Gradient łuku ma dwa przystanki (.dial-grad-stop): koniec na tonie
+   bieżącej nastawy, początek na tonie o 35 punktów skali chłodniejszym,
+   więc łuk ma delikatny sheen zdradzający kierunek ruchu, a nie
+   wrażenie drugiej barwy. Oba przystanki płyną razem z kropką.
+   Kropka zostaje biała (--surface) z pierścieniem o 22 % głębszym od
+   łuku — wypełniona kolorem łuku zlewałaby się z nim w jedno.
+   Liczby w środku tarczy używają tego samego tonu pogłębionego do
+   66 % + --fg, bo sam ton zakresu nie daje 4,5:1 wymaganego dla
+   tekstu. */
+.dial--interactive .dial-arc-dot,
+.dial--interactive .dial-hit {
+  cursor: grab;
+  touch-action: none;
+}
+.dial--interactive.is-dragging .dial-arc-dot,
+.dial--interactive.is-dragging .dial-hit {
+  cursor: grabbing;
+}
+.dial-hit:focus-visible + .dial-arc-dot,
+.dial-hit:focus-visible ~ .dial-arc-dot {
+  outline: none;
+}
+.dial-hit {
+  fill: transparent;
+  stroke: none;
+}
+.dial-hit:focus-visible {
+  fill: color-mix(in oklch, var(--room) 18%, transparent);
+  outline: none;
+}
+.dial--interactive.is-dragging .dial-arc-fill,
+.dial--interactive.is-dragging circle:not(.dial-arc-dot):not(.dial-hit) {
+  transition: none;
+}
+.dial-arc-fill { transition: stroke-dashoffset .25s cubic-bezier(.2,.7,.3,1), stroke .25s ease, opacity .3s ease; }
+.dial-arc-dot  { transition: transform .25s cubic-bezier(.2,.7,.3,1), fill .12s linear, stroke .12s linear; }
+.dial-value    { transition: color .12s linear; }
+.dial--interactive.is-dragging .dial-arc-dot,
+.dial--interactive.is-dragging .dial-arc-fill { transition: fill .12s linear, opacity .3s ease; }
+
+/* Podstawa zakresu i łuk nastawy są widoczne OD PIERWSZEJ KLATKI —
+   tarcza pomieszczenia nie ma już dwóch trybów kolorystycznych.
+   Wcześniej w spoczynku pokazywała łuk wyniku w barwach Gauge/*, a po
+   dotknięciu przechodziła na kolor pomieszczenia; ta zmiana barwy przy
+   pierwszym przeciągnięciu czytała się jak błąd, nie jak informacja.
+   Wynik pomieszczenia mówi teraz plakietka i karta „Podsumowanie
+   pomieszczenia", a tarcza odpowiada wyłącznie za nastawę. */
+.dial-arc-basis {
+  fill: none;
+  stroke: var(--track);
+  stroke-width: 27;
+  stroke-linecap: round;
+  transition: opacity .35s ease;
+}
+.dial-grad-stop { transition: stop-color .18s ease; }
+.dial-arc-temp {
+  fill: none;
+  stroke-width: 27;
+  stroke-linecap: round;
+  transition: stroke-dashoffset .25s cubic-bezier(.2,.7,.3,1);
+}
+.dial--interactive.is-dragging .dial-arc-temp {
+  transition: none;
+}
+
 /* ═══ animacja wejścia · tarcza balansu + chipy (Card Hero) ══════════
    Łuk rysuje się od 0, kółko końcowe i pill "Idealny" doganiają go
    z lekkim opóźnieniem, chipy wchodzą jeden po drugim. Wyłączone
    całkowicie przez globalną regułę prefers-reduced-motion powyżej. */
 .dial[data-enter] .dial-arc-fill {
   stroke-dashoffset: var(--dial-len, 457);
+  animation: dial-fill .9s cubic-bezier(.16,.8,.3,1) .15s forwards;
+}
+/* łuk nastawy rysuje się tak samo jak łuk wyniku — --dial-offset na
+   tarczy pomieszczenia koduje nastawę, nie wynik. */
+.dial[data-enter] .dial-arc-temp {
+  stroke-dashoffset: var(--dial-len, 744);
   animation: dial-fill .9s cubic-bezier(.16,.8,.3,1) .15s forwards;
 }
 .dial[data-enter] .dial-arc-dot,
@@ -1046,6 +1293,45 @@ button.listrow:hover .lr-name, a.listrow:hover .lr-name { color: var(--accent); 
   background: var(--primary-100);
   color: var(--accent);
   border-color: var(--primary-300);
+}
+
+/* wybór koloru pomieszczenia — dziesięć pozycji, siatka 5 × 2.
+   Każdy przycisk dostaje --room inline, więc próbka, pierścień
+   zaznaczenia i znacznik biorą kolor z tego samego źródła co reszta
+   systemu. Pole 5 kolumn na ekranie 393 px daje przycisk ~66 px, czyli
+   cel dotykowy z zapasem nad 44 px. Zaznaczenie nie polega na samym
+   kolorze: dochodzi pierścień, powiększenie i znacznik „check". */
+.colorpick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+.colorpick button {
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  background: none;
+  transition: transform .06s ease;
+}
+.colorpick button:active { transform: scale(.94); }
+.colorpick .cp-sw {
+  width: 100%;
+  max-width: 40px;
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-pill);
+  background: var(--room);
+  color: var(--on-solid);
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow .15s ease, transform .15s ease;
+}
+.colorpick .cp-sw svg { width: 18px; height: 18px; opacity: 0; transition: opacity .12s ease; }
+.colorpick button[aria-pressed='true'] .cp-sw {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--room);
+  transform: scale(1.04);
+}
+.colorpick button[aria-pressed='true'] .cp-sw svg { opacity: 1; }
+.colorpick button:focus-visible { outline: none; }
+.colorpick button:focus-visible .cp-sw {
+  box-shadow: 0 0 0 2px var(--surface), 0 0 0 4px var(--room);
 }
 
 /* dolny pasek akcji formularza */

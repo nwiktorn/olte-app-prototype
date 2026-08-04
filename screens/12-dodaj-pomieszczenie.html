@@ -74,6 +74,36 @@
       <p class="f-hint" id="hint-ikona">Wybierz ikonę pasującą do funkcji pomieszczenia.</p>
     </section>
 
+    <!-- ── kolor pomieszczenia ───────────────────────────────────── -->
+    <section class="field" data-od-id="pole-kolor">
+      <label id="lab-kolor">Kolor pomieszczenia</label>
+      <div class="colorpick" role="group" aria-labelledby="lab-kolor" id="wybor-koloru"
+           aria-describedby="hint-kolor">
+        <button type="button" aria-pressed="true"  aria-label="Zieleń" style="--room:var(--room-zielen)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Szałwia" style="--room:var(--room-szalwia)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Szmaragd" style="--room:var(--room-szmaragd)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Morski" style="--room:var(--room-morski)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Błękit" style="--room:var(--room-blekit)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Indygo" style="--room:var(--room-indygo)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Grafit" style="--room:var(--room-grafit)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Amber" style="--room:var(--room-amber)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Koral" style="--room:var(--room-koral)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Ceglany" style="--room:var(--room-ceglany)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+      </div>
+      <p class="f-hint" id="hint-kolor">Rozpoznanie pomieszczenia na liście i kolor tarczy temperatury.
+        Nie wpływa na sterowanie ani na ocenę komfortu.</p>
+    </section>
+
     <!-- ── kondygnacja ───────────────────────────────────────────── -->
     <section class="field" data-od-id="pole-kondygnacja">
       <label id="lab-kondygnacja" for="sel-kondygnacja">Kondygnacja</label>
@@ -238,6 +268,22 @@
         document.querySelectorAll('#wybor-ikony button').forEach(function (x) {
           x.setAttribute('aria-pressed', String(x === b));
         });
+      });
+    });
+
+    /* ── wybór koloru pomieszczenia ──
+       Zamknięty zbiór dziesięciu tożsamości, zachowanie grupy radio:
+       dokładnie jedna pozycja jest wybrana. Nowe pomieszczenie startuje
+       na zieleni marki, czyli na tym samym kolorze, który przyjmuje ekran
+       bez przypisania. --room na .screen idzie za wyborem. */
+    var ekran = document.querySelector('.screen');
+    document.querySelectorAll('#wybor-koloru button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        document.querySelectorAll('#wybor-koloru button').forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        if (ekran) ekran.style.setProperty('--room', b.style.getPropertyValue('--room'));
       });
     });
 

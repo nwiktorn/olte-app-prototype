@@ -13,7 +13,7 @@
 <body class="standalone">
 <script src="../assets/icons.js"></script>
 
-<div class="screen" data-od-id="edycja-pomieszczenia">
+<div class="screen" data-od-id="edycja-pomieszczenia" style="--room:var(--room-indygo)">
 
   <div class="statusbar" data-od-id="statusbar">
     <span class="t-num">09:41</span>
@@ -72,6 +72,36 @@
         <button type="button" aria-pressed="false" aria-label="Strych"><svg viewBox="0 0 24 24"><use href="#i-warehouse"/></svg></button>
         <button type="button" aria-pressed="false" aria-label="Ogród zimowy"><svg viewBox="0 0 24 24"><use href="#i-flower-2"/></svg></button>
       </div>
+    </section>
+
+    <!-- ── kolor pomieszczenia ───────────────────────────────────── -->
+    <section class="field" data-od-id="pole-kolor">
+      <label id="lab-kolor">Kolor pomieszczenia</label>
+      <div class="colorpick" role="group" aria-labelledby="lab-kolor" id="wybor-koloru"
+           aria-describedby="hint-kolor">
+        <button type="button" aria-pressed="false" aria-label="Zieleń" style="--room:var(--room-zielen)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Szałwia" style="--room:var(--room-szalwia)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Szmaragd" style="--room:var(--room-szmaragd)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Morski" style="--room:var(--room-morski)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Błękit" style="--room:var(--room-blekit)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="true"  aria-label="Indygo" style="--room:var(--room-indygo)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Grafit" style="--room:var(--room-grafit)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Amber" style="--room:var(--room-amber)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Koral" style="--room:var(--room-koral)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+        <button type="button" aria-pressed="false" aria-label="Ceglany" style="--room:var(--room-ceglany)">
+          <span class="cp-sw"><svg viewBox="0 0 24 24"><use href="#i-check"/></svg></span></button>
+      </div>
+      <p class="f-hint" id="hint-kolor">Rozpoznanie pomieszczenia na liście i kolor tarczy temperatury.
+        Nie wpływa na sterowanie ani na ocenę komfortu.</p>
     </section>
 
     <!-- ── harmonogram ───────────────────────────────────────────── -->
@@ -317,6 +347,25 @@
         document.querySelectorAll('#wybor-ikony button').forEach(function (x) {
           x.setAttribute('aria-pressed', String(x === b));
         });
+        brudny();
+      });
+    });
+
+    /* ── wybór koloru pomieszczenia ──
+       Zbiór jest zamknięty, więc zachowuje się jak grupa radio: dokładnie
+       jedna pozycja zostaje wybrana, kliknięcie w wybraną nic nie zmienia.
+       Potwierdzeniem wyboru jest sama próbka (pierścień + znacznik), nie
+       osobny podgląd. --room na .screen jest aktualizowane razem z wyborem,
+       żeby każdy element formularza korzystający z tożsamości pomieszczenia
+       reagował bez dodatkowej obsługi. */
+    var ekran = document.querySelector('.screen');
+    document.querySelectorAll('#wybor-koloru button').forEach(function (b) {
+      b.addEventListener('click', function () {
+        if (b.getAttribute('aria-pressed') === 'true') return;
+        document.querySelectorAll('#wybor-koloru button').forEach(function (x) {
+          x.setAttribute('aria-pressed', String(x === b));
+        });
+        if (ekran) ekran.style.setProperty('--room', b.style.getPropertyValue('--room'));
         brudny();
       });
     });

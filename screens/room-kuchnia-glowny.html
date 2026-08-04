@@ -13,7 +13,7 @@
 <body class="standalone">
 <script src="../assets/icons.js"></script>
 
-<div class="screen" data-od-id="room-glowny">
+<div class="screen room--ceglany" data-od-id="room-glowny">
 
   <div class="statusbar" data-od-id="statusbar">
     <span class="t-num">09:41</span>
@@ -37,38 +37,57 @@
 
   <main class="content" data-od-id="tresc">
 
-    <!-- ── odczyty bieżące ───────────────────────────────────────── -->
-    <div class="row" data-od-id="odczyty" style="gap:8px">
-      <span class="pill pill--temp t-num">
-        <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>22,6 °C</span>
-      <span class="pill pill--hum t-num">
-        <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>44 %</span>
+    <!-- ── tożsamość pomieszczenia ───────────────────────────────── -->
+    <div class="row" data-od-id="tozsamosc" style="gap:10px">
+      <span class="iconbox iconbox--38 iconbox--room">
+        <svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
+      <span class="col gap-2">
+        <span class="t-label">Parter</span>
+        <span class="t-small muted">Czujnik OLTE-S2 3d88</span>
+      </span>
       <span class="grow"></span>
       <button class="iconbtn" type="button" aria-label="Dodaj do ulubionych" aria-pressed="false" id="btn-ulubione">
         <svg viewBox="0 0 24 24"><use href="#i-heart"/></svg></button>
     </div>
 
-    <!-- ── tarcza temperatury · dobry stan ───────────────────────── -->
-    <section class="dial" data-od-id="tarcza-temperatury" style="width:320px;height:320px;margin:0 auto;--dial-len:744;--dial-offset:89.3" data-enter>
-      <svg viewBox="0 0 320 320" width="320" height="320" aria-hidden="true">
-        <path d="M124.2 285A130 130 0 1 1 195.8 285"
-              style="fill:none;stroke:color-mix(in oklch, var(--gauge-high) 12%, transparent);stroke-width:27;stroke-linecap:round"/>
-        <path class="dial-arc-fill" d="M124.2 285A130 130 0 1 1 195.8 285"
-              stroke-dasharray="744" stroke-dashoffset="744"
-              style="fill:none;stroke:var(--gauge-high);stroke-width:27;stroke-linecap:round"/>
-        <circle cx="160" cy="160" r="105"
-                style="fill:none;stroke:color-mix(in oklch, var(--gauge-high) 55%, transparent);stroke-width:.8"/>
-        <circle class="dial-arc-dot" cx="267.0" cy="233.9" r="7" style="fill:var(--surface);transform-origin:267.0px 233.9px"/>
+    <!-- ── tarcza temperatury · dobry stan · przeciągalna ────────── -->
+    <section class="dial dial--interactive" data-od-id="tarcza-temperatury" id="tarcza"
+             style="width:320px;height:320px;margin:0 auto;--dial-len:744;--dial-offset:202.9" data-enter
+             data-temp-min="15" data-temp-max="26" data-temp-step="0.5" data-temp-current="22.6"
+             data-temp-set="23.0">
+      <svg viewBox="0 0 320 320" width="320" height="320">
+        <defs>
+          <linearGradient id="grad-temperatura-kuchnia" gradientUnits="userSpaceOnUse" x1="60" y1="292" x2="272" y2="64">
+            <stop class="dial-grad-stop" id="grad-poczatek" offset="0%"   style="stop-color:color-mix(in oklch, var(--room-warm) 37.7%, var(--room-cool))"/>
+            <stop class="dial-grad-stop" id="grad-koniec"   offset="100%" style="stop-color:color-mix(in oklch, var(--room-warm) 72.7%, var(--room-cool))"/>
+          </linearGradient>
+        </defs>
+        <path class="dial-arc-basis" d="M124.2 285A130 130 0 1 1 195.8 285"/>
+        <path class="dial-arc-temp" id="tarcza-luk-temperatura" d="M124.2 285A130 130 0 1 1 195.8 285"
+              stroke-dasharray="744" stroke-dashoffset="202.9" style="stroke:url(#grad-temperatura-kuchnia)"/>
+        <circle class="dial-hit" id="tarcza-uchwyt" cx="285.3" cy="125.4" r="24"
+                tabindex="0" role="slider" aria-orientation="horizontal"
+                aria-label="Nadana temperatura" aria-valuemin="15" aria-valuemax="26"
+                aria-valuenow="23.0" aria-valuetext="23,0 stopnia Celsjusza"/>
+        <circle class="dial-arc-dot" id="tarcza-kropka" cx="285.3" cy="125.4" r="7" style="fill:var(--surface);stroke:color-mix(in oklch, color-mix(in oklch, var(--room-warm) 72.7%, var(--room-cool)) 78%, var(--fg));stroke-width:2.5;transform-origin:285.3px 125.4px"/>
       </svg>
       <div class="dial-center">
-        <p class="center" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-16);line-height:22px;color:var(--n-700);max-width:8ch">Obecna temperatura</p>
-        <p class="dial-value t-num" data-count-to="22.6" data-suffix="°" style="font-family:var(--font-display);font-weight:400;font-size:var(--fs-45);line-height:56px;letter-spacing:-.02em;color:var(--gauge-high)">0°</p>
+        <p class="t-eyebrow" data-od-id="podpis-nastawy">Nadana temperatura</p>
+        <p class="dial-value t-num t-dial" id="tarcza-nastawa" data-count-to="23.0" data-suffix="°">0°</p>
+        <p class="dial-now t-num" data-od-id="temperatura-biezaca">
+          <svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>22,6°
+          <span class="dial-now-cap">w pomieszczeniu</span>
+        </p>
+        <p class="dial-hum t-num" data-od-id="wilgotnosc-biezaca">
+          <svg viewBox="0 0 24 24"><use href="#i-droplets"/></svg>44 %
+          <span class="dial-hum-cap">wilgotności</span>
+        </p>
       </div>
-      <p class="sr-only">Zakres komfortu 18–24 °C, wartość bieżąca 22,6 °C. Wynik pomieszczenia 88/100 — Dobry.</p>
+      <p class="sr-only" id="tarcza-opis">Nadana temperatura 23,0 °C. Temperatura w pomieszczeniu 22,6 °C, wilgotność 44 %. Wynik pomieszczenia 88/100 — Dobry. Przeciągnij kropkę na tarczy, żeby nadać temperaturę ręcznie.</p>
     </section>
 
     <!-- ── najbliższa zmiana harmonogramu ───────────────────────── -->
-    <div class="row" data-od-id="najblizsza-zmiana" style="justify-content:center;gap:8px">
+    <div class="row" data-od-id="najblizsza-zmiana" id="wiersz-najblizsza-zmiana" style="justify-content:center;gap:8px">
       <span class="row gap-6 muted" style="font-size:var(--fs-13);line-height:18px">
         <svg viewBox="0 0 24 24" style="width:15px;height:15px"><use href="#i-clock"/></svg>
         Zmiana o 17:30
@@ -77,8 +96,8 @@
     </div>
 
     <div class="row" data-od-id="stan-harmonogramu" style="justify-content:center;gap:8px;margin-top:2px">
-      <span class="tagpill tagpill--info">
-        <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram bazowy</span>
+      <span class="tagpill tagpill--info" id="pigulka-stanu">
+        <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg><span id="pigulka-stanu-tekst">Harmonogram bazowy</span></span>
       <a class="iconbtn" href="07-edycja-pomieszczenia.html#segment-tryb-harmonogramu"
          data-od-id="btn-ustawienia-harmonogramu" title="Ustawienia harmonogramu"
          aria-label="Ustawienia harmonogramu — zmień na własny harmonogram lub stałą temperaturę">
@@ -231,6 +250,7 @@
             if (start === null) start = ts;
             var p = Math.min(1, (ts - start) / dur);
             var eased = 1 - Math.pow(1 - p, 3);
+            if (dialVal.dataset.locked) return;
             dialVal.textContent = (eased * target).toFixed(1).replace('.', ',') + suffix;
             if (p < 1) requestAnimationFrame(tick);
           }
@@ -238,6 +258,199 @@
         })();
       }
     }
+
+    /* ── tarcza interaktywna: przeciągnięcie kropki nadaje temperaturę ──
+       Tarcza ma JEDEN rejestr kolorystyczny i pokazuje nastawę od pierwszej
+       klatki: neutralna podstawa (--track) to cały zakres data-temp-min…max
+       — ten sam, co stepper w 07-edycja-pomieszczenia — a kolorowy łuk
+       rośnie do nastawy. Wcześniej w spoczynku widać było łuk wyniku
+       pomieszczenia w barwach Gauge/*, a pierwsze przeciągnięcie przełączało
+       tarczę na kolor pomieszczenia; ta zmiana barwy czytała się jak błąd.
+       Wynik pomieszczenia mówi teraz plakietka i karta „Podsumowanie
+       pomieszczenia", a tarcza odpowiada wyłącznie za nastawę.
+
+       Wielka liczba w środku to NASTAWA — zmienia się przy przeciąganiu,
+       a odczyty pod nią (temperatura w pomieszczeniu, wilgotność) stoją
+       nieruchomo jako punkt odniesienia. Łuk siedzi na kolorze pomieszczenia
+       i tak samo czyta się w spoczynku i w ruchu: jego barwa to ton z ZAKRESU
+       pomieszczenia dla bieżącej nastawy — --room-cool przy 15 °C, --room-warm
+       przy 26 °C, tożsamość w środku zakresu. Status zmienia się na „ustawiono
+       ręcznie" (harmonogram zawieszony, tak jak tryb „Stała temperatura"). */
+    (function () {
+      var dial = document.getElementById('tarcza');
+      if (!dial) return;
+      var hit = document.getElementById('tarcza-uchwyt');
+      var dot = document.getElementById('tarcza-kropka');
+      var arcTemp = document.getElementById('tarcza-luk-temperatura');
+      var gradStart = document.getElementById('grad-poczatek');
+      var gradEnd = document.getElementById('grad-koniec');
+      var setValEl = document.getElementById('tarcza-nastawa');
+      var descEl = document.getElementById('tarcza-opis');
+      var pill = document.getElementById('pigulka-stanu');
+      var pillText = document.getElementById('pigulka-stanu-tekst');
+      var pillIconUse = pill.querySelector('svg use');
+      var nextChangeRow = document.getElementById('wiersz-najblizsza-zmiana');
+
+      var min = parseFloat(dial.dataset.tempMin);
+      var max = parseFloat(dial.dataset.tempMax);
+      var step = parseFloat(dial.dataset.tempStep);
+      var current = parseFloat(dial.dataset.tempSet);
+      var manual = false;
+
+      var CX = 160, CY = 160, R = 130;
+      var START_DEG = 106, SWEEP_DEG = 328; /* ta sama geometria co łuk wyniku 0–100 */
+      var ARC_LEN = 744;
+
+      /* Barwa łuku to ton z ZAKRESU pomieszczenia dla bieżącej nastawy:
+         --room-cool przy 15 °C, --room-warm przy 26 °C, tożsamość w środku.
+         JS podstawia tylko procent — nigdy gotowy rgb(). Wcześniej kolory
+         były liczone tutaj z getComputedStyle().color, ale silnik
+         serializuje wynik color-mix() jako oklch(), więc odczyt trzech
+         liczb dawał rgb(1, 0, 275), czyli jaskrawy niebieskofiolet
+         niezależny od pomieszczenia. Rozwiązywanie var() i color-mix()
+         zostaje po stronie przeglądarki, która interpoluje w oklch —
+         przejście przez zakres jest percepcyjnie równe. */
+      function clamp01(f) { return Math.max(0, Math.min(1, f)); }
+      function toneAt(f) {
+        return 'color-mix(in oklch, var(--room-warm) ' + (clamp01(f) * 100).toFixed(1) + '%, var(--room-cool))';
+      }
+      /* pierścień uchwytu o 22 % głębszy od łuku, żeby biała kropka
+         miała krawędź także tam, gdzie leży na własnym kolorze */
+      function ringAt(f) { return 'color-mix(in oklch, ' + toneAt(f) + ' 78%, var(--fg))'; }
+      /* wielka liczba nastawy — ten sam ton pogłębiony do progu 4,5:1 */
+      function inkAt(f) { return 'color-mix(in oklch, ' + toneAt(f) + ' 66%, var(--fg))'; }
+      /* ogon gradientu leży 35 punktów skali chłodniej niż głowa łuku:
+         tyle wystarcza na sheen zdradzający kierunek ruchu, a za dużo
+         robiłoby z łuku dwubarwny pasek */
+      var TAIL = 0.35;
+      /* jedno miejsce, które maluje barwę — łuk, pierścień i liczba
+         zawsze pochodzą z tego samego tonu, więc nie mogą się rozjechać */
+      function paintTone(f) {
+        if (gradStart) gradStart.style.stopColor = toneAt(f - TAIL);
+        if (gradEnd) gradEnd.style.stopColor = toneAt(f);
+        dot.style.stroke = ringAt(f);
+        setValEl.style.color = inkAt(f);
+      }
+
+      function fmt(v) { return v.toFixed(1).replace('.', ','); }
+
+      function angleForFraction(f) {
+        return (START_DEG + f * SWEEP_DEG) * Math.PI / 180;
+      }
+      function pointForFraction(f) {
+        var a = angleForFraction(f);
+        return { x: CX + R * Math.cos(a), y: CY + R * Math.sin(a) };
+      }
+      function render(temp, announce) {
+        var f = (temp - min) / (max - min);
+        f = Math.max(0, Math.min(1, f));
+        var p = pointForFraction(f);
+        dot.setAttribute('cx', p.x.toFixed(1));
+        dot.setAttribute('cy', p.y.toFixed(1));
+        hit.setAttribute('cx', p.x.toFixed(1));
+        hit.setAttribute('cy', p.y.toFixed(1));
+        /* dashoffset trafia jednocześnie do atrybutu i do --dial-offset:
+           keyframe wejścia (dial-fill) kończy się z fill-mode forwards, a
+           jego wartość docelowa to var(--dial-offset). Wypełnienie animacji
+           ma wyższy priorytet niż atrybut prezentacyjny, więc bez tej
+           aktualizacji łuk zostawał zamrożony w pozycji startowej, mimo
+           że kropka i liczba szły za palcem. */
+        var off = (ARC_LEN * (1 - f)).toFixed(1);
+        arcTemp.setAttribute('stroke-dashoffset', off);
+        dial.style.setProperty('--dial-offset', off);
+        /* łuk, pierścień uchwytu i wielka liczba przechodzą przez zakres
+           pomieszczenia razem z kropką — ta sama funkcja, jeden ton. */
+        paintTone(f);
+        setValEl.textContent = fmt(temp) + '°';
+        hit.setAttribute('aria-valuenow', temp.toFixed(1));
+        hit.setAttribute('aria-valuetext', fmt(temp) + ' stopnia Celsjusza');
+        if (announce) {
+          descEl.textContent = 'Nadana temperatura ustawiona ręcznie na ' + fmt(temp) + ' °C, zakres ' + min.toFixed(0) + '–' + max.toFixed(0) + ' °C.';
+        }
+      }
+
+      function enterManualMode() {
+        if (manual) return;
+        manual = true;
+        dial.classList.add('is-manual');
+        /* zdejmujemy data-enter — animacja wejścia z fill-mode forwards
+           trzymała stroke-dashoffset łuku (i opacity kropki) na wartościach
+           startowych, nadpisując to, co ustawia render() */
+        dial.removeAttribute('data-enter');
+        /* nastawa przechodzi pod kontrolę użytkownika — count-up wejścia
+           przestaje nadpisywać wielką liczbę */
+        setValEl.dataset.locked = '1';
+        pill.className = 'tagpill tagpill--manual';
+        pillIconUse.setAttribute('href', '#i-sliders-vertical');
+        pillText.textContent = 'Ustawiono ręcznie';
+        if (nextChangeRow) nextChangeRow.hidden = true;
+      }
+
+      function setTemp(temp, announce) {
+        temp = Math.round(temp / step) * step;
+        temp = Math.max(min, Math.min(max, temp));
+        current = temp;
+        enterManualMode();
+        render(temp, announce);
+      }
+
+      /* stan startowy — łuk już jest w tonie zapisanej nastawy, bo markup
+         nosi te same wartości color-mix(); paintTone() tylko potwierdza je
+         z JS, bez wchodzenia w tryb ręczny. Dzięki temu pierwsze dotknięcie
+         tarczy nie zmienia barwy, tylko ją przesuwa w zakresie. */
+      hit.setAttribute('aria-valuenow', current.toFixed(1));
+      hit.setAttribute('aria-valuetext', fmt(current) + ' stopnia Celsjusza');
+      paintTone((current - min) / (max - min));
+
+      function tempFromPointer(clientX, clientY) {
+        var rect = dial.querySelector('svg').getBoundingClientRect();
+        var scale = 320 / rect.width;
+        var x = (clientX - rect.left) * scale - CX;
+        var y = (clientY - rect.top) * scale - CY;
+        var deg = Math.atan2(y, x) * 180 / Math.PI;
+        if (deg < START_DEG) deg += 360;
+        var f = (deg - START_DEG) / SWEEP_DEG;
+        f = Math.max(0, Math.min(1, f));
+        return min + f * (max - min);
+      }
+
+      var dragging = false;
+      function onPointerDown(e) {
+        dragging = true;
+        dial.classList.add('is-dragging');
+        hit.setPointerCapture && hit.setPointerCapture(e.pointerId);
+        hit.focus();
+        setTemp(tempFromPointer(e.clientX, e.clientY), false);
+        e.preventDefault();
+      }
+      function onPointerMove(e) {
+        if (!dragging) return;
+        setTemp(tempFromPointer(e.clientX, e.clientY), false);
+      }
+      function onPointerUp(e) {
+        if (!dragging) return;
+        dragging = false;
+        dial.classList.remove('is-dragging');
+        setTemp(current, true);
+      }
+      hit.addEventListener('pointerdown', onPointerDown);
+      hit.addEventListener('pointermove', onPointerMove);
+      hit.addEventListener('pointerup', onPointerUp);
+      hit.addEventListener('pointercancel', onPointerUp);
+
+      hit.addEventListener('keydown', function (e) {
+        var delta = 0;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowUp') delta = step;
+        else if (e.key === 'ArrowLeft' || e.key === 'ArrowDown') delta = -step;
+        else if (e.key === 'PageUp') delta = step * 4;
+        else if (e.key === 'PageDown') delta = -step * 4;
+        else if (e.key === 'Home') { setTemp(min, true); e.preventDefault(); return; }
+        else if (e.key === 'End') { setTemp(max, true); e.preventDefault(); return; }
+        else return;
+        e.preventDefault();
+        setTemp(current + delta, true);
+      });
+    })();
 
     /* ── toast ── */
     var toast = document.getElementById('toast');

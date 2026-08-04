@@ -73,8 +73,9 @@
 
     <section class="roomlist" data-od-id="lista-pomieszczen" aria-label="Pomieszczenia">
 
-      <a class="roomrow" href="room-sypialnia-aj-glowny.html" data-od-id="pomieszczenie-sypialnia-aj">
-        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+      <a class="roomrow" href="room-sypialnia-aj-glowny.html" data-od-id="pomieszczenie-sypialnia-aj"
+         style="--room:var(--room-indygo)">
+        <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Sypialnia AJ</span>
           <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
@@ -92,8 +93,9 @@
         </span>
       </a>
 
-      <a class="roomrow" href="room-salon-aj-glowny.html" data-od-id="pomieszczenie-salon-aj">
-        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
+      <a class="roomrow" href="room-salon-aj-glowny.html" data-od-id="pomieszczenie-salon-aj"
+         style="--room:var(--room-amber)">
+        <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Salon AJ</span>
           <span class="rr-status"><i class="dot"></i>Dogrzewanie zakończone</span>
@@ -111,8 +113,9 @@
         </span>
       </a>
 
-      <a class="roomrow" href="room-lazienka-glowny.html" data-od-id="pomieszczenie-lazienka">
-        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
+      <a class="roomrow" href="room-lazienka-glowny.html" data-od-id="pomieszczenie-lazienka"
+         style="--room:var(--room-morski)">
+        <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bath"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Łazienka</span>
           <span class="rr-status"><i class="dot dot--info"></i>Program poranny · nad normą</span>
@@ -130,8 +133,9 @@
         </span>
       </a>
 
-      <a class="roomrow" href="room-kuchnia-glowny.html" data-od-id="pomieszczenie-kuchnia">
-        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
+      <a class="roomrow" href="room-kuchnia-glowny.html" data-od-id="pomieszczenie-kuchnia"
+         style="--room:var(--room-ceglany)">
+        <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Kuchnia</span>
           <span class="rr-status"><i class="dot" style="background:var(--app-1a)"></i>Komfort idealny</span>
@@ -149,8 +153,9 @@
         </span>
       </a>
 
-      <a class="roomrow" href="room-gabinet-glowny.html" data-od-id="pomieszczenie-gabinet">
-        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
+      <a class="roomrow" href="room-gabinet-glowny.html" data-od-id="pomieszczenie-gabinet"
+         style="--room:var(--room-szmaragd)">
+        <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Gabinet</span>
           <span class="rr-status"><i class="dot dot--low"></i>Tryb eco · poza strefą komfortu</span>
@@ -168,8 +173,9 @@
         </span>
       </a>
 
-      <a class="roomrow" href="room-sypialnia-ala-glowny.html" data-od-id="pomieszczenie-sypialnia-ala">
-        <span class="iconbox iconbox--44"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
+      <a class="roomrow" href="room-sypialnia-ala-glowny.html" data-od-id="pomieszczenie-sypialnia-ala"
+         style="--room:var(--room-blekit)">
+        <span class="iconbox iconbox--44 iconbox--room"><svg viewBox="0 0 24 24"><use href="#i-bed"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Sypialnia Ala</span>
           <span class="rr-status"><i class="dot"></i>Komfort idealny</span>
@@ -187,7 +193,10 @@
         </span>
       </a>
 
-      <a class="roomrow is-offline" href="room-kotlownia-glowny.html" data-od-id="pomieszczenie-kotlownia">
+      <!-- czujnik nieaktywny: stan offline wygrywa z tożsamością, ikona
+           zostaje wygaszona (iconbox--off), kolor pozostaje przypisany -->
+      <a class="roomrow is-offline" href="room-kotlownia-glowny.html" data-od-id="pomieszczenie-kotlownia"
+         style="--room:var(--room-grafit)">
         <span class="iconbox iconbox--44 iconbox--off"><svg viewBox="0 0 24 24"><use href="#i-flame"/></svg></span>
         <span class="rr-text">
           <span class="rr-name">Kotłownia</span>

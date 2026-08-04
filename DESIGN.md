@@ -111,6 +111,135 @@ elementach nietekstowych (tła pigułek, kropki statusu, wypełnienia pod biały
 | Wypełnienie wykresu temperatury | `rgba(234,91,76,.28)` → `transparent` (do góry) |
 | Wypełnienie wykresu wilgotności | `rgba(60,130,240,.26)` → `transparent` (do góry) |
 
+### Kolory pomieszczeń — zamknięty zbiór dziesięciu tożsamości
+
+Kolor pomieszczenia jest **etykietą, nie statusem**. Nie mówi nic o temperaturze, jakości
+odczytu ani o poprawności czegokolwiek — służy wyłącznie rozpoznaniu pomieszczenia. Dlatego
+nie wchodzi w miejsca zajęte przez skalę `Gauge/*` i `Status/*`.
+
+Każda pozycja wywodzi się z tokenu już obecnego w palecie i przechodzi **3:1 na powierzchni
+karty w obu motywach** (minimum 3,12:1 jasny, 3,92:1 ciemny), więc może nieść 27-punktową
+kreskę tarczy i 22-punktowy glif bez korekty per motyw — tryb ciemny nie ma tu ani jednego
+nadpisania.
+
+Cztery pozycje są **przygaszone wobec swojego źródła**, każda z innego powodu. Indygo i Koral,
+bo ich źródła (`--gauge-info-dark`, `--app-1`) mają rolę sygnałową i w pełnym nasyceniu
+kolidowały znaczeniem. Amber i Ceglany, bo jako jedyne ciepłe pozycje palety ciążyły całemu
+ekranowi pomieszczenia — kreska tarczy ma 27 px, a te dziesięć kolorów jest kalibrowane pod
+glif 22 px. Przy obu ciepłych korekta idzie przez **nasycenie, nie przez hue**: to ta sama
+barwa o mniejszym natężeniu. Hue Ceglanego zostało celowo nietknięte, żeby po stonowaniu nie
+zbliżył się do Ambru (dystans Oklab 0,071; do Koralu 0,064 — powyżej najsłabszej pary palety,
+którą jest Szmaragd–Morski z 0,036).
+
+| Token | Wartość | Źródło | Kontrast na białym |
+|---|---|---|---|
+| `--room-zielen` | `#478675` | `--accent` | 4,26:1 |
+| `--room-szalwia` | `#689c8c` | `--app-4` | 3,12:1 |
+| `--room-szmaragd` | `#41a083` | `--gauge-high` | 3,19:1 |
+| `--room-morski` | `#3f9c97` | korekta `--gauge-excellent` (`#45a8a3` dawał 2,84:1) | 3,27:1 |
+| `--room-blekit` | `#6790d0` | `--brand-blekit` | 3,24:1 |
+| `--room-indygo` | `#667fc6` | `--gauge-info-dark` stonowany (`#5c7eed` — token sygnałowy, na kresce 27 px krzyczał i kolidował rolą) | 3,88:1 |
+| `--room-grafit` | `#737e79` | `--n-500` | 4,21:1 |
+| `--room-amber` | `#937949` | `--on-warning` (`#8a6410`) rozjaśniony o 0,06 L i wytrącony z nasycenia o 30 % — pełna ochra ciążyła całemu ekranowi pomieszczenia | 4,14:1 |
+| `--room-koral` | `#cb705c` | `--app-1` stonowany (`#eb684b` zajmuje rolę akcentu temperatury) | 3,49:1 |
+| `--room-ceglany` | `#ac6656` | `--brand-ceglany` (`#c55339`) wytrącony z nasycenia o 38 % przy tej samej jasności i tym samym hue | 4,38:1 |
+
+Zbiór jest **skończony** i nie rozszerza się dowolnym hexem ani próbnikiem barw. Dziesięć
+pozycji to granica, przy której lista pomieszczeń pozostaje czytelna; paleta świadomie skłania
+się w stronę zieleni i błękitów, bo tyle hue ma marka, a kolor **nigdy nie jest jedynym
+nośnikiem znaczenia** — zawsze towarzyszy mu ikona i nazwa.
+
+**Rola bieżącego pomieszczenia.** `--room` ustawia się na `.screen` (ekran pomieszczenia,
+formularz) albo na `.roomrow` (wiersz listy); bez przypisania sprowadza się do `var(--accent)`,
+więc ekran bez koloru wygląda tak jak przed wprowadzeniem palety. Warianty **nie są tokenami**
+— token rozwiązałby `var(--room)` raz na `:root` i przestał reagować na nadpisanie niżej
+w drzewie. Zamiast tego każda rola jest liczona `color-mix()` w regule komponentu:
+
+| Rola | Wyliczenie | Użycie | Minimum |
+|---|---|---|---|
+| tożsamość | `var(--room)` | próbka w wyborze, glif ikony | 3,12:1 na karcie |
+| ink | `color-mix(in oklch, var(--room) 66%, var(--fg))` | glif ikony, nazwa przy hover | 5,99:1 na karcie |
+| rampa tarczy | `color-mix(in oklch, var(--room-warm) f%, var(--room-cool))` | łuk nastawy: chłodny koniec przy 15 °C → ciepły przy 26 °C | 3,05:1 wobec `--track` |
+| nastawa w tarczy | `color-mix(in oklch, <ton rampy> 66%, var(--fg))` | wielka liczba w środku tarczy | 6,10:1 na karcie |
+| tint | `color-mix(in oklch, var(--room) 14%, var(--surface))` | tło ikony pomieszczenia | glif na tincie 5,21:1 |
+
+**Gdzie kolor się pojawia i gdzie nie.** Na liście: wyłącznie tło i glif ikony
+(`.iconbox--room`) plus podświetlenie nazwy przy hover — bez kolorowego paska i bez obwódki
+wiersza, bo wiersz nosi już cztery inne nośniki znaczenia. Na ekranie pomieszczenia: pasek
+tożsamości i rampa tarczy nastawy. **Stan offline wygrywa z tożsamością** — Kotłownia
+zachowuje przypisany kolor w danych, ale jej ikona zostaje wygaszona (`.iconbox--off`), bo
+wiersz bez odczytu nie może wyglądać na aktywny.
+
+| Pomieszczenie | Kolor | Nadana temperatura |
+|---|---|---|
+| Sypialnia AJ | Indygo | 20,5 °C |
+| Sypialnia Ala | Błękit | 22,5 °C |
+| Salon AJ | Amber | 23,0 °C |
+| Kuchnia | Ceglany | 23,0 °C |
+| Łazienka | Morski | 22,0 °C |
+| Gabinet | Szmaragd | 19,0 °C (eco) |
+| Kotłownia | Grafit (wygaszony — offline) | — |
+
+Zieleń, Szałwia i Koral zostają nieprzypisane — są dostępne w wyborze dla nowych pomieszczeń.
+Nowe pomieszczenie startuje na **Room/Zieleń**, czyli na tym samym kolorze, który przyjmuje
+ekran bez przypisania.
+
+**Rampa tarczy nastawy.** Kolorowy łuk (`.dial-arc-temp`) rośnie od początku skali do nastawy
+na neutralnej podstawie (`.dial-arc-basis`, `--track`), a jego barwa to **ton z zakresu
+pomieszczenia** dla bieżącej nastawy: `--room-cool` przy 15 °C, `--room-warm` przy 26 °C,
+tożsamość w środku zakresu (ok. 20,5 °C). Przeciąganie kropki przeprowadza barwę przez ten
+zakres płynnie i **percepcyjnie równo**, bo interpolacja idzie przez `color-mix(in oklch, …)`,
+a nie przez sRGB, który przeszedłby przez odbarwiony środek.
+
+Zakres obejmuje 48° hue, więc ruch prowadzi przez **jedną rodzinę barwną** — teal ↔ oliwka dla
+zieleni, czysty niebieski ↔ fiołkowy dla błękitu — i nigdy nie wchodzi w cudzą rodzinę ani
+w barwy sygnałowe `Gauge/*` / `Status/*`.
+
+Rampa jest wyrażona wyłącznie jako `color-mix()` na tokenach zakresu — JS podstawia sam procent,
+rozwiązywanie `var()` zostaje po stronie przeglądarki. To celowe: gdy kolory były liczone w JS
+z `getComputedStyle().color`, silnik serializował wynik `color-mix()` jako `oklch()`, więc naiwny
+odczyt trzech liczb dawał `rgb(1, 0, 275)` — jaskrawy niebieskofiolet identyczny w każdym
+pomieszczeniu, niezależny od tożsamości.
+
+Gradient łuku ma dwa przystanki: głowa na tonie nastawy, ogon o 35 punktów skali chłodniej.
+Tyle wystarcza na sheen zdradzający kierunek ruchu; więcej robiłoby z łuku dwubarwny pasek.
+Uchwyt zostaje biały (`--surface`) z pierścieniem o 22 % głębszym od łuku — wypełniony kolorem
+łuku zlewałby się z nim.
+
+**Zakres barwowy pomieszczenia.** Oba końce są wyprowadzone z tożsamości jedną regułą, nie
+doborem na oko: hue obrócony o **24°** w stronę osi chłodnej (240°) i ciepłej (50°), kierunkiem
+krótszego łuku — dzięki temu „chłodniej" znaczy to samo dla zieleni, błękitu i cegły. Jasność
+±0,035, chroma ×0,92 na chłodnym i ×1,06 na ciepłym końcu (ciepło jest nieco gęstsze).
+
+Jasność chłodnego końca jest dodatkowo ograniczona progiem 3,05:1 wobec podstawy `--track`,
+więc sześć pozycji ma go niżej niż +0,035 — inaczej najjaśniejsze tożsamości gubiłyby krawędź
+łuku na jasnym tle. Zmierzone na całym przebiegu, motyw jasny / ciemny: łuk wobec podstawy
+min **3,05 / 3,12:1**, biały uchwyt wobec łuku **3,45 / 3,41:1**, pierścień uchwytu wobec
+uchwytu **5,07 / 5,03:1**, wielka liczba nastawy wobec karty **6,35 / 6,10:1**. Dystans
+percepcyjny między końcami zakresu to 0,051–0,106 Oklab.
+
+| Kolor | Chłodny (15 °C) | Ciepły (26 °C) | Charakter zakresu |
+|---|---|---|---|
+| Zieleń | `#4f8f91` | `#4d7a57` | teal → oliwka |
+| Szałwia | `#5f9394` | `#6a9070` | najwęższy (0,051) — L ograniczona progiem |
+| Szmaragd | `#319897` | `#55935a` | |
+| Morski | `#4694a6` | `#419274` | |
+| Błękit | `#4c90be` | `#7c7bc6` | niebieski → fiołkowy |
+| Indygo | `#4e8fc3` | `#7b6ab8` | najszerszy (0,106) |
+| Grafit | `#718b8a` | `#677666` | chroma dociągnięta do 0,030, inaczej neutralna tożsamość nie miałaby zakresu |
+| Amber | `#8d8a5a` | `#956744` | khaki → ochra |
+| Koral | `#c77080` | `#be6935` | |
+| Ceglany | `#b3707a` | `#9f5f38` | |
+
+Zakresy sąsiednich tożsamości mogą na siebie zachodzić: chłodny Szmaragd leży 0,016 Oklab od
+Morskiego, przy 0,036 dystansu między samymi tożsamościami. W produkcie to nie koliduje — zakres
+pojawia się na jednej tarczy naraz, a tożsamość niesie ikona i nazwa.
+
+**Przypisanie klasą.** Tam, gdzie jest tarcza nastawy, kolor przypisuje się klasą
+`.room--<nazwa>`, która ustawia całą trójkę naraz (`--room`, `--room-cool`, `--room-warm`) —
+więc nie da się przypisać ekranowi szmaragdowej ikony i morskiego łuku. Konteksty, które niosą
+wyłącznie tożsamość (wiersz listy, próbka w wyborze koloru), ustawiają samo `--room` inline.
+
 ---
 
 ## 2. Typografia
@@ -353,13 +482,62 @@ screens/room-<slug>-sezony.html          porównanie sezonu grzewczego/chłodnic
 `<slug>`: `sypialnia-aj`, `salon-aj`, `lazienka`, `kuchnia`, `gabinet`, `sypialnia-ala`.
 **Kotłownia** ma jeden plik (`room-kotlownia-glowny.html`) — patrz niżej.
 
-### Tarcza pomieszczenia = wynik 0–100, nie temperatura (audyt 2026-07-27)
+### Tarcza pomieszczenia = nastawa; wynik 0–100 zostaje przy budynku
 
-Łuk tarczy koduje **wynik pomieszczenia 0–100** — ten sam wynik, który widać na ekranie
-Podsumowania jako „% zgodnie z harmonogramem". Kolor łuku i pill tarczy pochodzą z jednej
-tabeli progów; to ta sama konwencja co tarcza bilansu budynku na ekranie startowym (92/100).
-Temperatura w środku tarczy (`.dial-value`) jest odczytem informacyjnym, niezależnym od
-koloru łuku — kolor `.dial-value` podąża za tonem wyniku, nie za samą wartością temperatury.
+Historycznie łuk tarczy pomieszczenia kodował **wynik pomieszczenia 0–100** w barwach
+`Gauge/*`, a nadawanie temperatury przeciąganiem kropki przełączało go w drugi rejestr
+kolorystyczny — kolor pomieszczenia. Ta zmiana barwy przy pierwszym dotknięciu czytała się
+jak błąd, nie jak informacja, więc tarcza pomieszczenia ma dziś **jeden rejestr**: od
+pierwszej klatki pokazuje nastawę na neutralnej podstawie `--track`, w kolorze pomieszczenia.
+
+Wynik pomieszczenia nadal istnieje i nadal jest wyliczany z tej samej tabeli progów poniżej —
+komunikują go plakietka stanu, karta „Podsumowanie pomieszczenia" i opis `sr-only` tarczy.
+Tarcza w konwencji wyniku zostaje na **tarczy bilansu budynku** (`05-ekran-startowy.html`,
+92/100) i w specimenach `Gauge/*` w Design Systemie.
+
+### Środek tarczy = nastawa nad odczytami
+
+W środku tarczy stoi **nastawa**: podpis „Nadana temperatura" (`.t-eyebrow`) i wielka liczba
+(`.dial-value .t-dial`, 42 px). Pod nią dwa opisane odczyty — zmierzona temperatura
+(`.dial-now` + `.dial-now-cap`, 15 px) i wilgotność (`.dial-hum` + `.dial-hum-cap`, 13 px).
+
+Zasada rozdziału: **wielka liczba to wartość, którą użytkownik ustawia** — zmienia się przy
+przeciąganiu kropki. Odczyty pod nią stoją nieruchomo jako punkt odniesienia, więc dystans
+„nadane vs. rzeczywiste" widać w jednym rzucie oka. Count-up wejścia jest blokowany
+(`dataset.locked`) w momencie pierwszej interakcji, żeby animacja nie nadpisywała nastawy.
+Konsekwencja: pigułki odczytów z górnego wiersza (`pill--temp` / `pill--hum`) zostały
+z ekranów pomieszczeń usunięte — te dane są teraz w centrum, a zwolniony wiersz nosi pasek
+tożsamości (ikona w kolorze pomieszczenia + kondygnacja + identyfikator czujnika).
+
+Dwa rejestry koloru: **kolor = to, co ustawiasz, neutralny = to, co zmierzone.** Nastawa bierze
+**kolor pomieszczenia** pogłębiony w stronę `--fg` (66 % / 34 %, minimum 5,64:1 dla najsłabszej
+pozycji palety) — sama tożsamość nie przechodzi 4,5:1 wymaganego dla tekstu. Odczyty zostają
+na `--n-700`, a ich podpisy na `--muted`.
+
+### Rampa łuku nastawy = zakres barwowy koloru pomieszczenia
+
+Łuk nastawy trzyma się rodziny `--room` i ma się tak czytać **w każdym stanie — w spoczynku
+i w trakcie przeciągania**. Jego barwa to ton z **zakresu** pomieszczenia dla bieżącej nastawy:
+`--room-cool` przy 15 °C, `--room-warm` przy 26 °C, tożsamość w środku zakresu. Pełna definicja
+końców, tabela dziesięciu zakresów i pomiary kontrastu są w sekcji 1 („Zakres barwowy
+pomieszczenia").
+
+Interpolacja idzie przez `color-mix(in oklch, …)`, więc przejście jest percepcyjnie równe i nie
+przechodzi przez odbarwiony środek, jak zrobiłaby to interpolacja w sRGB. Zakres obejmuje 48° hue
+— jedna rodzina barwna, nigdy cudza i nigdy barwa sygnałowa.
+
+Rampa jest wyrażona **wyłącznie jako `color-mix()` na tokenach zakresu** — JS podstawia tylko
+procent, nigdy gotowy `rgb()`. To wynik konkretnej awarii: gdy kolory były liczone w JS przez
+sondę `getComputedStyle().color`, silnik serializował wynik `color-mix()` jako `oklch(…)`,
+a naiwny odczyt trzech liczb dawał `rgb(1, 0, 275)` — jaskrawy niebieskofiolet identyczny
+w każdym pomieszczeniu, niezależnie od jego tożsamości. Rozwiązywanie `var()` i `color-mix()`
+zostaje po stronie przeglądarki.
+
+Gradient łuku ma dwa przystanki: głowa na tonie nastawy, ogon o 35 punktów skali chłodniej —
+sheen zdradzający kierunek ruchu, nie druga barwa. Uchwyt zostaje biały z pierścieniem o 22 %
+głębszym od łuku. Kontrasty na całym przebiegu (najsłabsza pozycja palety, jasny / ciemny):
+łuk wobec podstawy `--track` 3,05 / 3,12:1, biały uchwyt wobec łuku 3,45 / 3,41:1, pierścień
+wobec uchwytu 5,07 / 5,03:1. Dystans percepcyjny między końcami zakresu to 0,051–0,106 w Oklab.
 
 | Wynik | Ton | Token łuku | Pill (tagpill) |
 |---|---|---|---|
@@ -369,12 +547,15 @@ koloru łuku — kolor `.dial-value` podąża za tonem wyniku, nie za samą wart
 | 25–49 | Wymaga uwagi | `--gauge-danger` | `.tagpill--warning` |
 | 0–24 | Alarm | `--gauge-danger` | `.tagpill--error` |
 
-`--dial-offset` = `744 × (1 − wynik/100)`; pozycja kropki końcowej: kąt = `106° +
-(wynik/100) × 328°`, `cx = 160 + 130·cos(θ)`, `cy = 160 + 130·sin(θ)` (stopnie → radiany).
-Przed audytem łuk koduł losowo dobraną wartość bez związku z żadną metryką (komentarz
-o „40% zakresu 15–24 °C" w Gabinecie był matematycznie fałszywy — realnie 64%); teraz każdy
-z sześciu `room-<slug>-glowny.html` ma offset i pozycję kropki przeliczone z wyniku
-faktycznie wyświetlanego na jego stronie podsumowania.
+Geometria łuku jest wspólna dla obu konwencji: `--dial-offset` = `744 × (1 − ułamek)`, pozycja
+kropki końcowej: kąt = `106° + ułamek × 328°`, `cx = 160 + 130·cos(θ)`, `cy = 160 + 130·sin(θ)`
+(stopnie → radiany). Na tarczy bilansu budynku i w specimenach `Gauge/*` ułamek to
+`wynik / 100`; na tarczy pomieszczenia to `(nastawa − 15) / 11`. Przeliczone nastawy:
+Sypialnia AJ 20,5 °C → offset 372,0 · kropka 160,0/30,0; Sypialnia Ala 22,5 → 236,7 ·
+272,2/94,3; Salon AJ i Kuchnia 23,0 → 202,9 · 285,3/125,4; Łazienka 22,0 → 270,5 ·
+251,5/67,6; Gabinet 19,0 → 473,5 · 68,5/67,6. Wcześniej kropka stała w pozycji **wyniku**,
+a nie nastawy — na Gabinecie przy nastawie 19 °C leżała w punkcie 40/100, czyli nie zgadzała
+się z liczbą w środku tarczy.
 
 ### Stany zaprojektowane per pomieszczenie
 
@@ -491,6 +672,12 @@ tam, gdzie wcześniej było „dom/domowy” (m.in. Card Hero na `05-ekran-start
    - `Własny harmonogram` (`.tagpill--warning` / `.rr-sched--own`, żółty) — świadome
      odejście od domyślnego.
    - `Stała temperatura` (`.rr-sched--off`, wyciszony) — harmonogram nieaktywny (Kotłownia).
+   - `Ustawiono ręcznie` (`.tagpill--manual`, tło `--track` / tekst `--n-700`, ikona
+     `#i-sliders-vertical`) — użytkownik przeciągnął kropkę na tarczy temperatury (patrz
+     punkt 5); zastępuje dowolny z trzech stanów wyżej, dopóki nie zmieni trybu ręcznie
+     w `07-edycja-pomieszczenia.html`. Nie ma odpowiednika w `.rr-sched` — hub
+     `11-pomieszczenia.html` nie pokazuje jeszcze tego stanu (otwarty punkt spójności,
+     jak w punkcie 4 niżej).
 
    Widoczny w dwóch miejscach: pod tarczą temperatury na każdym `room-<slug>-glowny.html`
    (`data-od-id="stan-harmonogramu"`) i w liście `11-pomieszczenia.html`
@@ -518,6 +705,26 @@ tam, gdzie wcześniej było „dom/domowy” (m.in. Card Hero na `05-ekran-start
    wstrzymane do 22,0°”). Specimen: `komponent-rr-climate` w `design-system.html`.
    Wdrożone w `11-pomieszczenia.html` (7/7 wierszy); ekrany `room-<slug>-glowny.html`
    jeszcze tego wskaźnika nie mają — otwarty punkt spójności.
+5. **Tarcza jako kontrolka — przeciąganie ustawia temperaturę** — kropka na tarczy
+   (`.dial-arc-dot`, ukryty hit-target `.dial-hit` r=24px, `role="slider"`) jest przeciągalna
+   wskaźnikiem, dotykiem i klawiaturą (strzałki ±0,5 °C, `PageUp`/`PageDown` ±2 °C,
+   `Home`/`End` = 15/26 °C). Łuk domyślnie koduje **wynik pomieszczenia 0–100** (punkt
+   „Tarcza pomieszczenia" wyżej) — pierwsza interakcja przełącza tarczę w tryb **temperatury
+   docelowej** na zakresie `15–26 °C` krokiem `0,5 °C`, tym samym co stepper w
+   `07-edycja-pomieszczenia.html`:
+   - Łuk i kropka zaczynają kodować pozycję w zakresie temperatury, nie wynik.
+   - Kolor łuku i `.dial-value` przechodzi z tonu wyniku (`--gauge-*`) na `--accent`.
+   - Etykieta `.dial-center` zmienia się z „Obecna temperatura” na „Ustawiona temperatura”.
+   - Plakietka stanu (punkt 3) przechodzi na `.tagpill--manual` „Ustawiono ręcznie”, a wiersz
+     „najbliższa zmiana” się chowa — harmonogram jest zawieszony, tak jak w trybie „Stała
+     temperatura”, tylko zainicjowane z tarczy, nie z segmentu w edycji.
+
+   Ten sam mechanizm (geometria łuku: `CX=160, CY=160, R=130`, `START_DEG=106°`,
+   `SWEEP_DEG=328°`, `ARC_LEN=744`) obsługuje obie interpretacje — wynik i temperaturę —
+   przez współdzieloną funkcję kąt→punkt; zmienia się tylko to, co reprezentuje `f` (ułamek
+   0–1: wynik/100 albo `(temp−min)/(max−min)`). Wdrożone identycznie w 6/6
+   `room-<slug>-glowny.html` (nie w Kotłowni — offline, bez tarczy). Specimen:
+   `komponent-tarcza-interaktywna` w `design-system.html`.
 
 ### Które pomieszczenia mają co (stan demonstracyjny)
 
