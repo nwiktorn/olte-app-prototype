@@ -26,6 +26,17 @@
   }
   .ds-sub { font-size: var(--fs-15); line-height: 24px; color: var(--muted); }
 
+  .backlink {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 16px; margin-bottom: 24px; border-radius: var(--r-pill);
+    background: var(--surface); border: 1px solid var(--border);
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-13);
+    color: var(--fg); text-decoration: none;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .backlink:hover { background: color-mix(in oklch, var(--accent) 14%, var(--surface)); border-color: var(--accent); }
+  .backlink svg { width: 15px; height: 15px; color: var(--accent); }
+
   section.ds { padding-top: 56px; margin-top: 48px; border-top: 1px solid var(--border); }
   section.ds > h2 {
     font-family: var(--font-display); font-weight: 800; font-size: var(--fs-26);
@@ -141,7 +152,7 @@
 <div class="page">
 
   <a class="backlink" href="index.html">
-    <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg>Przegląd ekranów</a>
+    <svg viewBox="0 0 24 24"><use href="#i-arrow-left"/></svg>Wróć do prototypu</a>
 
   <header class="ds-head" data-od-id="naglowek" style="max-width:none">
     <div class="row-between" style="align-items:flex-start;gap:24px">

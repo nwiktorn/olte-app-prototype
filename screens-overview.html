@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>OLTE App · wszystkie ekrany</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/olte.css">
+<script src="assets/theme.js"></script>
+<style>
+  :root {
+    --canvas: #101614;
+    --canvas-2: #1b2320;
+    --canvas-line: #2c3733;
+    --canvas-fg: #f4f7f6;
+    --canvas-text: #a8b5b0;
+    --canvas-text-2: #c3cdc9;
+    --bezel-a: #37423e;
+    --bezel-b: #171f1c;
+  }
+  html, body {
+    background: var(--canvas);
+    color: var(--canvas-fg);
+    min-height: 100vh;
+  }
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px 20px 48px;
+    box-sizing: border-box;
+  }
+  .toolbar {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; max-width: 1400px;
+    margin-bottom: 22px;
+  }
+  .toolbar-brand {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-15);
+    color: var(--canvas-fg); letter-spacing: -.01em;
+    margin-right: auto;
+  }
+  .toolbar-brand svg { width: 18px; height: 18px; color: var(--primary-300); }
+  .ds-link {
+    display: inline-flex; align-items: center; gap: 7px;
+    padding: 9px 16px; border-radius: var(--r-pill);
+    background: var(--canvas-2); border: 1px solid var(--canvas-line);
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-13);
+    color: var(--canvas-fg); text-decoration: none;
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .ds-link:hover { background: color-mix(in oklch, var(--primary-500) 26%, var(--canvas-2)); border-color: var(--primary-300); }
+  .ds-link svg { width: 15px; height: 15px; color: var(--primary-300); }
+
+  .heading {
+    width: 100%; max-width: 1400px;
+    margin-bottom: 18px;
+  }
+  .heading h1 {
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-24);
+    color: var(--canvas-fg); margin: 0 0 4px; letter-spacing: -.01em;
+  }
+  .heading p {
+    font-family: var(--font-body); font-size: var(--fs-13); color: var(--canvas-text);
+    margin: 0;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 240px));
+    justify-content: center;
+    gap: 22px;
+    width: 100%;
+    max-width: 1400px;
+  }
+  .slot { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  .bezel {
+    width: 240px;
+    padding: 8px;
+    border-radius: 32px;
+    background: linear-gradient(160deg, var(--bezel-a), var(--bezel-b) 60%);
+    box-shadow: 0 18px 38px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.06);
+    box-sizing: border-box;
+  }
+  .bezel-clip {
+    width: 224px; height: 484px;
+    border-radius: 24px; background: var(--bg);
+    overflow: hidden;
+    position: relative;
+  }
+  .bezel-clip iframe {
+    display: block;
+    width: 393px; height: 852px;
+    border: 0; background: var(--bg);
+    pointer-events: none;
+    transform: scale(0.5700254);
+    transform-origin: 0 0;
+    position: absolute; top: 0; left: 0;
+  }
+  .slot-label {
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-12);
+    color: var(--canvas-text-2); text-align: center;
+    max-width: 224px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .slot a.open {
+    font-family: var(--font-mono, monospace); font-size: var(--fs-11);
+    color: var(--primary-300); text-decoration: none;
+  }
+  .slot a.open:hover { text-decoration: underline; }
+
+  .group-title {
+    width: 100%; max-width: 1400px;
+    margin: 34px 0 16px;
+    font-family: var(--font-display); font-weight: 700; font-size: var(--fs-16);
+    color: var(--canvas-fg);
+    padding-bottom: 8px; border-bottom: 1px solid var(--canvas-line);
+  }
+  .group-title:first-of-type { margin-top: 4px; }
+
+  @media (max-width: 600px) {
+    .toolbar { padding: 8px 10px; gap: 6px; }
+    .toolbar-brand { font-size: var(--fs-13); }
+    .ds-link { padding: 8px 10px; }
+    .ds-link .label { display: none; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(160px, 160px)); gap: 14px; }
+    .bezel { width: 160px; padding: 6px; border-radius: 22px; }
+    .bezel-clip { width: 148px; height: 320px; border-radius: 16px; }
+    .bezel-clip iframe { transform: scale(0.3765903); }
+    .slot-label, .slot a.open { max-width: 148px; }
+  }
+</style>
+</head>
+<body>
+<script src="assets/icons.js"></script>
+
+<div class="toolbar" data-od-id="belka-narzedziowa">
+  <span class="toolbar-brand"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>OLTE</span>
+  <a class="ds-link" href="index.html" data-od-id="link-prototyp" aria-label="Prototyp">
+    <svg viewBox="0 0 24 24"><use href="#i-smartphone"/></svg><span class="label">Prototyp</span></a>
+  <a class="ds-link" href="design-system.html" data-od-id="link-design-system" aria-label="Design system">
+    <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg><span class="label">Design system</span></a>
+</div>
+
+<div class="heading" data-od-id="naglowek">
+  <h1>Wszystkie ekrany</h1>
+  <p>45 ekranów prototypu OLTE, w podglądzie tylko do przeglądania — kliknij „Otwórz”, żeby przeklikać ekran w pełnej interakcji.</p>
+</div>
+
+<div class="group-title" data-od-id="grupa-budynek">Przepływy budynkowe</div>
+<div class="grid" data-od-id="siatka-budynek">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/05-ekran-startowy.html" loading="lazy" title="Ekran startowy"></iframe></div></div><div class="slot-label">Ekran startowy</div><a class="open" href="screens/05-ekran-startowy.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/06-centralny.html" loading="lazy" title="Centralny"></iframe></div></div><div class="slot-label">Centralny</div><a class="open" href="screens/06-centralny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/07-edycja-pomieszczenia.html" loading="lazy" title="Edycja pomieszczenia"></iframe></div></div><div class="slot-label">Edycja pomieszczenia</div><a class="open" href="screens/07-edycja-pomieszczenia.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/08-harmonogram.html" loading="lazy" title="Harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/08-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/09-stany-danych.html" loading="lazy" title="Stany danych"></iframe></div></div><div class="slot-label">Stany danych</div><a class="open" href="screens/09-stany-danych.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/10-zgloszenie-usterki.html" loading="lazy" title="Zgłoszenie usterki"></iframe></div></div><div class="slot-label">Zgłoszenie usterki</div><a class="open" href="screens/10-zgloszenie-usterki.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/11-pomieszczenia.html" loading="lazy" title="Pomieszczenia"></iframe></div></div><div class="slot-label">Pomieszczenia</div><a class="open" href="screens/11-pomieszczenia.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/12-dodaj-pomieszczenie.html" loading="lazy" title="Dodaj pomieszczenie"></iframe></div></div><div class="slot-label">Dodaj pomieszczenie</div><a class="open" href="screens/12-dodaj-pomieszczenie.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-sypialnia-aj">Sypialnia AJ</div>
+<div class="grid" data-od-id="siatka-sypialnia-aj">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-aj-glowny.html" loading="lazy" title="Sypialnia AJ — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-sypialnia-aj-glowny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-aj-harmonogram.html" loading="lazy" title="Sypialnia AJ — harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/room-sypialnia-aj-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-aj-historia-temp.html" loading="lazy" title="Sypialnia AJ — historia temperatury"></iframe></div></div><div class="slot-label">Historia temperatury</div><a class="open" href="screens/room-sypialnia-aj-historia-temp.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-aj-historia-wilg.html" loading="lazy" title="Sypialnia AJ — historia wilgotności"></iframe></div></div><div class="slot-label">Historia wilgotności</div><a class="open" href="screens/room-sypialnia-aj-historia-wilg.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-aj-podsumowanie.html" loading="lazy" title="Sypialnia AJ — podsumowanie doby"></iframe></div></div><div class="slot-label">Podsumowanie doby</div><a class="open" href="screens/room-sypialnia-aj-podsumowanie.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-aj-sezony.html" loading="lazy" title="Sypialnia AJ — porównanie sezonów"></iframe></div></div><div class="slot-label">Porównanie sezonów</div><a class="open" href="screens/room-sypialnia-aj-sezony.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-sypialnia-ala">Sypialnia Ala</div>
+<div class="grid" data-od-id="siatka-sypialnia-ala">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-ala-glowny.html" loading="lazy" title="Sypialnia Ala — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-sypialnia-ala-glowny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-ala-harmonogram.html" loading="lazy" title="Sypialnia Ala — harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/room-sypialnia-ala-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-ala-historia-temp.html" loading="lazy" title="Sypialnia Ala — historia temperatury"></iframe></div></div><div class="slot-label">Historia temperatury</div><a class="open" href="screens/room-sypialnia-ala-historia-temp.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-ala-historia-wilg.html" loading="lazy" title="Sypialnia Ala — historia wilgotności"></iframe></div></div><div class="slot-label">Historia wilgotności</div><a class="open" href="screens/room-sypialnia-ala-historia-wilg.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-ala-podsumowanie.html" loading="lazy" title="Sypialnia Ala — podsumowanie doby"></iframe></div></div><div class="slot-label">Podsumowanie doby</div><a class="open" href="screens/room-sypialnia-ala-podsumowanie.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-sypialnia-ala-sezony.html" loading="lazy" title="Sypialnia Ala — porównanie sezonów"></iframe></div></div><div class="slot-label">Porównanie sezonów</div><a class="open" href="screens/room-sypialnia-ala-sezony.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-salon-aj">Salon AJ</div>
+<div class="grid" data-od-id="siatka-salon-aj">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-salon-aj-glowny.html" loading="lazy" title="Salon AJ — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-salon-aj-glowny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-salon-aj-harmonogram.html" loading="lazy" title="Salon AJ — harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/room-salon-aj-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-salon-aj-historia-temp.html" loading="lazy" title="Salon AJ — historia temperatury"></iframe></div></div><div class="slot-label">Historia temperatury</div><a class="open" href="screens/room-salon-aj-historia-temp.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-salon-aj-historia-wilg.html" loading="lazy" title="Salon AJ — historia wilgotności"></iframe></div></div><div class="slot-label">Historia wilgotności</div><a class="open" href="screens/room-salon-aj-historia-wilg.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-salon-aj-podsumowanie.html" loading="lazy" title="Salon AJ — podsumowanie doby"></iframe></div></div><div class="slot-label">Podsumowanie doby</div><a class="open" href="screens/room-salon-aj-podsumowanie.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-salon-aj-sezony.html" loading="lazy" title="Salon AJ — porównanie sezonów"></iframe></div></div><div class="slot-label">Porównanie sezonów</div><a class="open" href="screens/room-salon-aj-sezony.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-kuchnia">Kuchnia</div>
+<div class="grid" data-od-id="siatka-kuchnia">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kuchnia-glowny.html" loading="lazy" title="Kuchnia — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-kuchnia-glowny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kuchnia-harmonogram.html" loading="lazy" title="Kuchnia — harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/room-kuchnia-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kuchnia-historia-temp.html" loading="lazy" title="Kuchnia — historia temperatury"></iframe></div></div><div class="slot-label">Historia temperatury</div><a class="open" href="screens/room-kuchnia-historia-temp.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kuchnia-historia-wilg.html" loading="lazy" title="Kuchnia — historia wilgotności"></iframe></div></div><div class="slot-label">Historia wilgotności</div><a class="open" href="screens/room-kuchnia-historia-wilg.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kuchnia-podsumowanie.html" loading="lazy" title="Kuchnia — podsumowanie doby"></iframe></div></div><div class="slot-label">Podsumowanie doby</div><a class="open" href="screens/room-kuchnia-podsumowanie.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kuchnia-sezony.html" loading="lazy" title="Kuchnia — porównanie sezonów"></iframe></div></div><div class="slot-label">Porównanie sezonów</div><a class="open" href="screens/room-kuchnia-sezony.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-lazienka">Łazienka</div>
+<div class="grid" data-od-id="siatka-lazienka">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-lazienka-glowny.html" loading="lazy" title="Łazienka — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-lazienka-glowny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-lazienka-harmonogram.html" loading="lazy" title="Łazienka — harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/room-lazienka-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-lazienka-historia-temp.html" loading="lazy" title="Łazienka — historia temperatury"></iframe></div></div><div class="slot-label">Historia temperatury</div><a class="open" href="screens/room-lazienka-historia-temp.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-lazienka-historia-wilg.html" loading="lazy" title="Łazienka — historia wilgotności"></iframe></div></div><div class="slot-label">Historia wilgotności</div><a class="open" href="screens/room-lazienka-historia-wilg.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-lazienka-podsumowanie.html" loading="lazy" title="Łazienka — podsumowanie doby"></iframe></div></div><div class="slot-label">Podsumowanie doby</div><a class="open" href="screens/room-lazienka-podsumowanie.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-lazienka-sezony.html" loading="lazy" title="Łazienka — porównanie sezonów"></iframe></div></div><div class="slot-label">Porównanie sezonów</div><a class="open" href="screens/room-lazienka-sezony.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-gabinet">Gabinet</div>
+<div class="grid" data-od-id="siatka-gabinet">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-gabinet-glowny.html" loading="lazy" title="Gabinet — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-gabinet-glowny.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-gabinet-harmonogram.html" loading="lazy" title="Gabinet — harmonogram"></iframe></div></div><div class="slot-label">Harmonogram</div><a class="open" href="screens/room-gabinet-harmonogram.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-gabinet-historia-temp.html" loading="lazy" title="Gabinet — historia temperatury"></iframe></div></div><div class="slot-label">Historia temperatury</div><a class="open" href="screens/room-gabinet-historia-temp.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-gabinet-historia-wilg.html" loading="lazy" title="Gabinet — historia wilgotności"></iframe></div></div><div class="slot-label">Historia wilgotności</div><a class="open" href="screens/room-gabinet-historia-wilg.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-gabinet-podsumowanie.html" loading="lazy" title="Gabinet — podsumowanie doby"></iframe></div></div><div class="slot-label">Podsumowanie doby</div><a class="open" href="screens/room-gabinet-podsumowanie.html">Otwórz →</a></div>
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-gabinet-sezony.html" loading="lazy" title="Gabinet — porównanie sezonów"></iframe></div></div><div class="slot-label">Porównanie sezonów</div><a class="open" href="screens/room-gabinet-sezony.html">Otwórz →</a></div>
+</div>
+
+<div class="group-title" data-od-id="grupa-kotlownia">Kotłownia</div>
+<div class="grid" data-od-id="siatka-kotlownia">
+  <div class="slot"><div class="bezel"><div class="bezel-clip"><iframe src="screens/room-kotlownia-glowny.html" loading="lazy" title="Kotłownia — główny"></iframe></div></div><div class="slot-label">Główny</div><a class="open" href="screens/room-kotlownia-glowny.html">Otwórz →</a></div>
+</div>
+
+</body>
+</html>

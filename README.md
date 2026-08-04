@@ -10,7 +10,8 @@ Całość to statyczny HTML/CSS/JS bez frameworka i bez procesu budowania.
 
 | Plik / katalog | Rola |
 |---|---|
-| `index.html` | Launcher — wszystkie 45 ekranów obok siebie w ramkach telefonu, punkt wejścia do prototypu |
+| `index.html` | Launcher — jeden ekran telefonu na środku (pełny ekran na mobile, wycentrowana ramka na desktopie) z przyciskami „Wszystkie ekrany” i „Design system” w górnym pasku; punkt wejścia do prototypu |
+| `screens-overview.html` | Galeria wszystkich 45 ekranów w miniaturach, tylko do podglądu — z linkiem „Otwórz” do pełnej interakcji na każdym |
 | `design-system.html` | Dokumentacja design systemu: tokeny, typografia, ikony, komponenty, stany |
 | `screens/` | Po jednym pliku HTML na ekran — prototyp jest klikalny bezpośrednio w przeglądarce |
 | `assets/olte.css` | Jedyne źródło prawdy dla tokenów i komponentów |

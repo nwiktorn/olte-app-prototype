@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>OLTE App · prototyp — przegląd ekranów</title>
+<title>OLTE App · prototyp</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,65 +11,65 @@
 <script src="assets/theme.js"></script>
 <style>
   :root {
-    --canvas: #101614;        /* Neutral/900 — płótno przeglądu */
+    --canvas: #101614;
     --canvas-2: #1b2320;
     --canvas-line: #2c3733;
-    --canvas-fg: #f4f7f6;     /* chrome launchera nie zmienia się z motywem ekranów */
+    --canvas-fg: #f4f7f6;
     --canvas-text: #a8b5b0;
     --canvas-text-2: #c3cdc9;
-    --canvas-text-3: #7d8b86;
     --bezel-a: #37423e;
     --bezel-b: #171f1c;
   }
-  body {
+  html, body {
     background: var(--canvas);
     color: var(--canvas-fg);
     min-height: 100vh;
-    padding: 56px 40px 96px;
   }
-  .wrap { max-width: 1760px; margin-inline: auto; }
-  .lead-block { max-width: 62ch; }
-  .eyebrow {
-    display: inline-flex; align-items: center; gap: 8px;
-    font-family: var(--font-body); font-weight: 700; font-size: var(--fs-11);
-    letter-spacing: .1em; text-transform: uppercase; color: var(--primary-300);
+  body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 28px 20px 40px;
+    box-sizing: border-box;
   }
-  .eyebrow::before { content: ''; width: 18px; height: 2px; border-radius: 2px; background: currentColor; }
-  h1.page-title {
-    font-family: var(--font-display); font-weight: 800;
-    font-size: clamp(34px, 4vw, 52px); line-height: 1.06; letter-spacing: -.03em;
-    margin: 18px 0 14px;
+  .toolbar {
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+    width: 100%; max-width: 460px;
+    margin-bottom: 22px;
   }
-  .page-sub { font-size: var(--fs-15); line-height: 24px; color: var(--canvas-text); }
-  .meta-row {
-    display: flex; flex-wrap: wrap; gap: 10px;
-    margin-top: 26px; padding-top: 26px; border-top: 1px solid var(--canvas-line);
+  .toolbar-brand {
+    display: flex; align-items: center; gap: 8px;
+    font-family: var(--font-display); font-weight: 800; font-size: var(--fs-15);
+    color: var(--canvas-fg); letter-spacing: -.01em;
+    margin-right: auto;
   }
-  .metatag {
+  .toolbar-brand svg { width: 18px; height: 18px; color: var(--primary-300); }
+  .ds-link {
     display: inline-flex; align-items: center; gap: 7px;
-    padding: 8px 13px; border-radius: var(--r-pill);
+    padding: 9px 16px; border-radius: var(--r-pill);
     background: var(--canvas-2); border: 1px solid var(--canvas-line);
-    font-family: var(--font-body); font-size: var(--fs-13); color: var(--canvas-text-2);
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-13);
+    color: var(--canvas-fg); text-decoration: none;
+    transition: background .15s ease, border-color .15s ease;
   }
-  .metatag svg { width: 15px; height: 15px; color: var(--primary-300); }
-  .metatag--link { color: var(--canvas-fg); border-color: var(--primary-300); }
-  .metatag--link:hover { background: color-mix(in oklch, var(--primary-500) 30%, var(--canvas-2)); }
+  .ds-link:hover { background: color-mix(in oklch, var(--primary-500) 26%, var(--canvas-2)); border-color: var(--primary-300); }
+  .ds-link svg { width: 15px; height: 15px; color: var(--primary-300); }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(417px, 417px));
+  .stage {
+    flex: 1;
+    display: flex;
+    align-items: center;
     justify-content: center;
-    gap: 40px 32px;
-    margin-top: 52px;
+    width: 100%;
   }
-  .slot { display: flex; flex-direction: column; gap: 14px; }
-  .slot-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
-  .slot-name { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-17); line-height: 24px; }
-  .slot-file { font-family: var(--font-body); font-size: var(--fs-11); color: var(--canvas-text-3); }
-  .slot-note { font-size: var(--fs-13); line-height: 18px; color: var(--canvas-text); min-height: 36px; }
+
+  /* Desktop / tablet — telefon jako wycentrowana ramka */
+  /* Ramka musi być dokładnie tak szeroka/wysoka jak realny ekran (--screen-w/--screen-h
+     z olte.css = 393×852), inaczej iframe renderuje treść szerszą niż jego viewport
+     i przeglądarka dodaje suwaki przewijania w środku telefonu. */
   .bezel {
     width: 417px;
-    max-width: 100%;
     padding: 12px;
     border-radius: 52px;
     background: linear-gradient(160deg, var(--bezel-a), var(--bezel-b) 60%);
@@ -77,301 +77,60 @@
     box-sizing: border-box;
   }
   .bezel iframe {
-    display: block; width: 393px; max-width: 100%; aspect-ratio: 393 / 852; height: auto;
+    display: block; width: 393px; height: 852px;
+    max-width: 100%;
     border: 0; border-radius: 40px; background: var(--bg);
   }
-  .slot-open {
-    display: inline-flex; align-items: center; gap: 6px;
-    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-12);
-    color: var(--primary-300);
+
+  .hint {
+    margin-top: 18px;
+    font-family: var(--font-body); font-size: var(--fs-12); color: var(--canvas-text);
+    text-align: center; max-width: 393px;
   }
-  .slot-open svg { width: 14px; height: 14px; transition: transform .15s ease; }
-  .slot-open:hover svg { transform: translateX(3px); }
-  .pagefoot {
-    margin-top: 72px; padding-top: 26px; border-top: 1px solid var(--canvas-line);
-    font-size: var(--fs-13); color: var(--canvas-text-3);
+  .hint code {
+    font-family: var(--font-mono, monospace); font-size: var(--fs-11);
+    color: var(--canvas-text-2); background: var(--canvas-2);
+    padding: 2px 5px; border-radius: 4px;
   }
-  @media (max-width: 900px) { body { padding: 32px 20px 64px; } .grid { gap: 32px 20px; } }
-  @media (max-width: 460px) { .grid { grid-template-columns: 1fr; } }
+
+  /* Mobile — pełny ekran, bez ramki, bez chrome przeglądarki dookoła */
+  @media (max-width: 500px) {
+    body { padding: 0; }
+    .toolbar {
+      max-width: none; margin: 0; padding: 8px 10px; gap: 6px;
+      background: var(--canvas); border-bottom: 1px solid var(--canvas-line);
+    }
+    .toolbar-brand { font-size: var(--fs-13); }
+    .ds-link { padding: 8px 10px; }
+    .ds-link .label { display: none; }
+    .stage { width: 100%; height: 100%; }
+    .bezel {
+      width: 100%; height: 100%; padding: 0; border-radius: 0;
+      background: none; box-shadow: none;
+    }
+    .bezel iframe { width: 100%; height: 100%; border-radius: 0; }
+    .hint { display: none; }
+  }
 </style>
 </head>
 <body>
 <script src="assets/icons.js"></script>
 
-<div class="wrap">
-
-  <header data-od-id="naglowek">
-    <p class="eyebrow">Prototyp aplikacji · przeniesienie z Figmy + wdrożone rozszerzenia</p>
-    <div class="lead-block">
-      <h1 class="page-title">OLTE App — prototyp z siedmioma odrębnymi pomieszczeniami</h1>
-      <p class="page-sub">Aplikacja do monitorowania systemu grzewczego: bilans budynku, temperatura
-        i wilgotność w każdym pomieszczeniu, historia dobowa, porównanie sezonu grzewczego i
-        chłodniczego, hub pomieszczeń z centrum powiadomień, jednostka centralna, edycja
-        pomieszczenia, harmonogram bazowy z możliwością nadpisania per pomieszczenie,
-        diagnostyka czujników i zgłoszenie usterki.
-        Sześć ekranów pochodzi z <code>OLTE-App.fig</code>, reszta domyka luki wypisane w
-        pliku <code>DESIGN.md</code>. Każde z siedmiu pomieszczeń ma teraz własny,
-        w pełni odrębny komplet ekranów (§7).</p>
-    </div>
-
-    <div class="meta-row" data-od-id="metadane">
-      <span class="metatag"><svg viewBox="0 0 24 24"><use href="#i-house"/></svg>393 × 852 · iOS</span>
-      <span class="metatag"><svg viewBox="0 0 24 24"><use href="#i-gauge"/></svg>45 ekranów · jeden arkusz tokenów</span>
-      <span class="metatag"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>Manrope + Instrument Sans</span>
-      <button class="metatag metatag--link" type="button" id="btn-motyw" aria-pressed="false"
-              data-od-id="przelacznik-motywu">
-        <svg viewBox="0 0 24 24"><use href="#i-sun-dim"/></svg>
-        <span data-theme-label>Tryb jasny</span></button>
-      <a class="metatag metatag--link" href="design-system.html">
-        <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Design system</a>
-      <a class="metatag metatag--link" href="DESIGN.md">
-        <svg viewBox="0 0 24 24"><use href="#i-info"/></svg>DESIGN.md</a>
-    </div>
-  </header>
-
-  <div class="grid" data-od-id="galeria-ekranow">
-
-    <section class="slot" data-od-id="slot-ekran-startowy">
-      <div class="slot-head">
-        <h2 class="slot-name">Ekran startowy</h2>
-        <span class="slot-file">05-ekran-startowy</span>
-      </div>
-      <p class="slot-note">Card Hero z tarczą bilansu budynku i powiadomienie systemowe. Przejście
-        do huba pomieszczeń zastąpiło osadzoną listę pokoi.</p>
-      <div class="bezel"><iframe src="screens/05-ekran-startowy.html"
-        title="Ekran startowy" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/05-ekran-startowy.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-pomieszczenia">
-      <div class="slot-head">
-        <h2 class="slot-name">Pomieszczenia</h2>
-        <span class="slot-file">11-pomieszczenia</span>
-      </div>
-      <p class="slot-note">Hub drugiej zakładki: centrum powiadomień o pomieszczeniach
-        wymagających uwagi, pełna rozpiska siedmiu pomieszczeń i przejście do formularza
-        dodania nowego.</p>
-      <div class="bezel"><iframe src="screens/11-pomieszczenia.html"
-        title="Pomieszczenia" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/11-pomieszczenia.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-pokoj-glowny">
-      <div class="slot-head">
-        <h2 class="slot-name">Pomieszczenie — Sypialnia AJ</h2>
-        <span class="slot-file">room-sypialnia-aj-glowny</span>
-      </div>
-      <p class="slot-note">Tarcza temperatury bieżącej, odczyty w pigułkach, najbliższa zmiana
-        harmonogramu i przejścia do widoków szczegółowych. Każde z siedmiu pomieszczeń ma
-        teraz własny zestaw pięciu ekranów — poniżej reprezentatywny komplet, resztę linkuje
-        karta na końcu galerii.</p>
-      <div class="bezel"><iframe src="screens/room-sypialnia-aj-glowny.html"
-        title="Pomieszczenie — Sypialnia AJ" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/room-sypialnia-aj-glowny.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-podsumowanie">
-      <div class="slot-head">
-        <h2 class="slot-name">Podsumowanie — Sypialnia AJ</h2>
-        <span class="slot-file">room-sypialnia-aj-podsumowanie</span>
-      </div>
-      <p class="slot-note">Metryka zgodności z harmonogramem i dwie karty wniosków —
-        wpływ nasłonecznienia oraz tempo wychładzania na tle podobnych pomieszczeń.</p>
-      <div class="bezel"><iframe src="screens/room-sypialnia-aj-podsumowanie.html"
-        title="Podsumowanie — Sypialnia AJ" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/room-sypialnia-aj-podsumowanie.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-historia-temperatura">
-      <div class="slot-head">
-        <h2 class="slot-name">Historia — temperatura</h2>
-        <span class="slot-file">room-sypialnia-aj-historia-temp</span>
-      </div>
-      <p class="slot-note">Kalendarz tygodnia, wykres dobowy z pasmem nasłonecznienia i prognozą
-        zewnętrzną. Przełącznik metryki przerysowuje wykres.</p>
-      <div class="bezel"><iframe src="screens/room-sypialnia-aj-historia-temp.html"
-        title="Historia temperatury — Sypialnia AJ" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/room-sypialnia-aj-historia-temp.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-historia-wilgotnosc">
-      <div class="slot-head">
-        <h2 class="slot-name">Historia — wilgotność</h2>
-        <span class="slot-file">room-sypialnia-aj-historia-wilg</span>
-      </div>
-      <p class="slot-note">Ten sam układ z drugą metryką aktywną: zakres 46–61 %, średnia dobowa
-        54 %, tor w kolorze informacyjnym.</p>
-      <div class="bezel"><iframe src="screens/room-sypialnia-aj-historia-wilg.html"
-        title="Historia wilgotności — Sypialnia AJ" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/room-sypialnia-aj-historia-wilg.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-porownanie-sezonow">
-      <div class="slot-head">
-        <h2 class="slot-name">Porównanie sezonów</h2>
-        <span class="slot-file">room-sypialnia-aj-sezony</span>
-      </div>
-      <p class="slot-note">Sezon grzewczy i chłodniczy w stopniodniach, miesiąc po miesiącu,
-        bieżący rok kontra poprzedni. Ekran przewijalny.</p>
-      <div class="bezel"><iframe src="screens/room-sypialnia-aj-sezony.html"
-        title="Porównanie sezonów — Sypialnia AJ" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/room-sypialnia-aj-sezony.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-inne-pomieszczenia" style="grid-column:1/-1">
-      <div class="slot-head">
-        <h2 class="slot-name">Pozostałych sześć pomieszczeń</h2>
-        <span class="slot-file">room-*</span>
-      </div>
-      <p class="slot-note" style="max-width:70ch">Każde pomieszczenie ma własny komplet pięciu
-        ekranów (główny, podsumowanie, historia temperatury, historia wilgotności, sezony) z
-        odrębnymi wartościami, stanem tarczy i wnioskami — od komfortu idealnego po stan
-        wymagający uwagi. Kotłownia ma jeden ekran specjalny: czujnik offline, bez tarczy
-        i fałszywej historii.</p>
-      <div class="row gap-8" style="flex-wrap:wrap;margin-top:6px" data-od-id="linki-pomieszczen">
-        <a class="metatag metatag--link" href="screens/room-salon-aj-glowny.html">
-          <svg viewBox="0 0 24 24"><use href="#i-sofa"/></svg>Salon AJ — komfort idealny</a>
-        <a class="metatag metatag--link" href="screens/room-lazienka-glowny.html">
-          <svg viewBox="0 0 24 24"><use href="#i-bath"/></svg>Łazienka — nad normą</a>
-        <a class="metatag metatag--link" href="screens/room-kuchnia-glowny.html">
-          <svg viewBox="0 0 24 24"><use href="#i-cooking-pot"/></svg>Kuchnia — skoki od gotowania</a>
-        <a class="metatag metatag--link" href="screens/room-gabinet-glowny.html">
-          <svg viewBox="0 0 24 24"><use href="#i-monitor"/></svg>Gabinet — eco, poniżej normy</a>
-        <a class="metatag metatag--link" href="screens/room-sypialnia-ala-glowny.html">
-          <svg viewBox="0 0 24 24"><use href="#i-bed"/></svg>Sypialnia Ala — stabilna</a>
-        <a class="metatag metatag--link" href="screens/room-kotlownia-glowny.html">
-          <svg viewBox="0 0 24 24"><use href="#i-wifi-off"/></svg>Kotłownia — czujnik offline</a>
-        <a class="metatag metatag--link" href="screens/room-salon-aj-harmonogram.html">
-          <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram własny — Salon AJ</a>
-        <a class="metatag metatag--link" href="screens/room-lazienka-harmonogram.html">
-          <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram własny — Łazienka</a>
-        <a class="metatag metatag--link" href="screens/room-kuchnia-harmonogram.html">
-          <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram własny — Kuchnia</a>
-        <a class="metatag metatag--link" href="screens/room-gabinet-harmonogram.html">
-          <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram własny — Gabinet</a>
-        <a class="metatag metatag--link" href="screens/room-sypialnia-ala-harmonogram.html">
-          <svg viewBox="0 0 24 24"><use href="#i-calendar-clock"/></svg>Harmonogram własny — Sypialnia Ala</a>
-        <a class="metatag metatag--link" href="screens/11-pomieszczenia.html">
-          <svg viewBox="0 0 24 24"><use href="#i-door-open"/></svg>Hub pomieszczeń</a>
-        <a class="metatag metatag--link" href="screens/12-dodaj-pomieszczenie.html">
-          <svg viewBox="0 0 24 24"><use href="#i-plus"/></svg>Dodaj pomieszczenie</a>
-      </div>
-    </section>
-
-    <section class="slot" data-od-id="slot-centralny">
-      <div class="slot-head">
-        <h2 class="slot-name">Centralny</h2>
-        <span class="slot-file">06-centralny</span>
-      </div>
-      <p class="slot-note">Trzecia zakładka, wcześniej bez ekranu: COP chwilowy, sprężarka,
-        trzy obiegi i rozdział ciepła. Zmiana trybu pracy wywołuje toast.</p>
-      <div class="bezel"><iframe src="screens/06-centralny.html"
-        title="Centralny" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/06-centralny.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-edycja-pomieszczenia">
-      <div class="slot-head">
-        <h2 class="slot-name">Edycja pomieszczenia</h2>
-        <span class="slot-file">07-edycja-pomieszczenia</span>
-      </div>
-      <p class="slot-note">Formularz w całości: nazwa, wybór ikony, stepper i suwak temperatury,
-        przełączniki, usunięcie z dialogiem. „Zapisz" budzi się po pierwszej zmianie.</p>
-      <div class="bezel"><iframe src="screens/07-edycja-pomieszczenia.html"
-        title="Edycja pomieszczenia" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/07-edycja-pomieszczenia.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-harmonogram">
-      <div class="slot-head">
-        <h2 class="slot-name">Harmonogram bazowy</h2>
-        <span class="slot-file">08-harmonogram</span>
-      </div>
-      <p class="slot-note">Doba w czterech blokach, domyślna dla każdego pomieszczenia bez
-        nadpisania. Kliknięcie bloku otwiera arkusz dolny z zakresem godzin, temperaturą
-        i dniami; zapis aktualizuje listę i pasek dobowy.</p>
-      <div class="bezel"><iframe src="screens/08-harmonogram.html"
-        title="Harmonogram bazowy" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/08-harmonogram.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-harmonogram-pokoju">
-      <div class="slot-head">
-        <h2 class="slot-name">Harmonogram własny — Sypialnia AJ</h2>
-        <span class="slot-file">room-sypialnia-aj-harmonogram</span>
-      </div>
-      <p class="slot-note">Nadpisanie harmonogramu bazowego dla jednego pomieszczenia —
-        ten sam układ bloków dobowych, edytowany niezależnie. Wybierane w edycji pomieszczenia
-        (segment „Własny harmonogram”). Każde z sześciu ogrzewanych pomieszczeń ma taki plik.</p>
-      <div class="bezel"><iframe src="screens/room-sypialnia-aj-harmonogram.html"
-        title="Harmonogram własny — Sypialnia AJ" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/room-sypialnia-aj-harmonogram.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-diagnostyka">
-      <div class="slot-head">
-        <h2 class="slot-name">Diagnostyka — stany danych</h2>
-        <span class="slot-file">09-stany-danych</span>
-      </div>
-      <p class="slot-note">Ekran, na którym telemetria zawodzi: dane nieaktualne, czujnik bez
-        odczytu, błąd pobrania z ponowieniem i pusta lista zgłoszeń. Cykl startuje sam.</p>
-      <div class="bezel"><iframe src="screens/09-stany-danych.html"
-        title="Diagnostyka czujników" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/09-stany-danych.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-zgloszenie">
-      <div class="slot-head">
-        <h2 class="slot-name">Zgłoszenie usterki</h2>
-        <span class="slot-file">10-zgloszenie-usterki</span>
-      </div>
-      <p class="slot-note">Formularz serwisowy: wybór urządzenia i kategorii, opis, kontakt
-        zwrotny, przełącznik danych diagnostycznych. Zapis kończy się dialogiem z numerem zgłoszenia.</p>
-      <div class="bezel"><iframe src="screens/10-zgloszenie-usterki.html"
-        title="Zgłoszenie usterki" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/10-zgloszenie-usterki.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-
-    <section class="slot" data-od-id="slot-dodaj-pomieszczenie">
-      <div class="slot-head">
-        <h2 class="slot-name">Dodaj pomieszczenie</h2>
-        <span class="slot-file">12-dodaj-pomieszczenie</span>
-      </div>
-      <p class="slot-note">Formularz: nazwa, wybór ikony, kondygnacja, stepper i suwak
-        temperatury docelowej, przełączniki zachowania. „Zapisz” aktywuje się po wpisaniu nazwy.</p>
-      <div class="bezel"><iframe src="screens/12-dodaj-pomieszczenie.html"
-        title="Dodaj pomieszczenie" loading="eager"></iframe></div>
-      <a class="slot-open" href="screens/12-dodaj-pomieszczenie.html" target="_blank">
-        Otwórz osobno <svg viewBox="0 0 24 24"><use href="#i-arrow-right"/></svg></a>
-    </section>
-  </div>
-
-  <footer class="pagefoot" data-od-id="stopka">
-    Pełna dokumentacja tokenów i komponentów jest na stronie
-    <a href="design-system.html" style="color:var(--primary-300);font-weight:600">Design system</a>,
-    architektura per-pokój w <code>DESIGN.md</code> (§9–10).
-    Siedem pomieszczeń ma teraz osobne komplety ekranów (§7) — powyżej pełny komplet
-    Sypialni AJ, pozostałe sześć linkuje karta na końcu galerii.
-  </footer>
+<div class="toolbar" data-od-id="belka-narzedziowa">
+  <span class="toolbar-brand"><svg viewBox="0 0 24 24"><use href="#i-thermometer"/></svg>OLTE</span>
+  <a class="ds-link" href="screens-overview.html" data-od-id="link-wszystkie-ekrany" aria-label="Wszystkie ekrany">
+    <svg viewBox="0 0 24 24"><use href="#i-layout-grid"/></svg><span class="label">Wszystkie ekrany</span></a>
+  <a class="ds-link" href="design-system.html" data-od-id="link-design-system" aria-label="Design system">
+    <svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg><span class="label">Design system</span></a>
 </div>
 
-<script>
-  /* Przełącznik motywu rozsyła zmianę do wszystkich kadrów telefonu.
-     Kadry doładowane później czytają wybór z localStorage same. */
-  OLTETheme.bind(document.getElementById('btn-motyw'));
-</script>
+<div class="stage" data-od-id="scena">
+  <div class="bezel" data-od-id="ramka-telefonu">
+    <iframe src="screens/05-ekran-startowy.html" title="Prototyp OLTE App" loading="eager"></iframe>
+  </div>
+</div>
+
+<p class="hint" data-od-id="podpowiedz">Klikalny prototyp — nawigacja działa w całości wewnątrz ekranu telefonu.</p>
+
 </body>
 </html>
