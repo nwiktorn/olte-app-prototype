@@ -93,24 +93,62 @@
     padding: 2px 5px; border-radius: 4px;
   }
 
-  /* Mobile — pełny ekran, bez ramki, bez chrome przeglądarki dookoła */
+  /* Mobile — pełny ekran, tylko prototyp. Żadnego widocznego chrome (marka/przyciski)
+     nad ekranem — to ma wyglądać i działać jak natywna aplikacja, nie strona.
+     Nawigacja do DS / galerii ekranów przenosi się do jednego, dyskretnego
+     przycisku typu FAB w rogu, nad treścią prototypu. */
   @media (max-width: 500px) {
+    html, body { height: 100%; min-height: 100dvh; }
     body { padding: 0; }
-    .toolbar {
-      max-width: none; margin: 0; padding: 8px 10px; gap: 6px;
-      background: var(--canvas); border-bottom: 1px solid var(--canvas-line);
+    .toolbar { display: none; }
+    .stage {
+      width: 100vw; height: 100dvh;
     }
-    .toolbar-brand { font-size: var(--fs-13); }
-    .ds-link { padding: 8px 10px; }
-    .ds-link .label { display: none; }
-    .stage { width: 100%; height: 100%; }
     .bezel {
       width: 100%; height: 100%; padding: 0; border-radius: 0;
       background: none; box-shadow: none;
     }
     .bezel iframe { width: 100%; height: 100%; border-radius: 0; }
     .hint { display: none; }
+
+    .fab-menu { display: flex; }
   }
+
+  /* FAB — ukryty na desktopie (tam nawigację obsługuje .toolbar), widoczny tylko
+     jako pływający przycisk na mobile, żeby ekran prototypu został nienaruszony. */
+  .fab-menu {
+    display: none;
+    position: fixed; top: max(10px, env(safe-area-inset-top));
+    right: 10px; z-index: 50;
+    flex-direction: column; align-items: flex-end; gap: 8px;
+  }
+  .fab-toggle {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    background: color-mix(in oklch, var(--canvas-2) 88%, transparent);
+    border: 1px solid var(--canvas-line);
+    color: var(--canvas-fg);
+    box-shadow: 0 6px 18px rgba(0,0,0,.35);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .fab-toggle svg { width: 18px; height: 18px; }
+  .fab-panel {
+    display: none;
+    flex-direction: column; gap: 6px;
+    padding: 8px; border-radius: 14px;
+    background: color-mix(in oklch, var(--canvas-2) 92%, transparent);
+    border: 1px solid var(--canvas-line);
+    box-shadow: 0 10px 26px rgba(0,0,0,.4);
+  }
+  .fab-panel.is-open { display: flex; }
+  .fab-panel a {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 12px; border-radius: 10px;
+    font-family: var(--font-body); font-weight: 600; font-size: var(--fs-13);
+    color: var(--canvas-fg); text-decoration: none; white-space: nowrap;
+  }
+  .fab-panel a:active { background: color-mix(in oklch, var(--primary-500) 26%, transparent); }
+  .fab-panel a svg { width: 15px; height: 15px; color: var(--primary-300); }
 </style>
 </head>
 <body>
@@ -131,6 +169,34 @@
 </div>
 
 <p class="hint" data-od-id="podpowiedz">Klikalny prototyp — nawigacja działa w całości wewnątrz ekranu telefonu.</p>
+
+<div class="fab-menu" data-od-id="menu-mobilne">
+  <div class="fab-panel" id="fab-panel" data-od-id="panel-mobilny">
+    <a href="screens-overview.html" data-od-id="link-wszystkie-ekrany-mobile"><svg viewBox="0 0 24 24"><use href="#i-layout-grid"/></svg>Wszystkie ekrany</a>
+    <a href="design-system.html" data-od-id="link-design-system-mobile"><svg viewBox="0 0 24 24"><use href="#i-cpu"/></svg>Design system</a>
+  </div>
+  <button type="button" class="fab-toggle" id="fab-toggle" aria-label="Menu prototypu" aria-expanded="false" aria-controls="fab-panel">
+    <svg viewBox="0 0 24 24"><use href="#i-ellipsis"/></svg>
+  </button>
+</div>
+
+<script>
+  (function () {
+    var toggle = document.getElementById('fab-toggle');
+    var panel = document.getElementById('fab-panel');
+    if (!toggle || !panel) return;
+    toggle.addEventListener('click', function () {
+      var open = panel.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    document.addEventListener('click', function (e) {
+      if (!panel.classList.contains('is-open')) return;
+      if (panel.contains(e.target) || toggle.contains(e.target)) return;
+      panel.classList.remove('is-open');
+      toggle.setAttribute('aria-expanded', 'false');
+    });
+  })();
+</script>
 
 </body>
 </html>
